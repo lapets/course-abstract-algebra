@@ -18,12 +18,12 @@ $s = new Sheaf(
        array(
            'file' => 'notes.xml',
            'path' => 'sheaf/',
-           'message' => '<h1>Topics in Abstract Algebra for Computer Science</h1>',
+           'message' => '<h1>Topics in Abstract Algebra for Computer Science Applications</h1>',
            'toc' => 'true'
          )
       );
 
 // Render the notes as HTML.
-@file_put_contents('index.html', $s->html());
+$s->html();
 
 /*eof*/?>
