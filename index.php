@@ -1,8 +1,8 @@
 <?php /*********************************************************
 **
-** Script to build notes as HTML using Sheaf.
+** Script to render notes as HTML using Sheaf.
 **
-** build.php
+** index.php
 **
 */
 
