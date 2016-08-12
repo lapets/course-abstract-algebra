@@ -5,3 +5,5 @@ Lecture notes, assignments, and other materials for a one-semester introductory 
 PHP 5.4 or later and [Sheaf](http://sheaf.io) are required. The latest version of Sheaf is already included in this repository. On a running server, `index.php` will render the notes in their HTML form. In a Linux environment, it is also possible to build the HTML version of the notes as follows:
 
     php index.php > index.html
+
+The `gh-pages` branch of this repository also contains the rendered HTML version of the notes; they can be viewed at http://lapets.github.io/course-abstract-algebra.
