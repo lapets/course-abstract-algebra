@@ -1,0 +1,234 @@
+<sheaf>
+  <section>
+    <assignment title="Logic, Integers, Sets, and Relations">
+      <instructions>
+        <text><![CDATA[
+In this assignment you will define Python functions that represent various constructs. You must submit a single Python source file named <code>hw1/hw1.py</code>. Please follow the <a href="#A">gsubmit</a> directions.
+        ]]></text>
+        <paragraph><![CDATA[
+<b style="color:firebrick;">Your file may not import any modules or employ any external library functions associated with integers and sets (unless the problem statement explicitly permits this).</b>  You may include in your module any function that is defined in the lecture notes.
+        ]]></paragraph>
+        <paragraph><![CDATA[
+Solutions to each of the programming problem parts below should fit on 1-3 lines. You will be graded on the correctness, concision, and mathematical legibility of your code. The different problems and problem parts rely on the lecture notes and on each other; carefully consider whether you can use functions from the lecture notes, or functions you define in one part within subsequent parts.
+        ]]></paragraph>
+      </instructions>
+      <problems>
+        <problem>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a Python function <code>perfectSquares(n)</code> that takes a single positive integer argument <code>n</code> and returns all positive perfect square integers less than or equal to %n. <b  style="color:green;">You must use a set comprehension to receive credit.</b> Efficiency is not important.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> perfectSquares(16)
+{1, 4, 9, 16}
+              ]]></code>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a Python function <code>squareFree(n)</code> that takes a single positive integer argument <code>n</code> and returns <code>True</code> if and only if <code>n</code> has no square factors. This happens only when the following logical formula is true for all integers <code>k</code> greater than 1 but less than <code>n</code>:
+\begin{eqnarray}
+  %k is a perfect square %~ implies %~ %k does not divide %n
+\end{eqnarray}
+<b style="color:green;">You cannot use loops, and you must use quantifiers to receive credit.</b> Efficiency is not important.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> squareFree(39)
+@True
+>>> squareFree(16)
+@False
+>>> squareFree(20)
+@False
+              ]]></code>
+              <text hooks="math"><![CDATA[
+Curiously, the number of squarefree integers less than %n <a href="https://en.wikipedia.org/wiki/Square-free_integer#Distribution">approaches</a> %n \cdot (6/&pi;^2) as %n grows.
+              ]]></text>
+            </part>
+            <part>
+              <text><![CDATA[
+Implement a Python function <code>same(n, m)</code> that takes two positive integer arguments <code>n</code> and <code>m</code> and returns <code>True</code> if both are perfect squares <b>or</b> if both are not perfect squares, and <code>False</code> otherwise.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> same(9, 16)
+True
+>>> same(7, 25)
+False
+>>> same(7, 11)
+True
+              ]]></code>
+            </part>
+            <part>
+              <text><![CDATA[
+Implement a Python function <code>separate(S)</code> that takes any finite set of positive integers <code>S</code> and returns a relation over <code>S</code> in which any two numbers in <code>S</code> that <b>are both</b> perfect squares are related to each other, and in which any two numbers in <code>S</code> that <b>are both not</b> perfect squares are related to each other.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> separate({4,6,8,9})
+{(4,4), (9,9), (4,9), (9,4), (6,8), (8,6), (6,6), (8,8)}
+>>> separate({7,11,16})
+{(16,16), (7,11), (11,7), (7,7), (11,11)}
+              ]]></code>
+            </part>
+            <part>
+              <text><![CDATA[
+Determine which of the three properties of an equivalence relation (reflexivity, symmetry, and transitivity) <i>always</i> apply to any result of <code>separate()</code> (assuming its input is a finite set of positive integers). Define three veriables in your code; each will represent a counterexample input (if it exists) that leads to an output that does not have the corresponding property:
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+notReflexiveOn = ?
+notSymmetricOn = ?
+notTransitiveOn = ?
+              ]]></code>
+              <text><![CDATA[
+If a property <i>always</i> applies to any output of <code>separate()</code>, simply assign <code>None</code> to the corresponding variable. If a property <i>does not</i> apply to all outputs of <code>separate()</code>, assign an input set to the corresponding variable that returns an output relation that does <b>not</b> satisfy that property. For example, if we were doing the same thing for the property of <a href="#79e0f3993b2e409f95882713c4ad5f5b">asymmetry</a>, we would choose a value for <code>asymmetric</code> such that:
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> isAsymmetric(notAsymmetricOn, separate(notAsymmetricOn))
+@False
+              ]]></code>
+            </part>
+          </parts>
+        </problem>
+        <problem>        
+          <text><![CDATA[
+Solve the following problems involving relations. Recall that using Python, we are representing relations as sets of tuples (i.e., pairs such as <code>(1,2)</code>). <b style="color:green;">You cannot use loops, and you must use quantifiers to receive credit; see <a href="#79e0f3993b2e409f95882713c4ad5f5b">this example</a>.</b>
+          ]]></text>
+          <parts>
+            <part>
+              <text><![CDATA[
+Implement a function <code>isReflexive()</code> that takes as its input two arguments: a set <code>X</code> and a relation <code>R</code>. The function should return <code>True</code> if the relation <code>R</code> is a reflexive relation on <code>X</code>, and it should return <code>False</code> otherwise.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+isReflexive({1,2,3,4}, {(1,1), (2,2)}) == @False
+isReflexive({1,2}, {(1,1), (2,2), (2,1), (1,2)}) == @True
+isReflexive({1,2,3}, {(1,2), (2,1), (3,3)}) == @False
+isReflexive({'a','b','c'}, {('a','a'), ('b','b'), ('a','c')}) == @False
+              ]]></code>
+            </part>
+            <part>
+              <text><![CDATA[
+Implement a function <code>isSymmetric()</code> that takes as its input two arguments: a set <code>X</code> and a relation <code>R</code>. The function should return <code>True</code> if the relation <code>R</code> is a symmetric relation on <code>X</code>, and it should return <code>False</code> otherwise.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+isSymmetric({1,2}, set()) == @True
+isSymmetric({1,2}, {(1,1), (2,2), (2,1), (1,2)}) == @True
+isSymmetric({1,2,3}, {(1,2), (2,1), (3,3)}) == @True
+isSymmetric({'a','b','c'}, {('a','a'), ('b','b'), ('a','c')}) == @False
+              ]]></code>
+            </part>
+            <part>
+              <text><![CDATA[
+Implement a function <code>isTransitive()</code> that takes as its input two arguments: a set <code>X</code> and a relation <code>R</code>. The function should return <code>True</code> if the relation <code>R</code> is a transitive relation on <code>X</code>, and it should return <code>False</code> otherwise.
+              ]]></text>
+            </part>
+            <part>
+              <text><![CDATA[
+Implement a function <code>isEquivalence()</code> that takes as its input two arguments: a set <code>X</code> and a relation <code>R</code>. The function should return <code>True</code> if the relation <code>R</code> is an equivalence relation on <code>X</code>, and it should return <code>False</code> otherwise. <b>Hint:</b> read the notes in this section carefully and reuse functions that have already been defined.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+isEquivalence({1,2,3}, {(1,1), (2,2), (3,3)}) == @True
+isEquivalence({1,2,3}, {(1,2), (2,1), (3,3)}) == @False
+isEquivalence({1,2}, {(1,1), (2,2), (1,2), (2,1)}) == @True
+isEquivalence({0,3,6}, {(0,3), (3,6), (0,6), (3,0), (6,3), (6,0)}) == @False
+              ]]></code>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+          <text><![CDATA[
+You should include the following definition in your module:
+          ]]></text>
+          <code hooks="Python"><![CDATA[
+@def quotient(X, R):
+    @return {@frozenset({y @for y @in X @if (x,y) @in R}) @for x @in X}
+          ]]></code>
+          <text><![CDATA[
+Solve the following problems by defining appropriate relations.
+          ]]></text>
+          <parts>
+            <part>
+              <text><![CDATA[Include the following definitions in your code:]]></text>
+              <code hooks="Python"><![CDATA[
+X1 = {"a","b","c","d","e","f"}
+R1 = ?
+              ]]></code>
+              <text><![CDATA[
+Define the variable <code>R1</code> above so that <code>R1</code> is an equivalence relation over <code>X1</code>, and so that the following formulas are satisfied:
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> isEquivalence(X1,R1)
+@True
+>>> quotient(X1,R1) == {@frozenset({"a","c"}), @frozenset({"b","d"}), @frozenset({"e", "f"})}
+@True
+              ]]></code>
+            </part>
+            <part>
+              <text><![CDATA[Include the following definitions in your code:]]></text>
+              <code hooks="Python"><![CDATA[
+X2 = {0,1,2,3,4,5,6,7,8,9,10,11}
+R2 = ?
+              ]]></code>
+              <text><![CDATA[
+Define the variable <code>R2</code> above so that <code>R2</code> is an equivalence relation over <code>X2</code>, and so that the following formulas are satisfied:
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> isEquivalence(X2,R2)
+@True
+>>> quotient(X2,R2) == {@frozenset({0,2,4,6,8,10}), @frozenset({1,3,5,7,9,11})}
+@True
+              ]]></code>
+            </part>
+            <part>
+              <text><![CDATA[Include the following definitions in your code:]]></text>
+              <code hooks="Python"><![CDATA[
+X3 = @set(@range(0,90))
+R3 = ?
+              ]]></code>
+              <text><![CDATA[
+Define the variable <code>R3</code> above so that <code>R3</code> is an equivalence relation over <code>X3</code>, and so that the following formulas satisfied:
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> isEquivalence(X3,R3)
+@True
+>>> quotient(X3,R3) == {@frozenset(@range(0,30)), @frozenset(@range(30,60)), @frozenset(@range(60,90))}
+@True
+              ]]></code>
+              <text><![CDATA[
+<b style="color:green;">You must use a set comprehension to define <code>R3</code>.</b> Solutions that use an explicitly defined set will receive no credit.
+              ]]></text>
+            </part>
+          </parts>
+        </problem>
+        <problem hooks="math">        
+          <text><![CDATA[
+Suppose we build a relation %D on the set of all countries %C that encodes whether it is possible to drive from one country to another (even if it requires crossing into other countries on the way):
+\begin{eqnarray}
+ %D & = & { (%a, %b) | %a \in %C, %b \in %C, it is possible to drive from %a to %b by car }
+\end{eqnarray}
+Assume that you can fly from any country to any other country by plane.
+          ]]></text>
+          <parts>
+            <part>
+              <text><![CDATA[
+What if you want to visit every country in the input set %C (starting your trip on land in one specific country), but you want to take <b>as few plane flights as possible</b>? Write a one-line function <code>minimumFlights()</code> that takes a set of countries %C and a relation on that set %D representing reachability by driving, and returns an integer representing the minimum number of flights you will need to take to visit every country.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> C = {'Iceland', 'Vietnam', 'Kazakhstan', 'Australia'}
+>>> D = {('Vietnam', 'Kazakhstan'), ('Kazakhstan', 'Vietnam')}
+>>> minimumFlights(C, D)
+2
+              ]]></code>
+            </part>
+            <part>
+              <text><![CDATA[
+Write a one-line function <code>longestDrive()</code> that takes a set of countries %C and a relation on that set %D representing reachability by driving, and returns an integer representing the maximum number of countries you can visit on a single, uninterrupted drive.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> longestDrive(C, D)
+2
+              ]]></code>
+            </part>
+          </parts>
+        </problem>
+      </problems>
+    </assignment>
+  </section>
+</sheaf>

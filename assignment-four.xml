@@ -1,0 +1,280 @@
+<sheaf>
+  <section>
+    <assignment title="Tractable and Intractable Problems in Modular Arithmetic">
+      <instructions>
+        <text><![CDATA[
+In this assignment you will solve several equations, and you will define a collection of Python functions that demonstrate the relationships between intractable problems in modular arithmetic. You must submit a single Python source file named <code>hw4.py</code> (submitted to the location <code>hw4/hw4.py</code>). Please follow the <a href="#A">gsubmit</a> directions.
+        ]]></text>
+        <paragraph><![CDATA[
+<b style="color:firebrick;">You may import the following library functions in your module (you may not need all these functions for this assignment depending on how you approach the problems, but they may be used):</b>
+        ]]></paragraph>
+        <code hooks="Python"><![CDATA[
+@from math @import floor
+@from fractions @import gcd
+        ]]></code>
+        <text hooks="math"><![CDATA[
+<b style="color:firebrick;">Your file may not import any other modules or employ any external library functions associated with
+integers and sets unless explicitly permitted to do so in a particular problem.</b> Solutions to each of the programming problem parts below should be fairly concise. You will be graded on the correctness, concision, and mathematical legibility of your code. The different problems and problem parts rely on the lecture notes and on each other; carefully consider whether you can use functions from the lecture notes, or functions you define in one part within subsequent parts.
+        ]]></text>
+      </instructions>
+      <problems>
+        <problem>
+          <text hooks="math"><![CDATA[
+In this problem, we make the following simplifying assumptions about the efficiency of modular arithmetic algorithms when they are applied to one or more integers %x, %y, %n, %m that are all at most %k bits in length:
+<ul>
+  <li>computing %x^{%y} \mod %m takes exactly %k^3 time steps;</li>
+  <li>solving a two-equation system (e.g., %x \equiv %a \mod %m and %x \equiv %b \mod %n) using CRT takes exactly 16 \cdot %k^3 time steps because the intermediate values and the final answer can have as many bits as %n \cdot %m, which is %k + %k = 2 \cdot %k bits, and solving CRT requires two inversion operations that take time (2 \cdot %k)^3, so 2 \cdot (2 \cdot %k)^3 = 16 \cdot %k^3.</li>
+</ul>
+Be very careful when applying the above facts. For example, if we multiply two %k-bit integers %n and %m, we get a 2 \cdot %k-bit integer %n \cdot %m. That means the running time for computing an exponentiation modulo %n might take %k^3 time steps, but computing an exponentiation modulo %n \cdot %n can take (2 \cdot %k)^3 = 8 \cdot %k^3 time steps.
+          ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Let %p and %q be 10-bit primes, where %p \cdot %q is a 20-bit integer. Suppose we want to compute a sequence of %u exponentiation operations modulo %p \cdot %q. In order words, for 10-bit integers %c, %e_1, %e_2, and so on, we want to compute:
+\begin{eqnarray}
+  %x & \equiv & ( ... ((%c<sup>%e_1</sup>)<sup>%e_2</sup>)<sup>%e_3</sup> ... )<sup>%e<sub>%u</sub></sup> (\mod (%p \cdot %q))
+\end{eqnarray}
+Define an explicit polynomial %f(%u) in terms of the quantity %u that computes the number of time steps necessary to perform these %u operations to obtain the final result %x modulo %p \cdot %q.
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Suppose that instead of doing what we describe in part (a), we first compute %a \equiv ( ... ((%c<sup>%e_1</sup>)<sup>%e_2</sup>)<sup>%e_3</sup> ... )<sup>%e<sub>%u</sub></sup> (\mod %p) and then %b \equiv ( ... ((%c<sup>%e_1</sup>)<sup>%e_2</sup>)<sup>%e_3</sup> ... )<sup>%e<sub>%u</sub></sup> (\mod %q) first. Finally, we use the Chinese remainder theorem to solve the following system of equations for the final result %x modulo %p \cdot %q:
+\begin{eqnarray}
+  %x & \equiv & %a (\mod %p) \\
+  %x & \equiv & %b (\mod %q)
+\end{eqnarray}
+Define an explicit polynomial %g(%u) that computes the number of time steps necessary to compute %x using this technique. Your definition of %g(%u) should assume that the computation modulo %p and the computation modulo %q take place one after the other, and that the CRT algorithm is run once at the end.
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Using basic linear algebra, determine the smallest integer number of operations %u for which using the approach from part (b) requiring CRT is more efficient than using the approach from part (a).
+              ]]></text>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+         <text hooks="math"><![CDATA[
+Solve the following equations using step-by-step equational reasoning, and list each step. Your solutions for this problem should appear as comments, delimited using <code>'''</code>...<code>'''</code>, in <code>hw4.py</code>. You may use the <code>=</code> ASCII character to represent the \equiv relational operator on congruence classes.
+         ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Solve the following equation for all solutions %x \in \Z/43\Z:
+\begin{eqnarray}
+  %x^2 & \equiv & 25 (\mod 43)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Solve the following equation for all solutions %x \in \Z/19\Z:
+\begin{eqnarray}
+  %x^2 & \equiv & 5 (\mod 19)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Solve the following equation for all solutions %x \in \Z/55\Z:
+\begin{eqnarray}
+  %x^2 & \equiv & 1 (\mod 55)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Solve the following equation for all solutions %x \in \Z/41\Z (note that you cannot use the <a href="#3d06a3b21e4846728ea3569d9d1d7c6f">explicit formula</a> for square roots in this case):
+\begin{eqnarray}
+  3 \cdot %x^2 & \equiv & 7 (\mod 41)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Solve the following equation for all solutions %x \in \Z/49\Z:
+\begin{eqnarray}
+  %x^2 & \equiv & 8 (\mod 49)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Solve the following equation for all solutions %x \in \Z/21\Z:
+\begin{eqnarray}
+  (8 \cdot %x^2) + 4 & \equiv & 6 (\mod 21)
+\end{eqnarray}
+              ]]></text>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+         <text hooks="math"><![CDATA[
+In this problem you will implement an algorithm for computing all the square roots of a congruence class in \Z/%n\Z, given a complete factorization of %n into its distinct prime factor powers (assuming all the prime factors are in 3 + 4\Z).
+         ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a Python function <code>sqrtsPrime(a, p)</code> that takes two arguments: an integer <code>a</code> and a prime number <code>p</code>. You may assume that <code>a</code> and <code>p</code> are coprime. If <code>p</code> is not in 3 + 4\Z or <code>a</code> has no square roots in \Z/<code>p</code>\Z, the function should return <code>None</code>. Otherwise, it should return the two congruence classes in \Z/<code>p</code>\Z that solve the following equation:
+\begin{eqnarray}
+  %x^2 & \equiv & <code>a</code> (\mod <code>p</code>)
+\end{eqnarray}
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> sqrtsPrime(2, 7)
+(3, 4)
+>>> sqrtsPrime(5, 7) # 5 has no square roots
+None
+>>> sqrtsPrime(5, 17) # 17 mod 4 =/= 3
+None
+>>> sqrtsPrime(763472161, 5754853343)
+(27631, 5754825712)
+              ]]></code>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a Python function <code>sqrtsPrimePower(a, p, k)</code> that takes three arguments: an integer <code>a</code>, a prime number <code>p</code>, and a positive integer <code>k</code>. You may assume that <code>a</code> and <code>p</code> are coprime. If <code>p</code> is not in 3 + 4\Z or <code>a</code> has no square roots in \Z/<code>p</code><sup><code>k</code></sup>\Z, the function should return <code>None</code>. Otherwise, it should return the congruence classes in \Z/<code>p</code><sup><code>k</code></sup>\Z that solve the following equation:
+\begin{eqnarray}
+  %x^2 & \equiv & <code>a</code> (\mod <code>p</code><sup><code>k</code></sup>)
+\end{eqnarray}
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> sqrtsPrimePower(2, 7, 2)
+(10, 39)
+>>> sqrtsPrimePower(763472161, 5754853343, 4)
+(27631, 1096824245608362247285266960246506343570)
+              ]]></code>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a Python function <code>sqrts(a, pks)</code> that takes two arguments: an integer <code>a</code> and a list of tuples <code>pks</code> in which each tuple is a distinct positive prime number paired with a positive integer power. You may assume that <code>a</code> and <code>n</code> are coprime. You may assume that all the primes in <code>pks</code> are in 3 + \Z/4\Z (if any are not, the function should return <code>None</code>). Let <code>n</code> be the product of all the prime powers in the list <code>pks</code>. Then the function should return a set of all the distinct square roots of <code>a</code> in \Z/<code>n</code>\Z that are solutions to the following equation:
+\begin{eqnarray}
+  %x^2 & \equiv & <code>a</code> (\mod <code>n</code></sup>)
+\end{eqnarray}
+Your implementation must be efficient (i.e., it may not iterate over all possible values in \Z/<code>n</code>\Z to look for square roots), <span style="color:green;">and it must work for any positive number of entries in <code>pks</code></span>.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> sqrts(2, [(7,4)])
+{235, 2166}
+>>> sqrts(1, [(7,1), (11,1)])
+{1, 76, 43, 34}
+>>> sqrts(1, [(7,1), (11,1), (3,1)])
+{1, 76, 43, 34, 155, 188, 197, 230}
+>>> sqrts(1, [(7,2), (11,1), (3,2)])
+{1, 197, 881, 1079, 3772, 3970, 4654, 4850}
+>>> sqrts(1, [(7,1), (11,1), (3,1), (19,1)])
+{1, 265, 419, 1198, 1310, 1462, 1616, 1882, 2507, 2773, 2927, 3079, 3191, 3970, 4124, 4388}
+>>> sqrts(76349714515459441, [(1500450271,3), (5754853343,2)])
+{276314521,
+ 111875075121925861006908948065990250824231090118,
+ 50900491283175338098734392241768315796265192809,
+ 60974583838750522908174555824221935028242211830}
+              ]]></code>
+              <text hooks="math"><![CDATA[
+You may find the following helper function useful in implementing your solution.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+@def combinations(ls):
+    @if len(ls) == 0:
+        @return [[]]
+    @else:
+        @return [ [x]+l @for x @in ls[0] @for l @in combinations(ls[1:]) ]
+              ]]></code>
+              <text hooks="math"><![CDATA[
+This function takes a list of lists as its input and returns a list of all possible combinations of one element from each list.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> combinations([[1,2], ['a','b'], ['X','Y']])
+[[1, 'a', 'X'], [1, 'a', 'Y'], [1, 'b', 'X'], [1, 'b', 'Y'], [2, 'a', 'X'], [2, 'a', 'Y'], [2, 'b', 'X'], [2, 'b', 'Y']]
+              ]]></code>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+         <text hooks="math"><![CDATA[
+Implement the following Python functions for factoring a positive integer. These algorithms must be efficient (i.e., they must run in polynomial time).
+         ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>factorsFromPhi(n, phi_n)</code> that takes two integers <code>n</code> and <code>phi_n</code>. You may assume (i.e., you do <i>not</i> need to verify in your code) that <code>n</code> is a product of two distinct positive prime numbers and that <code>phi_n</code> = \phi(<code>n</code>). The function should return both prime factors of <code>n</code> as a tuple.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> factorsFromPhi(77, 60)
+(7, 11)
+>>> factorsFromPhi(14369648346682547857, 14369648335605206820)
+(9576890767, 1500450271)
+              ]]></code>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>factorsFromRoots(n, x, y)</code> that takes three integers <code>n</code>, <code>x</code>, and <code>y</code>. You may assume that <code>n</code> is a product of two distinct positive prime numbers, and that the following is true:
+\begin{eqnarray}
+  <code>x</code>^2 & \equiv & <code>y</code>^2 (\mod <code>n</code>) \\
+  <code>x</code> & \not\equiv & \pm <code>y</code> (\mod <code>n</code>) 
+\end{eqnarray}
+The function should return both prime factors of <code>n</code> as a tuple.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> factorsFromRoots(35, 1, 6)
+(5, 7)
+>>> factorsFromRoots(14369648346682547857, 12244055913891446225, 1389727304093947647)
+(1500450271, 9576890767)
+              ]]></code>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+          <text><![CDATA[
+In this problem you will implement the three component algorithms of the RSA cryptographic protocol described in lecture.
+          ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Define a Python function <code>generate(k)</code> that takes a single integer input <code>k</code> and returns a tuple <code>(n,e,d)</code> corresponding to the public values <code>n</code> and <code>e</code> and private key <code>d</code> in the RSA cryptographic protocol. The output <code>n</code> must be the product of two distinct, randomly chosen <code>k</code>-digit primes. You may import and use the Python random number generator (<code>from random import random</code> or <code>from random import randint</code>), and you may want to reuse the extended Euclidean algorithm implementation provided in the <a href="#assignment3">previous homework assignment</a>.
+              ]]></text>
+              <!--<code hooks="Python">
+>>> ...
+...
+              </code>-->
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Define a Python function <code>encrypt(m, t)</code> that takes two inputs: an integer <code>m</code> and a tuple <code>(n,e)</code> representing an RSA public key. It should return a single integer: the RSA ciphertext <code>c</code>.
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Define a Python function <code>decrypt(c, t)</code> that takes two inputs: an integer <code>c</code> representing the ciphertext and a tuple of two integers <code>(n,d)</code> representing an RSA private key. It should decrypt <code>c</code> and return the original message <code>m</code>.
+              ]]></text>
+            </part>
+          </parts>
+        </problem>
+        <!--<problem>
+          <text><![CDATA[
+Suppose you are supplied with an efficient implementation of an algorithm for breaking the Rabin cryptographic protocol. Below, we provide a mockup of an efficient implementation of such an algorithm that only work on a few sample inputs (since we do not believe efficient algorithms for breaking this protocol exists, we must cheat in this way in order to test our code). You may assume that the below algorithm works on <i>all</i> inputs, not just those provided in the fake implementation.
+          ]]></text>
+          <code hooks="Python"><![CDATA[
+# Efficiently computes m from (pow(m,2,n), n).
+@def decryptMsgRabin(c, n):
+    input_output = {\
+        (14, 55): 17,\
+        (12187081, 8634871258069605953): 7075698730573288811,\
+        (122180308849, 16461679220973794359): 349543,\
+        (240069004580393641, 19923108241787117701): 489968371\
+        }
+    @return input_output[(c, n)]
+          ]]></code>
+          <text hooks="math"><![CDATA[
+Implement an efficient function <code>roots(a, n)</code> that takes two integers <code>a</code> and <code>n</code> and returns <b>all four</b> square roots of <code>a</code> in \Z/<code>n</code>\Z as a tuple. You may assume that <code>n</code> is the product of two distinct positive prime numbers. Your algorithm in this problem must work on <i>all</i> possible inputs under the assumption that <code>decryptMsgRabin()</code> also works on all inputs (not just the fake inputs handled by the definitions above) <b style="color:green;">and that an encrypted message %c is never represented by the same congruence class as the original, unencrypted message %m or %- %m (i.e., the implementation follows the guideline regarding good ranges for messages at the end of the <a href="#00ad493287b94f6da088ba159d3b4716">definition of the Rabin protocol</a>)</b>.
+          ]]></text>
+          <code hooks="Python"><![CDATA[
+>>> roots(12187081, 8634871258069605953)
+(3491, 8634871258069602462, 1559172527496317142, 7075698730573288811)
+          ]]></code>
+        </problem>-->
+      </problems>
+    </assignment>
+  </section>
+</sheaf>

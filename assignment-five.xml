@@ -1,0 +1,213 @@
+<sheaf>
+  <section>
+    <assignment title="Algebraic Structures and Isomorphisms">
+      <instructions>
+        <text><![CDATA[
+In this assignment you will solve several problems involving algebraic structures and isomorphisms, and you will define a collection of Python functions that exploit isomorphisms between algebraic structures. You must submit a single Python source file named <code>hw5.py</code> (submitted to the location <code>hw5/hw5.py</code>). Please follow the <a href="#A">gsubmit</a> directions.
+        ]]></text>
+        <paragraph><![CDATA[
+<b style="color:firebrick;">You may import the following library functions in your module (you may not need all these functions for this assignment depending on how you approach the problems, but they may be used):</b>
+        ]]></paragraph>
+        <code hooks="Python"><![CDATA[
+@from math @import floor
+@from fractions @import gcd
+@from random @import randint
+@from urllib.request @import urlopen
+        ]]></code>
+        <text hooks="math"><![CDATA[
+<b style="color:firebrick;">Your file may not import any other modules or employ any external library functions associated with integers and sets unless explicitly permitted to do so in a particular problem.</b> Solutions to each of the programming problem parts below should be fairly concise. You will be graded on the correctness, concision, and mathematical legibility of your code. The different problems and problem parts rely on the lecture notes and on each other; carefully consider whether you can use functions from the lecture notes, or functions you define in one part within subsequent parts.
+        ]]></text>
+      </instructions>
+      <problems>
+        <problem>
+          <text hooks="math"><![CDATA[
+Solve the following equations using step-by-step equational reasoning, and list each step. Your solutions for this problem should appear as comments, delimited using <code>'''</code>...<code>'''</code>, in <code>hw5.py</code>.
+          ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Compute the following composition of permutations (the result should be a permutation):
+\begin{eqnarray}
+  [3,5,4,0,1,2] \circ [4,5,3,1,2,0] & = & ?
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Compute the following composition of two permutations on 1000 elements (the result should be a permutation):
+\begin{eqnarray}
+  [441,442,...,999,0,1,2,3,4,...,440] \circ [176,177,...,999,0,1,2,3,4,...,175] = ?
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Let %p \in %S<sub>7</sub> be a <i>swap</i> permutation on 7 elements. Compute the following (your result should be an explicit permutation):
+\begin{eqnarray}
+  %p \circ %p \circ [4,5,6,0,1,2,3] & = &  ?
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Let %p, %q \in %C<sub>5</sub> be two distinct <i>cyclic</i> permutation on 5 elements. Compute the following (your result should be an explicit permutation):
+\begin{eqnarray}
+  %q^{-1} \circ %p^{-1} \circ %q^{-1} \circ %q \circ %p \circ %q  & = & ?
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Define the isomorphism between the two algebraic structures (%C_2, \circ) and ((\Z/4\Z)*, \cdot). You must write down a bijection that specifies how each element in %C_2 corresponds to an element of (\Z/4\Z)*, and you must write down four pairs of corresponding equation that show that the behavior of \circ on elements of %C_2 is the same as the behavior of \cdot on corresponding elements of (\Z/4\Z)*.
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Define the isomorphism between the two algebraic structures (closure({3 + 80\Z}, \cdot), \cdot) and (\Z/4\Z, +) (where \cdot in the first case refers to multiplication modulo 80). You must write down a bijection that specifies how each element in closure({3 + 80\Z}, \cdot) corresponds to an element of \Z/4\Z, but you do not need to write out all the equations.
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Explain why there can be no isomorphism between the two algebraic structures (%S_4, \circ) and (\Z/4\Z, +).
+              ]]></text>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+         <text hooks="math"><![CDATA[
+Implement the following Python functions for working with permutations. Any code that does not conform exactly to the specified requirements will receive <b>no credit</b>.
+         ]]></text>
+         <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>permute(p, l)</code> that takes two arguments: a permutation <code>p</code> (represented as a Python list of integers) and a list <code>l</code> of the same length as the permutation. It should return the list after it has been permuted according to the permutation.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> permute([2,1,0], ['a','b','c'])
+['c','b','a']
+              ]]></code>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>C(k, m)</code> that takes two integers <code>k</code> and <code>m</code> where <code>k</code> &lt; <code>m</code> and returns the cyclic permutation in %C_{%m} that shifts all elements up by %k.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> C(1, 4)
+[1, 2, 3, 0]
+              ]]></code>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>M(a, m)</code> that takes two coprime integers <code>a</code> and <code>m</code> where <code>0</code> &lt; <code>a</code> &lt; <code>m</code> and returns the multiplication-induced permutation in %M_{%m} that corresponds to multiplication by %a modulo %m:
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> M(2, 5)
+[0, 2, 4, 1, 3]
+              ]]></code>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>sort(l)</code> that takes a list of integers of some length %n and returns:
+<ul>
+  <li>a cyclic permutation %p \in %C_{%n} that will sort the list into ascending order, if it exists;</li>
+  <li>a multiplication-induced permutation %p \in %M_{%n} that will sort the list into ascending order, if it exists;</li>
+  <li><code>None</code> otherwise.</li>
+</ul>
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> sort([38,16,27])
+[1,2,0]
+>>> permute(sort([38,49,16,27]), [38,49,16,27])
+[16,27,38,49]
+>>> sort([1, 13, 4, 17, 6, 23, 9])
+[0, 2, 4, 6, 1, 3, 5]
+>>> sort([0, 17, 4, 21, 8, 25, 12, 29, 16, 3, 20, 7, 24, 11, 28,\
+          15, 2, 19, 6, 23, 10, 27, 14, 1, 18, 5, 22, 9, 26, 13])
+[0, 23, 16, 9, 2, 25,18, 11, 4, 27, 20, 13, 6, 29, 22,
+ 15, 8, 1, 24, 17, 10, 3, 26, 19, 12, 5, 28, 21, 14, 7]
+              ]]></code>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+          <text hooks="math"><![CDATA[
+In this problem you will implement a secure and correct multiplication algorithm by using an untrusted, unreliable third-party web service to perform the actual multiplication. The web service consists of a PHP script at <code><a href="http://cs-people.bu.edu/lapets/235/unreliable.php">http://cs-people.bu.edu/lapets/235/unreliable.php</a></code> (e.g., the result of ((2 \cdot 3 \cdot 4) \mod 7) can be obtained at <code><a href="http://cs-people.bu.edu/lapets/235/unreliable.php?n=7&data=2,3,4">http://cs-people.bu.edu/lapets/235/unreliable.php?n=7&data=2,3,4</a></code>). You can use the Python function below to invoke this script (this Python code needs to run on a computer connected to the internet).
+          ]]></text>
+          <code hooks="Python"><![CDATA[
+@def unreliableUntrustedProduct(xs, n):
+    url = 'http://cs-people.bu.edu/lapets/235/unreliable.php'
+    @return @int(urlopen(url+"?n="+@str(n)+"&data="+",".join([@str(x) @for x @in xs])).read().decode())
+          ]]></code>
+          <text hooks="math"><![CDATA[
+To test your code on a service that does not sometimes return incorrect answers, you can also use the URL <code>http://cs-people.bu.edu/lapets/235/reliable.php</code>.
+          ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>privateProduct(xs, p, q)</code> that takes three inputs: a non-empty list of integers <code>xs</code>, a prime <code>p</code>, and another distinct prime <code>q</code>. The function must compute the product modulo <code>p</code> of all the integers in the list <code>xs</code> (assuming the web service performs its job correctly, which it may sometimes not do):
+\begin{eqnarray}
+  <code>privateProduct(xs, p, q)</code> & = & <code>(xs[0] * xs[1] * ... * xs[len(xs)-1]) % p</code>
+\end{eqnarray}
+However, <b style="color:firebrick">your implementation may not multiply any of the integers in <code>xs</code> on its own; it must use <code>unreliableUntrustedProduct()</code> to do so</b>, and at the same time <b style="color:firebrick">it must not send the actual integers in <code>xs</code> over the web or reveal them to the web service</b>. Your implementation should leak no information about the entries in <code>xs</code> or the product obtained by multiplying them to anyone (unless they can solve an <a href="#4.3">intractable problem</a> in modular arithmetic).
+              ]]></text>
+              <paragraph hooks="math"><![CDATA[
+To solve this problem, use the extra prime <code>q</code> to create public and private RSA keys, and then encrypt all the integers in <code>xs</code> (you will need to encrypt them modulo <code>n</code> instead of modulo <code>p</code> because RSA needs a composite modulus). Next, use <code>unreliableUntrustedProduct()</code> to compute the product of the RSA-encrypted integers modulo <code>n</code> (i.e., take advantage of <a href="#68cb7199f61240cfa1e8b6f22bafd583">this isomorphism</a> as in this <a href="#46785e266a2742329077115d68dc1190">homomorphic encryption example</a>). Finally, your <code>privateProduct()</code> implementation should decrypt the result and return the product modulo <code>p</code>.
+              ]]></paragraph>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>validPrivateProduct(xs, p, q)</code> that takes three inputs: a non-empty list of integers <code>xs</code>, a prime <code>p</code>, and another distinct prime <code>q</code>. The function must <i>always correctly</i> compute the product modulo <code>p</code> of all the integers in the list <code>xs</code>:
+\begin{eqnarray}
+  <code>validPrivateProduct(xs, p, q)</code> & = & <code>(xs[0] * xs[1] * ... * xs[len(xs)-1]) % p</code>
+\end{eqnarray}
+As before, <b style="color:firebrick">your implementation may not multiply any of the integers in <code>xs</code> on its own; it must use <code>unreliableUntrustedProduct()</code> to do so</b>, and at the same time <b style="color:firebrick">it must not send the actual integers in <code>xs</code> over the web or reveal them to the web service</b>.
+              ]]></text>
+              <paragraph hooks="math"><![CDATA[
+Start with your solution to part (a) and extend it by choosing a random value <code>r</code> in \Z/<code>q</code>\Z. For each integer <code>xs[i]</code> in the list, convert the pair <code>(xs[i], r)</code> into a value in \Z/<code>n</code>\Z via the <a href="#7eb018ba49d53b9183b62eb01d35b19a">CRT isomorphism</a>. Then encrypt all these \Z/<code>n</code>\Z values using RSA and use <code>unreliableUntrustedProduct()</code> to compute their product. Finally, your <code>validPrivateProduct()</code> implementation should decrypt the result and convert it back to an answer modulo <code>p</code> via the opposite direction of the <a href="#7eb018ba49d53b9183b62eb01d35b19a">CRT isomorphism</a>.
+              ]]></paragraph>
+              <paragraph hooks="math"><![CDATA[
+To check if the answer you obtained from <code>unreliableUntrustedProduct()</code> is actually correct, determine whether the decrypted value modulo <code>q</code> has the expected value (i.e., is it really <code>r</code><sup><code>len(xs)</code></sup> modulo <code>q</code>). If this check fails, keep repeating the entire process from the beginning until it succeeds.
+              ]]></paragraph>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+          <text hooks="math"><![CDATA[
+Implement a function <code>isomorphism(A, B)</code> that takes two tuples <code>A</code> and <code>B</code> as inputs. Each tuple consists of two entries: the first is an ordered list of elements from an algebraic structure, and the second is a function on elements of that binary structure. Thus, the tuple <code>A</code> represents an algebraic structure (%A, \oplus), and the tuple <code>B</code> represents an algebraic structure (%B, \otimes). You may assume that the list of elements is closed under the operation represented by the function. You may also assume that the bijection between the sets %A and %B is already provided by the order of the elements in each list (i.e., the %ith entry in the first list corresponds to the %ith entry in the second). The <code>isomorphism()</code> function should return <code>True</code> if there is indeed an isomorphism between (%A, \oplus) and (%B, \otimes), and <code>False</code> otherwise.
+          ]]></text>
+          <code hooks="Python"><![CDATA[
+>>> plusMod2 = @lambda x,y: (x + y) % 2
+>>> A = ([0,1], plusMod2)
+>>> B = ([C(0,2), C(1,2)], permute)
+>>> isomorphism(A, B)
+@True
+
+>>> plusMod4 = @lambda x,y: (x + y) % 4
+>>> multMod8 = @lambda x,y: (x * y) % 8
+>>> A = ([0,1,2,3], plusMod4)
+>>> B = ([1,3,5,7], multMod8)
+>>> isomorphism(A, B)
+@False
+          ]]></code>
+        </problem>
+        <problem>
+          <text hooks="math"><![CDATA[
+<b>Extra credit:</b> In a comment, solve and explain each of the following.
+          ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Either find an isomorphism between ((\Z/8\Z)*, \cdot) and ((\Z/10\Z)*, \cdot) or explain why one cannot exist despite the fact that |(\Z/8\Z)*| = \varphi(8) = \varphi(10) = |(\Z/10\Z)*|.
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Either find an isomorphism between (\Z/4\Z, +) and ((\Z/8\Z)*, \cdot) or explain why one cannot exist despite the fact that |Z/4\Z| = 4 = \varphi(8) = |(\Z/8\Z)*|.
+              ]]></text>
+            </part>
+          </parts>
+        </problem>
+      </problems>
+    </assignment>
+  </section>
+</sheaf>

@@ -1,0 +1,269 @@
+<sheaf>
+  <section>
+    <assignment title="Multiplicative Inverses, CRT, and Efficient Computation">
+      <instructions>
+        <text><![CDATA[
+In this assignment you will solve several equations, and you will define a collection of Python functions for finding inverses of congruence classes, for solving systems of equations using the Chinese remainder theorem, and for employing CRT solutions. You must submit a single Python source file named <code>hw3/hw3.py</code>. Please follow the <a href="#A">gsubmit</a> directions.
+        ]]></text>
+        <paragraph><![CDATA[
+You may import the following library functions in your module (you may not need all these functions for this assignment depending on how you approach the problems, but they may be used):
+        ]]></paragraph>
+        <code hooks="Python"><![CDATA[
+@from math @import floor
+@from fractions @import gcd
+        ]]></code>
+        <text hooks="math"><![CDATA[
+You may also use:
+  <li>the built-in <code>pow()</code> function to compute modular exponents efficiently (i.e., a^{%k} \mod %n can be written in Python as <code>pow(a,k,n)</code>), and</li>
+  <li>the built-in <code>sum()</code> function that returns the sum of a list of integers (e.g., <code>sum(1,2,3,4)</code> returns <code>10</code>).</li>
+</ul>
+<b style="color:firebrick;">Your file may not import any other modules or employ any external library functions associated with integers and sets unless explicitly permitted to do so in a particular problem.</b>
+        ]]></text>
+        <paragraph><![CDATA[
+Solutions to each of the programming problem parts below should be fairly concise. You will be graded on the correctness, concision, and mathematical legibility of your code. The different problems and problem parts rely on the lecture notes and on each other; carefully consider whether you can use functions from the lecture notes, or functions you define in one part within subsequent parts.
+        ]]></paragraph>
+      </instructions>
+      <problems>
+        <problem>
+         <text hooks="math"><![CDATA[
+Solve the following equations using step-by-step equational reasoning, and list each step. For this problem, you must use <a href="#71a8e073b8f244809d2c321d5b5d2987">Fermat's little theorem</a> and/or <a href="#aae0b3af632b4da99cd398d887c5f764">Euler's theorem</a> to compute inverses of congruence classes. Your solutions for this problem should appear as comments, delimited using <code>'''</code>...<code>'''</code>, in <code>hw3.py</code>. You may use the <code>=</code> ASCII character to represent the \equiv relational operator on congruence classes. 
+         ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[Solve the following equation for %x \in \Z/11\Z:
+\begin{eqnarray}
+  5 \cdot %x \equiv 3 (\mod 11)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[Solve the following equation for %x \in \Z/5\Z:
+\begin{eqnarray}
+  8 \cdot %x %- 1 \equiv 1 (\mod 5)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[Solve the following system of equations for %x \in \Z/35\Z:    
+\begin{eqnarray}
+  %x & \equiv & 4 (\mod 7)\\
+  %x & \equiv & 3 (\mod 5)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Solve the following system of equations for a unique congruence class %x, and specify the range of congruence classes in which this system of equations has a unique solution:    
+\begin{eqnarray}
+  %x & \equiv & 3 (\mod 5) \\
+  %x & \equiv & 6 (\mod 14)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Solve the following system of equations for a unique congruence class %x, and specify the range of congruence classes in which this system of equations has a unique solution:    
+\begin{eqnarray}
+          %x & \equiv & 10 (\mod 11) \\
+  3 \cdot %x & \equiv & 1 (\mod 4)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Let %p and %q be unequal prime numbers. If %p^{-1} \equiv 5 (\mod %q) and %q^{-1} \equiv 4 (\mod %p), find the solution %x \in \Z/(%p \cdot %q)\Z to the following system of equations (your solution should be in terms of %p and %q):
+\begin{eqnarray}
+  %q \cdot %x & \equiv & 3 (\mod %p) \\
+           %x & \equiv & 2 (\mod %q)
+\end{eqnarray}
+              ]]></text>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+         <text><![CDATA[
+Implement the following Python functions for computing multiplicative inverses of congruence classes.
+         ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>invPrime(a, p)</code> that takes two integers <code>a</code> and <code>p</code> > 1 where <code>p</code> is prime. The function should return the multiplicative inverse of <code>a</code> \in \Z/<code>p</code>\Z (if <code>a</code> \equiv 0, it should return <code>None</code>). Your solution must <a href="#71a8e073b8f244809d2c321d5b5d2987">use Fermat's little theorem</a>.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> [invPrime(i, 7) @for i @in @range(0,7)]
+[@None, 1, 4, 5, 2, 3, 6]
+>>> [invPrime(i, 13) @for i @in @range(1,13)]
+[1, 7, 9, 10, 8, 11, 2, 5, 3, 4, 6, 12]
+              ]]></code>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Include the following definition in your code. This non-recursive implementation of the <a href="#4b73a6de740d492d9bf4d536da9f15ce">extended Euclidean algorithm</a> avoids a stack overflow error on large inputs.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+@def egcd(a, b):
+    (x, s, y, t) = (0, 1, 1, 0)
+    @while b != 0:
+        k = a // b
+        (a, b) = (b, a % b)
+        (x, s, y, t) = (s - k*x, x, t - k*y, y)
+@return (s, t)
+              ]]></code>
+              <text hooks="math"><![CDATA[
+Given two inputs <code>a</code> and <code>b</code>, <code>egcd(a, b)</code> returns a solution <code>(s, t)</code> to the following instance of <a href="#4353592f86d4482c93cebb6da6d749b9">B&eacute;zout's identity</a>:
+\begin{eqnarray}
+  <code>a</code> \cdot <code>s</code> + <code>b</code> \cdot <code>t</code>& = & <code>gcd(a, b)</code>
+\end{eqnarray} 
+Using <code>egcd()</code>, implement a function <code>inv(a, m)</code> that takes two integers <code>a</code> and <code>m</code> > 1. If <code>a</code> and <code>m</code> are coprime, it should return the multiplicative inverse of <code>a</code> \in \Z/<code>m</code>\Z. If <code>a</code> and <code>m</code> are not coprime, it should return <code>None</code>.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> [inv(i, 13) @for i @in @range(1,13)]
+[1, 7, 9, 10, 8, 11, 2, 5, 3, 4, 6, 12]
+>>> [inv(i, 8) @for i @in @range(1,8)]
+[1, @None, 3, @None, 5, @None, 7]
+              ]]></code>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+         <text><![CDATA[
+Implement the following Python functions for solving certain (linear) systems of equations involving congruence classes.
+         ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>solveOne(c, b, a, m)</code> that takes four integers <code>c</code>, <code>b</code>, <code>a</code>, and <code>m</code> \geq 1. If <code>c</code> and <code>m</code> are coprime, the function should return the solution %x \in {0, ..., <code>m</code>-1} to the following equation:
+\begin{eqnarray}
+  <code>c</code> \cdot %x + %b & \equiv & <code>a</code> (\mod <code>m</code>)
+\end{eqnarray}
+If <code>c</code> and <code>m</code> are not coprime, the function should return <code>None</code>.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> solveOne(3, 0, 4, 7)
+6
+>>> solveOne(1, 2, 7, 11)
+5
+>>> solveOne(2, 0, 3, 8)
+@None
+              ]]></code>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>solveTwo(e1, e2)</code> that takes two tuples <code>e1</code> and <code>e2</code> as inputs, each of the form <code>(c, b, a, m)</code> (i.e., containing four integer elements). Thus, the two tuples, if we call them <code>(c, b, a, m)</code> and <code>(t, s, r, n)</code>, correspond to a system of equations of the form:
+\begin{eqnarray}
+  <code>c</code> \cdot %x + <code>b</code> & \equiv & <code>a</code> (\mod <code>m</code>) \\
+  <code>t</code> \cdot %x + <code>s</code> & \equiv & <code>r</code> (\mod <code>n</code>)
+\end{eqnarray}
+The function <code>solveTwo()</code> should return the unique solution %x to the above system of equations. If either equation cannot be solved using <code>solveOne()</code>, or <code>n</code> and <code>m</code> are not coprime, the function should return <code>None</code>.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> solveTwo((3, 0, 4, 7), (1, 2, 7, 11))
+27
+              ]]></code>
+            </part>            
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>solveAll(es)</code> that takes a list of one or more equations, each of the form <code>(c, b, a, m)</code>. The list corresponds to the system of equations (assume all the %m_{%i} are mutually coprime):
+\begin{eqnarray}
+  %c_1 \cdot %x + %b_1 & \equiv & %a_1 (\mod %m_1) \\
+                          & \vdots &  \\
+  %c_{%k} \cdot %x + %b_{%k} & \equiv & %a_{%k} (\mod %m_{%k})
+\end{eqnarray}
+The function <code>solveAll()</code> should return the unique congruence class solution %x to the above system of equations. If any individual equation cannot be solved using <code>solveOne()</code>, or if the moduli are not all mutually coprime, the function should return <code>None</code>.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> solveAll([(3,0,4,7), (1,0,5,11)])
+27
+>>> solveAll([(5,0,3,7), (3,0,5,11), (11,0,4,13)])
+856
+>>> solveAll([(1,0,2,3), (7,0,8,31), (3,0,5,7), (11,0,4,13)])
+7109
+>>> solveAll([(3,0,2,4), (7,0,8,9), (2,0,8,25), (4,0,4,7)])
+554
+              ]]></code>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+          <text hooks="math"><![CDATA[
+In this problem we will exploit the Chinese Remainder Theorem (in the same way we did in <a href="#df42e88c1fcd11e3831ff55c91aec05Z">this example</a>, <a href="#ed75855fa50c4005a8e2f284bdcb23cf">this example</a>, and <a href="#e44bcc8621a0449690fc9f708c74ec65">this example</a>) to create an algorithm that can efficiently compute sums of terms that have extremely large exponents. Throughout this problem we represent the sum of a collection of exponentiation operations as a list of tuples in which each tuple contains two integers: the base and the exponent. For example, the list <code>[(2,4),(3,5),(-6,3)]</code> represents the sum of powers 2^4 + 3^5 + (%-6)^3.
+          ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>sumPowsModPrime(nes, p)</code> that takes a list <code>nes</code> representing a sum of powers and, as efficiently as possible, computes the sum modulo a prime <code>p</code>. You may <b>not</b> assume that any particular patterns will exist in the bases or exponents (e.g., make sure that your function behaves correctly if a base is a multiple of the prime modulus <code>p</code>).
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> (2**4 + 3**5 + (-6)**3) % 59
+43
+>>> sumPowsModPrime([(2,4), (3,5), (-6,3)], 59)
+43
+>>> sumPowsModPrime([(2,10**1000000 + 1), (-2,10**1000000 + 1), (3,3)], 103)
+27
+              ]]></code>
+              <text hooks="math"><![CDATA[
+<b>Hint:</b> keep <a href="#fa37b1eca05d47e3ae9fc97803551667">this fact</a> and <a href="#360652037d3e48069d182158129d21af">Euler's theorem</a> in mind and use comprehensions and <code>pow()</code> to write a one-line body for this function.
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>sumPowsModPrimes(nes, ps)</code> that takes a list of one or more tuples <code>nes</code> (i.e., <code>nes</code> is of the form <code>[(a1,n1),...,(ak,nk)]</code>) as its first argument, and a list of one or more primes <code>ps</code> (i.e., of the form <code>[p1,...,pm]</code>) as its second argument. The function should return the correct result of the sum of powers as long as the following is true (e.g., on a computer with unlimited memory and time):
+\begin{eqnarray}
+  0 & \leq & <code>a1</code><sup><code>n1</code></sup> + ... + <code>ak</code><sup><code>nk</code></sup> & \lt & <code>p1</code> \cdot ... \cdot <code>pm</code>
+\end{eqnarray}
+<b style="color:green;">Do not check the above condition; it is an <i>assumption</i> that you can make and a <i>requirement</i> that users of your function must fulfill if they want to use it.</b> You may assume the second list contains distinct prime numbers. You may <b>not</b> assume that the numbers in the first input list have any particular patterns or relationships; they can be in any order, they can be of any size, and they may or may not share factors. Your implementation must work efficiently on very large inputs (e.g., with computations like 2<sup>29999999999999999999999999999999996</sup>, as presented in the examples below). <b style="color:green;">Solutions that call a CRT solver more than once will receive no credit.</b>
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> sumPowsModPrimes([(2,3), (5,6)], [3,5,7,11,13,17,19,23,29]) == 2**3 + 5**6
+@True
+>>> primes =[\
+         15481619,15481633,15481657,15481663,15481727,15481733,15481769,15481787 
+        ,15481793,15481801,15481819,15481859,15481871,15481897,15481901,15481933 
+        ,15481981,15481993,15481997,15482011,15482023,15482029,15482119,15482123 
+        ,15482149,15482153,15482161,15482167,15482177,15482219,15482231,15482263 
+        ,15482309,15482323,15482329,15482333,15482347,15482371,15482377,15482387 
+        ,15482419,15482431,15482437,15482447,15482449,15482459,15482477,15482479 
+        ,15482531,15482567,15482569,15482573,15482581,15482627,15482633,15482639 
+        ,15482669,15482681,15482683,15482711,15482729,15482743,15482771,15482773 
+        ,15482783,15482807,15482809,15482827,15482851,15482861,15482893,15482911 
+        ,15482917,15482923,15482941,15482947,15482977,15482993,15483023,15483029 
+        ,15483067,15483077,15483079,15483089,15483101,15483103,15483121,15483151 
+        ,15483161,15483211,15483253,15483317,15483331,15483337,15483343,15483359 
+        ,15483383,15483409,15483449,15483491,15483493,15483511,15483521,15483553 
+        ,15483557,15483571,15483581,15483619,15483631,15483641,15483653,15483659 
+        ,15483683,15483697,15483701,15483703,15483707,15483731,15483737,15483749 
+        ,15483799,15483817,15483829,15483833,15483857,15483869,15483907,15483971 
+        ,15483977,15483983,15483989,15483997,15484033,15484039,15484061,15484087 
+        ,15484099,15484123,15484141,15484153,15484187,15484199,15484201,15484211 
+        ,15484219,15484223,15484243,15484247,15484279,15484333,15484363,15484387 
+        ,15484393,15484409,15484421,15484453,15484457,15484459,15484471,15484489 
+        ,15484517,15484519,15484549,15484559,15484591,15484627,15484631,15484643 
+        ,15484661,15484697,15484709,15484723,15484769,15484771,15484783,15484817 
+        ,15484823,15484873,15484877,15484879,15484901,15484919,15484939,15484951 
+        ,15484961,15484999,15485039,15485053,15485059,15485077,15485083,15485143 
+        ,15485161,15485179,15485191,15485221,15485243,15485251,15485257,15485273 
+        ,15485287,15485291,15485293,15485299,15485311,15485321,15485339,15485341 
+        ,15485357,15485363,15485383,15485389,15485401,15485411,15485429,15485441 
+        ,15485447,15485471,15485473,15485497,15485537,15485539,15485543,15485549 
+        ,15485557,15485567,15485581,15485609,15485611,15485621,15485651,15485653 
+        ,15485669,15485677,15485689,15485711,15485737,15485747,15485761,15485773 
+        ,15485783,15485801,15485807,15485837,15485843,15485849,15485857,15485863]
+>>> sumPowsModPrimes(\
+       [(2,29999999999999999999999999999999996)\
+       ,(-8,9999999999999999999999999999999999)\
+       ,(2,29999999999999999999999999999999996)\
+       ,(7,7),(-13,3)], primes)
+821346
+              ]]></code>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+<b>Extra credit:</b> Reimplement the <code>makePrime(d, k)</code> function from <b>Assignment #2</b> so that it uses Python's own <a href="https://docs.python.org/3/library/random.html#random.randint"><code>random.randint()</code></a> function and returns a list of <code>k</code> distinct primes, each of which is <code>d</code> digits long.
+              ]]></text>
+            </part>
+          </parts>
+        </problem>
+      </problems>
+    </assignment>
+  </section>
+</sheaf>

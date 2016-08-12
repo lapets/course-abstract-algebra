@@ -1,0 +1,246 @@
+<sheaf>
+  <section>
+    <assignment title="Linear Congruence Theorem, Generalized CRT, and More Isomorphisms">
+      <instructions>
+        <text><![CDATA[
+In this assignment you will solve several problems using what you know about the generalized Chinese remainder theorem, isomorphisms, and subgroups. You must submit a single file named <code>hw6.py</code> (submitted to the location <code>hw6/hw6.py</code>). Please follow the <a href="#A">gsubmit</a> directions.
+        ]]></text>
+        <paragraph><![CDATA[
+<b style="color:firebrick;">For the programming parts, you may import the following library functions in your module (you may not need all these functions for this assignment depending on how you approach the problems, but they may be used):</b>
+        ]]></paragraph>
+        <code hooks="Python"><![CDATA[
+@from math @import floor
+@from fractions @import gcd
+@from random @import randint
+        ]]></code>
+        <text hooks="math"><![CDATA[
+<b style="color:firebrick;">Your file may not import any other modules or employ any external library functions associated with integers and sets unless explicitly permitted to do so in a particular problem.</b>
+        ]]></text>
+      </instructions>
+      <problems>
+        <problem>
+         <text hooks="math"><![CDATA[
+Solve the following equations using step-by-step equational reasoning, and list each step.
+         ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Solve the following equation for a unique congruence class %x if it exists (you must specify both the congruence class and the set of congruence classes of which it is a member); if no solution exists, explain why not:
+\begin{eqnarray}
+   12 \cdot %x & \equiv & 4 (\mod 32)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Solve the following system of equations and find a unique congruence class solution (<b>including the set of congruence classes from which the congruence class is drawn</b>) if it exists; if no solution exists, explain why not:
+\begin{eqnarray}
+  %x & \equiv & 2 (\mod 15) \\
+  2 \cdot %x & \equiv & 12 (\mod 25)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Solve the following system of equations and find a unique congruence class solution (<b>including the set of congruence classes from which the congruence class is drawn</b>) if it exists; if no solution exists, explain why not:
+\begin{eqnarray}
+  %x & \equiv & 12 (\mod 14) \\
+  %x & \equiv & 19 (\mod 21)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Solve the following system of equations and find <b>all</b> congruence class solutions if any exist; if no solution exists, explain why not:
+\begin{eqnarray}
+  %x^2 & \equiv & 4 (\mod 35) \\
+  3 \cdot %x & \equiv & 15 (\mod 21)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Solve the following system of equations and find a unique congruence class solution if it exists; if no solution exists, explain why not:
+\begin{eqnarray}
+  %x & \equiv & 10 (\mod 12) \\
+  %x & \equiv & 2 (\mod 16)
+\end{eqnarray}
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+List all subgroups of the algebraic structure (\Z/18\Z, +), where + represents addition modulo 18. You only need to specify the set of elements in each subgroup.
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Suppose that you have a standard 12-hour analog clock. You also have an alarm that rings every 20 hours. At some point in the last three days, the alarm rang at exactly midnight. At this moment, the analog clock reads 5 (you do not know if it is AM or PM), and it has been 1 hour since the alarm last rang. How many hours have passed since the alarm rang at exactly midnight, and what time is it? Set up an appropriate equation or system of equations and use step-by-step equational reasoning to find the solution.
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Bob needs to reserve virtual machines on a cloud computing service to solve a number of problems before a deadline. He has two options: reserve some number of virtual machines that can each solve 12 problems before the deadline, or reserve some number of virtual machines that can each solve 15 problems before the deadline:
+<ul>
+  <li>with virtual machines that can each solve 12 problems, Bob will end up using all the virtual machines to their full capacity except one, which will have only 3 problems to solve;
+  <li>with virtual machines that can each solve 15 problems, Bob will end up using all the virtual machines to their full capacity except one, which will have only 9 problems to solve.
+</ul>
+Assuming that Bob has at most 60 problems to solve, how many problems does Bob have?
+              ]]></text>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+         <text><![CDATA[
+Implement the following Python functions for solving systems of equations involving congruence classes.
+         ]]></text>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>solveOne(c, b, a, m)</code> that takes four integers <code>c</code>, <code>b</code>, <code>a</code>, and <code>m</code> \geq 1. If it exists, the function should return the unique solution %x \in \Z/(<code>m</code>/\gcd(<code>c</code>,<code>m</code>))\Z to the following equation:
+\begin{eqnarray}
+  <code>c</code> \cdot %x + <code>b</code> & \equiv & <code>a</code> (\mod <code>m</code>)
+\end{eqnarray}
+If no solution exists, the function should return <code>None</code>. The function must work correctly for all possible equations (you should use the <a href="#29831f3f3ebd42bb91d29c5d9b298236">linear congruence theorem</a>).
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> solveOne(1, 0, 2, 3)
+2
+>>> solveOne(3, 1, 5, 7)
+6
+>>> solveOne(1, 0, 5, 11)
+5
+>>> solveOne(2, 0, 3, 8)
+@None
+>>> solveOne(6, 3, 5, 8)
+3
+              ]]></code>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>solveOneSameMod(c, b, a, m)</code> that takes four integers <code>c</code>, <code>b</code>, <code>a</code>, and <code>m</code> \geq 1. If it exists, the function should return <b>the set of all solutions</b> %x \in \Z/<code>m</code>\Z to the following equation:
+\begin{eqnarray}
+  <code>c</code> \cdot %x + <code>b</code> & \equiv & <code>a</code> (\mod <code>m</code>)
+\end{eqnarray}
+If no solution exists, the function should return <code>None</code>. Your solution does not need to be efficient, but it must use <code>solveOne()</code> as a subroutine.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> solveOneSameMod(3, 0, 4, 7)
+{6}
+>>> solveOneSameMod(2, 0, 3, 8)
+@None
+>>> solveOneSameMod(6, 3, 5, 8)
+{3, 7}
+              ]]></code>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>solveTwo(e1, e2)</code> that takes two tuples <code>e1</code> and <code>e2</code> as inputs, each of the form <code>(c, b, a, m)</code> (i.e., containing four integer elements). Each tuple <code>(c, b, a, m)</code> corresponds to an equation of the form:
+\begin{eqnarray}
+  <code>c</code> \cdot %x + <code>b</code> & \equiv & <code>a</code> (\mod <code>m</code>)
+\end{eqnarray}
+Thus, the two tuples, if we call them <code>(c, b, a, m)</code> and <code>(t, s, r, n)</code>, correspond to a system of equations of the form:
+\begin{eqnarray}
+  <code>c</code> \cdot %x + <code>b</code> & \equiv & <code>a</code> (\mod <code>m</code>) \\
+  <code>t</code> \cdot %x + <code>s</code> & \equiv & <code>r</code> (\mod <code>n</code>)
+\end{eqnarray}
+The function <code>solveTwo()</code> should return the unique solution %x to the above system of equations. If either equation cannot be solved using <code>solveOne()</code>, the function should return <code>None</code>.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> solveTwo((3, 0, 4, 7), (1, 0, 5, 11))
+27
+>>> solveTwo((1, 0, 1, 6), (1, 0, 3, 8))
+19
+>>> solveTwo((1, 0, 0, 6), (1, 0, 3, 8))
+@None
+              ]]></code>
+            </part>            
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a function <code>solveAll(es)</code> that takes a list of one or more equations, each of the form <code>(c, b, a, m)</code>. The function should return the unique solution %x to the system of equations represented by the list of equations. If the system of equations has no solution, the function should return <code>None</code>.
+              ]]></text>
+              <code hooks="Python"><![CDATA[
+>>> solveAll([(1,0,2,3)])
+2
+>>> solveAll([(3,0,4,7), (1,0,5,11)])
+27
+>>> solveAll([(5,0,3,7), (3,0,5,11), (11,0,4,13)])
+856
+>>> solveAll([(1,0,2,3), (7,0,8,31), (3,0,5,7), (11,0,4,13)])
+7109
+>>> solveAll([(3,0,2,4), (7,0,8,9), (2,0,8,25), (4,0,4,7)])
+554
+>>> solveAll([(1,0,1,6), (1,0,3,8)])
+19
+>>> solveAll([(1,0,0,6), (1,0,3,8)])
+@None
+              ]]></code>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+          <text hooks="math"><![CDATA[
+In this problem you will implement a reliable addition algorithm for \Z/256\Z by using an unreliable addition algorithm for \Z/256\Z. <b>You may not use the addition operator <code>+</code> anywhere in your solutions to this problem</b>. You may assume you are given access to a function <code>plus256unreliable(x, y)</code> that returns an answer that is at most 4 away from the true sum modulo <code>256</code> (assume there is no chance of this error causing the answer to wrap around):
+\begin{eqnarray}
+  | <code>plus256unreliable(x, y)</code> %- (<code>(x + y) % 256</code>) | & &lt; & <code>4</code>
+\end{eqnarray}
+You may use the following Python simulation of this unreliable function in order to test your code:
+          ]]></text>
+          <code hooks="Python"><![CDATA[
+@from random @import randint
+@def plus256unreliable(x, y):
+    r = randint(0,7) - 4
+    @return (@min(255, @max(0, ((x + y)%256) + r)))
+          ]]></code>
+          <parts>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a Python function <code>plus16(x, y)</code> that reliably returns <code>(x + y) % 16</code> with 100% accuracy. <b>You may use <code>//</code>, <code>*</code>, <code>plus256unreliable()</code>, and numerical constants, but you may not use anything else in your definition.</b> <span style="color:green; font-weight:bold;"><b>Hint</b>: you can call <code>plus256unreliable()</code> more than once.</span>
+              ]]></text>
+            </part>
+            <part>
+              <text hooks="math"><![CDATA[
+Implement a Python function <code>plus256(x, y)</code> that reliably returns <code>(x + y) % 256</code> with 100% accuracy. <b>Your solution must use <code>solveAll()</code>, and you are allowed to use <code>%</code>, but you may not use the addition or subtraction operators</b>: choose four appropriate prime or mutually coprime moduli, perform the addition operations modulo those moduli, then restore the original result using <code>solveAll()</code>.</b>
+              ]]></text>
+            </part>
+          </parts>
+        </problem>
+        <problem>
+          <text hooks="math"><![CDATA[
+Suppose you are given the following function (which simulates the component of Shor's algorithm that can run efficiently on a quantum computer). Given <code>n</code> \in \N and <code>a</code> \in \Z/%n\Z, it returns the smallest non-zero congruence class %r \in \Z/\varphi(%n)\Z such that <code>a</code><sup>%r</sup> \equiv 1 (\mod <code>n</code>). In other words, it returns |closure({<code>a</code>}, \cdot)| where \cdot is multiplication modulo <code>n</code>.
+          ]]></text>
+          <code hooks="Python"><![CDATA[
+@def quantum(a, n):
+    @return [@pow(a,k,n) @for k @in @range(1, n)].index(1) + 1
+          ]]></code>
+          <text hooks="math"><![CDATA[
+Implement a function <code>factor(n)</code> that returns a non-trivial factor of a composite number input <code>n</code> = %p \cdot %q by calling <code>quantum()</code>. <b>Solutions that use exhaustive search will receive no credit.</b>
+          ]]></text>
+        </problem>
+        <problem>
+         <text hooks="math"><![CDATA[
+<b>Extra credit:</b> In Problem 4, you implemented an efficient factoring algorithm that used the function <code>quantum()</code>. In this problem, you will implement an efficient version of <code>quantum()</code> using another function. Suppose you are given an efficient function <code>blackbox()</code> that takes three positive integers <code>k1</code>, <code>k2</code>, and <code>n</code> where <code>k1</code> &lt; <code>k2</code>. For each possible exponent <code>k</code> \in {<code>k1</code>, ..., <code>k2</code>}, the function efficiently computes the <b>average</b> of the following set of values:
+\begin{eqnarray}
+  {%a<sup><code>k</code></sup> \mod <code>n</code> | %a \in {1,...,<code>n</code>-1}}
+\end{eqnarray}
+It then returns the minimum of the averages over all <code>k</code> \in {<code>k1</code>, ..., <code>k2</code>}. An <b>inefficient</b> but equivalent implementation is provided below <b>for testing purposes</b>:
+         ]]></text>
+          <code hooks="Python"><![CDATA[
+@def avg(a):
+    @return @float(@sum(a))/@len(a)
+
+@def blackbox(k1, k2, n):
+    @return @min([(avg([@pow(a,k,n) @for a @in @range(1,n)])) @for k @in @range(k1, k2)])
+          ]]></code>
+          <text hooks="math"><![CDATA[
+Implement an efficient (polynomial-time) function <code>quantum(a, n)</code> that takes any composite <code>n</code> that is the product of two distinct primes, and returns the smallest non-zero congruence class %r \in \Z/\varphi(%n)\Z such that %a<sup>%r</sup> \equiv 1 (\mod %n). Your implementation of <code>quantum()</code> may make up to \log_2(<code>n</code>) calls to <code>blackbox()</code>, but not more than that.
+          ]]></text>
+        </problem>
+        <problem>
+         <text hooks="math"><![CDATA[
+<b>Extra extra credit:</b> Using an approach similar to the one we saw in <a href="#18231a61b42aaaeddd8347f75c7f4aaa">this example</a>, determine the set of all distinct polynomials that are of the form %a<sub>%k</sub> %x<sup>%k</sup> + %a<sub>%k-1</sub> %x<sup>%k-1</sup> + ... + %a_2 %x^2 + %a_1 %x^1 + %a_0 %x^0 if %a_{%i} are all from \Z/3\Z and + represents addition modulo 3; in other words, list all elememts of \Z/3\Z[%x]. Furthermore, find at least one other group that is isomorphic to \Z/3\Z[%x], and explicitly write down the bijection for that isomorphism.
+         ]]></text>
+        </problem>
+      </problems>
+    </assignment>
+  </section>
+</sheaf>
