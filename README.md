@@ -1,2 +1,2 @@
 # course-abstract-algebra
-Lectures and other materials for a one-semester course on modular arithmetic, abstract algebra, and applications.
+Lecture notes, assignments, and other materials for a one-semester course on topics in number theory, modular arithmetic, abstract algebra, and computer science applications thereof.
