@@ -7290,7 +7290,7 @@ Notice that many of the tasks below can be composed, and that many problems can 
 </ul>
     ]]></text>-->
   </review>
-  <appendix title="Python">
+  <appendix title="Python Reference">
     <text><![CDATA[
 The Python programming language will be among the languages we use in this course. This language supports the object-oriented, imperative, and functional programming paradigms, has automatic memory managememt, and natively supports common high-level data structures such as lists and sets. Python is often used as an interpreted language, but it can also be compiled.
     ]]></text>
