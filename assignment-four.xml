@@ -8,9 +8,9 @@ In this assignment you will solve several equations, and you will define a colle
         <paragraph><![CDATA[
 <b style="color:firebrick;">You may import the following library functions in your module (you may not need all these functions for this assignment depending on how you approach the problems, but they may be used):</b>
         ]]></paragraph>
-        <code hooks="Python"><![CDATA[
-@from math @import floor
-@from fractions @import gcd
+        <code class="py"><![CDATA[
+from math import floor
+from fractions import gcd
         ]]></code>
         <text hooks="math"><![CDATA[
 <b style="color:firebrick;">Your file may not import any other modules or employ any external library functions associated with
@@ -121,7 +121,7 @@ Implement a Python function <code>sqrtsPrime(a, p)</code> that takes two argumen
   %x^2 & \equiv & <code>a</code> (\mod <code>p</code>)
 \end{eqnarray}
               ]]></text>
-              <code hooks="Python"><![CDATA[
+              <code class="py"><![CDATA[
 >>> sqrtsPrime(2, 7)
 (3, 4)
 >>> sqrtsPrime(5, 7) # 5 has no square roots
@@ -139,7 +139,7 @@ Implement a Python function <code>sqrtsPrimePower(a, p, k)</code> that takes thr
   %x^2 & \equiv & <code>a</code> (\mod <code>p</code><sup><code>k</code></sup>)
 \end{eqnarray}
               ]]></text>
-              <code hooks="Python"><![CDATA[
+              <code class="py"><![CDATA[
 >>> sqrtsPrimePower(2, 7, 2)
 (10, 39)
 >>> sqrtsPrimePower(763472161, 5754853343, 4)
@@ -154,7 +154,7 @@ Implement a Python function <code>sqrts(a, pks)</code> that takes two arguments:
 \end{eqnarray}
 Your implementation must be efficient (i.e., it may not iterate over all possible values in \Z/<code>n</code>\Z to look for square roots), <span style="color:green;">and it must work for any positive number of entries in <code>pks</code></span>.
               ]]></text>
-              <code hooks="Python"><![CDATA[
+              <code class="py"><![CDATA[
 >>> sqrts(2, [(7,4)])
 {235, 2166}
 >>> sqrts(1, [(7,1), (11,1)])
@@ -174,17 +174,17 @@ Your implementation must be efficient (i.e., it may not iterate over all possibl
               <text hooks="math"><![CDATA[
 You may find the following helper function useful in implementing your solution.
               ]]></text>
-              <code hooks="Python"><![CDATA[
-@def combinations(ls):
-    @if len(ls) == 0:
-        @return [[]]
-    @else:
-        @return [ [x]+l @for x @in ls[0] @for l @in combinations(ls[1:]) ]
+              <code class="py"><![CDATA[
+def combinations(ls):
+    if len(ls) == 0:
+        return [[]]
+    else:
+        return [ [x]+l for x in ls[0] for l in combinations(ls[1:]) ]
               ]]></code>
               <text hooks="math"><![CDATA[
 This function takes a list of lists as its input and returns a list of all possible combinations of one element from each list.
               ]]></text>
-              <code hooks="Python"><![CDATA[
+              <code class="py"><![CDATA[
 >>> combinations([[1,2], ['a','b'], ['X','Y']])
 [[1, 'a', 'X'], [1, 'a', 'Y'], [1, 'b', 'X'], [1, 'b', 'Y'], [2, 'a', 'X'], [2, 'a', 'Y'], [2, 'b', 'X'], [2, 'b', 'Y']]
               ]]></code>
@@ -200,7 +200,7 @@ Implement the following Python functions for factoring a positive integer. These
               <text hooks="math"><![CDATA[
 Implement a function <code>factorsFromPhi(n, phi_n)</code> that takes two integers <code>n</code> and <code>phi_n</code>. You may assume (i.e., you do <i>not</i> need to verify in your code) that <code>n</code> is a product of two distinct positive prime numbers and that <code>phi_n</code> = \phi(<code>n</code>). The function should return both prime factors of <code>n</code> as a tuple.
               ]]></text>
-              <code hooks="Python"><![CDATA[
+              <code class="py"><![CDATA[
 >>> factorsFromPhi(77, 60)
 (7, 11)
 >>> factorsFromPhi(14369648346682547857, 14369648335605206820)
@@ -216,7 +216,7 @@ Implement a function <code>factorsFromRoots(n, x, y)</code> that takes three int
 \end{eqnarray}
 The function should return both prime factors of <code>n</code> as a tuple.
               ]]></text>
-              <code hooks="Python"><![CDATA[
+              <code class="py"><![CDATA[
 >>> factorsFromRoots(35, 1, 6)
 (5, 7)
 >>> factorsFromRoots(14369648346682547857, 12244055913891446225, 1389727304093947647)
@@ -234,7 +234,7 @@ In this problem you will implement the three component algorithms of the RSA cry
               <text hooks="math"><![CDATA[
 Define a Python function <code>generate(k)</code> that takes a single integer input <code>k</code> and returns a tuple <code>(n,e,d)</code> corresponding to the public values <code>n</code> and <code>e</code> and private key <code>d</code> in the RSA cryptographic protocol. The output <code>n</code> must be the product of two distinct, randomly chosen <code>k</code>-digit primes. You may import and use the Python random number generator (<code>from random import random</code> or <code>from random import randint</code>), and you may want to reuse the extended Euclidean algorithm implementation provided in the <a href="#assignment3">previous homework assignment</a>.
               ]]></text>
-              <!--<code hooks="Python">
+              <!--<code class="py">
 >>> ...
 ...
               </code>-->
@@ -255,21 +255,21 @@ Define a Python function <code>decrypt(c, t)</code> that takes two inputs: an in
           <text><![CDATA[
 Suppose you are supplied with an efficient implementation of an algorithm for breaking the Rabin cryptographic protocol. Below, we provide a mockup of an efficient implementation of such an algorithm that only work on a few sample inputs (since we do not believe efficient algorithms for breaking this protocol exists, we must cheat in this way in order to test our code). You may assume that the below algorithm works on <i>all</i> inputs, not just those provided in the fake implementation.
           ]]></text>
-          <code hooks="Python"><![CDATA[
+          <code class="py"><![CDATA[
 # Efficiently computes m from (pow(m,2,n), n).
-@def decryptMsgRabin(c, n):
+def decryptMsgRabin(c, n):
     input_output = {\
         (14, 55): 17,\
         (12187081, 8634871258069605953): 7075698730573288811,\
         (122180308849, 16461679220973794359): 349543,\
         (240069004580393641, 19923108241787117701): 489968371\
         }
-    @return input_output[(c, n)]
+    return input_output[(c, n)]
           ]]></code>
           <text hooks="math"><![CDATA[
 Implement an efficient function <code>roots(a, n)</code> that takes two integers <code>a</code> and <code>n</code> and returns <b>all four</b> square roots of <code>a</code> in \Z/<code>n</code>\Z as a tuple. You may assume that <code>n</code> is the product of two distinct positive prime numbers. Your algorithm in this problem must work on <i>all</i> possible inputs under the assumption that <code>decryptMsgRabin()</code> also works on all inputs (not just the fake inputs handled by the definitions above) <b style="color:green;">and that an encrypted message %c is never represented by the same congruence class as the original, unencrypted message %m or %- %m (i.e., the implementation follows the guideline regarding good ranges for messages at the end of the <a href="#00ad493287b94f6da088ba159d3b4716">definition of the Rabin protocol</a>)</b>.
           ]]></text>
-          <code hooks="Python"><![CDATA[
+          <code class="py"><![CDATA[
 >>> roots(12187081, 8634871258069605953)
 (3491, 8634871258069602462, 1559172527496317142, 7075698730573288811)
           ]]></code>
