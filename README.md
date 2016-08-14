@@ -6,8 +6,8 @@ PHP 5.4 or later and [Sheaf](http://sheaf.io) are required. The latest version o
 
     git clone https://github.com/lapets/course-abstract-algebra.git example
     cd example
-    chmod 0755 permissions-fix.sh
-    ./permissions-fix.sh
+    chmod 0755 install.sh
+    ./install.sh
 
 On a running server, `index.php` will render the notes in their HTML form. In a Linux environment, it is also possible to build the HTML version of the notes as follows:
 
