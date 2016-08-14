@@ -443,42 +443,42 @@ For any %y \in \Z, %y is prime &nbsp;&nbsp; iff &nbsp;&nbsp; for any integer %x 
         <text hooks="math"><![CDATA[
 We can define the divisibility and primality predicates in Python in the following way:
         ]]></text>
-        <code hooks="Python"><![CDATA[
-@def divides(x, y):
-    @return y % x == 0   # The remainder of y/x is 0.
+        <code class="py"><![CDATA[
+def divides(x, y):
+    return y % x == 0   # The remainder of y/x is 0.
 
-@def prime(y):
-    @for x @in @range(2,y):
-        @if divides(x,y):
-            @return @False
-    @return @True
+def prime(y):
+    for x in range(2,y):
+        if divides(x,y):
+            return False
+    return True
         ]]></code>
       </example>
       <example required="true" id="1231e0ed892346a396f55cd665904b0d">
         <text hooks="math"><![CDATA[
 We can gradually generalize our primality predicate from the <a href="#78a1e0ed892346a396f55cd665904b0d">previous example</a> to work for any other predicate. Note that we restate the property slightly: a number is prime if no smaller number can divide it evenly, so if we ever find one that doesn't satisfy this property, we immediately return <code>False</code>. This is effectively the implementation of a <i>quantifier</i>, which we <a href="#2cd418f2876c42d59a57e34bd6288f22">introduce</a> further below.
         ]]></text>
-        <code hooks="Python"><![CDATA[
-@def doesNotDivide(x, y):
-    @return y % x != 0   # The remainder of y/x is nonzero.
+        <code class="py"><![CDATA[
+def doesNotDivide(x, y):
+    return y % x != 0   # The remainder of y/x is nonzero.
 
-@def prime(y):
-    @for x @in @range(2,y):
-        @if @not doesNotDivide(x,y):
-            @return @False
-    @return @True
+def prime(y):
+    for x in range(2,y):
+        if not doesNotDivide(x,y):
+            return False
+    return True
 
-@def checkAll(S, P):
-    @for x @in S:
-        @if not P(x):
-            @return @False
-    @return @True
+def checkAll(S, P):
+    for x in S:
+        if not P(x):
+            return False
+    return True
         ]]></code>
         <text hooks="math"><![CDATA[
 Given the above, it is now possible to get the same behavior provided by <code>prime()</code> by supplying appropriate arguments:
         ]]></text>
-        <code hooks="Python"><![CDATA[
->>> checkAll(@set(@range(2,y)), @lambda x: doesNotDivide(x,y))
+        <code class="py"><![CDATA[
+>>> checkAll(set(range(2,y)), lambda x: doesNotDivide(x,y))
         ]]></code>
       </example>
       <definition required="true" hooks="math" id="cdf2df96b7924749a37bcbc2f4415180"><![CDATA[
@@ -585,33 +585,33 @@ Let \Z be the set of all integers, and let \N be the set of all non-negative int
         <text hooks="math"><![CDATA[
 Suppose we define the following two Python functions that take predicates (or, more specifically, functions that represent predicates) as input.
         ]]></text>
-        <code hooks="Python"><![CDATA[
-@def forall(S, P):
-    @for x @in S:
-        @if @not P(x):
-            @return @False
-    @return @True
+        <code class="py"><![CDATA[
+def forall(S, P):
+    for x in S:
+        if not P(x):
+            return False
+    return True
 
-@def exists(S, P):
-    @for x @in S:
-        @if P(x):
-            @return @True
-    @return @False
+def exists(S, P):
+    for x in S:
+        if P(x):
+            return True
+    return False
         ]]></code>
         <text hooks="math"><![CDATA[
 We could redefine the above using comprehensions. We will also introduce a <code>subset()</code> operation on sets.
         ]]></text>
-        <code hooks="Python"><![CDATA[
-@def forall(X, P):
-  S = {x @for x @in X @if P(x)}
-  @return @len(S) == @len(X)
+        <code class="py"><![CDATA[
+def forall(X, P):
+  S = {x for x in X if P(x)}
+  return len(S) == len(X)
 
-@def exists(X, P):
-  S = {x @for x @in X @if P(x)}
-  @return @len(S) > 0
+def exists(X, P):
+  S = {x for x in X if P(x)}
+  return len(S) > 0
 
-@def subset(X,Y):
-  @return forall(X, @lambda x: x @in Y)
+def subset(X,Y):
+  return forall(X, lambda x: x in Y)
         ]]></code>
         <text hooks="math"><![CDATA[
 Then we can introduce the following definitions and corresponding Python examples.
@@ -677,49 +677,49 @@ a set %X and a predicate %P.
         <unorderedlist>
           <item>
             <text hooks="math"><![CDATA[All the elements of a set %X satisfy the predicate %P.]]></text>
-            <code hooks="Python"><![CDATA[
+            <code class="py"><![CDATA[
 # We provide two equivalent implementations.
             
-@def all(X, P):
-    @return  forall(X, P)
+def all(X, P):
+    return  forall(X, P)
     
-@def all(X, P):
-  S = {x @for x @in X @if P(x)}
-  @return @len(S) == @len(X)
+def all(X, P):
+  S = {x for x in X if P(x)}
+  return len(S) == len(X)
             ]]></code>
           </item>
           <item>
             <text hooks="math"><![CDATA[None of the elements of a set %X satisfy the predicate %P.]]></text>
-            <code hooks="Python"><![CDATA[
+            <code class="py"><![CDATA[
 # We provide two equivalent implementations.
 
-@def none(X, P):
-    @return  forall(X, @lambda x: @not P(x))
+def none(X, P):
+    return  forall(X, lambda x: not P(x))
     
-@def none(X, P):
-  S = {x @for x @in X @if P(x)}
-  @return @len(S) == 0
+def none(X, P):
+  S = {x for x in X if P(x)}
+  return len(S) == 0
             ]]></code>
           </item>
           <item>
             <text hooks="math"><![CDATA[At most one of the elements of a set %X satisfy the predicate %P.]]></text>
-            <code hooks="Python"><![CDATA[
-@def atMostOne(X, P):
-  S = {x @for x @in X @if P(x)}
-  @return @len(S) <= 1
+            <code class="py"><![CDATA[
+def atMostOne(X, P):
+  S = {x for x in X if P(x)}
+  return len(S) <= 1
             ]]></code>
           </item>
           <item>
             <text hooks="math"><![CDATA[At least one of the elements of a set %X satisfy the predicate %P.]]></text>
-            <code hooks="Python"><![CDATA[
+            <code class="py"><![CDATA[
 # We provide two equivalent implementations.
 
-@def atLeastOne(X, P):
-  @return exists(X, P)
+def atLeastOne(X, P):
+  return exists(X, P)
 
-@def atLeastOne(X, P):
-  S = {x @for x @in X @if P(x)}
-  @return @len(S) >= 1
+def atLeastOne(X, P):
+  S = {x for x in X if P(x)}
+  return len(S) >= 1
             ]]></code>
           </item>
         </unorderedlist>
@@ -728,9 +728,9 @@ a set %X and a predicate %P.
         <text hooks="math"><![CDATA[
 Use quantifiers to implement a Python function corresponding to the predicate %[%p is prime]% for any integer %p.
         ]]></text>
-        <code hooks="Python"><![CDATA[
-@def prime(p):
-    @return  p > 1 @and forall(@set(@range(2, p)), @lambda n: p % n != 0)
+        <code class="py"><![CDATA[
+def prime(p):
+    return  p > 1 and forall(set(range(2, p)), lambda n: p % n != 0)
         ]]></code>
       </exercise>
     </subsection>
@@ -949,41 +949,41 @@ We introduce several terms that deal with the relationship between the relation 
         <text hooks="math"><![CDATA[
 Define the set of all even numbers between 0 and 100 (inclusive). There are at least two ways we can do this:
         ]]></text>
-        <code hooks="Python"><![CDATA[
-evens = { 2 * x @for x @in @set(@range(0,51)) }
-evens = { x @for x @in @set(@range(0,101)) @if x % 2 == 0 }
+        <code class="py"><![CDATA[
+evens = { 2 * x for x in set(range(0,51)) }
+evens = { x for x in set(range(0,101)) if x % 2 == 0 }
         ]]></code>
       </exercise>
       <exercise required="true" id="3bd4848251cb47c98a603e19d5beea64">
         <text hooks="math"><![CDATA[
 Implement a Python function that computes the set product of two sets <code>X</code> and <code>Y</code>.
         ]]></text>
-        <code hooks="Python"><![CDATA[
-@def product(X, Y):
-  @return { (x,y) @for x @in X @for y @in Y }
+        <code class="py"><![CDATA[
+def product(X, Y):
+  return { (x,y) for x in X for y in Y }
         ]]></code>
       </exercise>
       <exercise required="true" id="06bf17302b314e80837ad892aca57106">
         <text hooks="math"><![CDATA[
 Implement a Python function that takes a finite set of integers and builds the relation on that set correspondingto the operator relational operator \leq.
         ]]></text>
-        <code hooks="Python"><![CDATA[
-@def leq(S):
-  @return { (x, y) @for x @in S @for y @in S @if x <= y }
+        <code class="py"><![CDATA[
+def leq(S):
+  return { (x, y) for x in S for y in S if x <= y }
         ]]></code>
       </exercise>
       <exercise required="true" id="46859e4a64eb47eba16fd09822382e83">
         <text hooks="math"><![CDATA[
 Implement a Python function that determines whether a relation <code>R</code> is a relation over a set <code>X</code>.
         ]]></text>
-        <code hooks="Python"><![CDATA[
+        <code class="py"><![CDATA[
 # Using our definition of subset().
-@def relation(R, X):
-  @return subset(R, product(X, X))
+def relation(R, X):
+  return subset(R, product(X, X))
 
 # Using the built-in set implementation.
-@def relation(R, X):
-  @return R.issubset(product(X, X))
+def relation(R, X):
+  return R.issubset(product(X, X))
         ]]></code>
       </exercise>
       <exercise required="true" id="79e0f3993b2e409f95882713c4ad5f5b">
@@ -994,9 +994,9 @@ One property of relations that is studied in other subject areas within computer
 \end{eqnarray}
 One example of an asymmetric relation is the "less than" relation on integers, usually represented using the < relational operator. How can we write a Python function that takes as its input a relation <code>R</code> and a set <code>X</code> and determines whether that relation is asymmetric? Recall that we can represent the implication logical operator using the Python operator <code><=</code>.
         ]]></text>
-        <code hooks="Python"><![CDATA[
-@def isAsymmetric(X, R):
-  @return relation(R,X) @and forall(X, @lambda a: forall(X, @lambda b: ((a,b) @in R) <= (@not ((b,a) @in R))))
+        <code class="py"><![CDATA[
+def isAsymmetric(X, R):
+  return relation(R,X) and forall(X, lambda a: forall(X, lambda b: ((a,b) in R) <= (not ((b,a) in R))))
         ]]></code>
       </exercise>
     </subsection>
@@ -1016,17 +1016,17 @@ For any set %X and equivalence relation %R on %X, let the quotient set of %X wit
 Implement a Python function that takes two inputs (a set %X and an equivalence relation %R on that set), and outputs the
 quotient set %X/%R.
         ]]></text>
-        <code hooks="Python"><![CDATA[
-@def quotient(X,R):
-    @return {@frozenset({y @for y @in X @if (x,y) @in R}) @for x @in X}
+        <code class="py"><![CDATA[
+def quotient(X,R):
+    return {frozenset({y for y in X if (x,y) in R}) for x in X}
         ]]></code>
         <text hooks="math"><![CDATA[
 Below, we evaluate the above function on an example input.
         ]]></text>  
-        <code hooks="Python"><![CDATA[
+        <code class="py"><![CDATA[
 >>> quotient({1,2,3,4}, {(1,1),(2,2),(3,3),(2,3),(3,2),(4,4)})
 
-{@frozenset({4}), @frozenset({2, 3}), @frozenset({1})}
+{frozenset({4}), frozenset({2, 3}), frozenset({1})}
         ]]></code>
       </exercise>
       <definition required="true" hooks="math" id="716e6323dee9472ba28e91ef44eebf02"><![CDATA[
@@ -1038,9 +1038,9 @@ the <i>quotient map</i>. The function is typically denoted using [ ... ]. That i
 Implement a Python function that takes two inputs (a set %X and an equivalence relation %R on that set), and outputs the
 quotient map taking each element %x \in %X to its corresponding equivalence class [%x] \in %X/%R.
         ]]></text>  
-        <code hooks="Python"><![CDATA[
-@def quotientMap(X,R):
-  @return {(x, @frozenset({y @for y @in X @if (x,y) @in R})) @for x @in X}
+        <code class="py"><![CDATA[
+def quotientMap(X,R):
+  return {(x, frozenset({y for y in X if (x,y) in R})) for x in X}
         ]]></code>
       </exercise>
       <exercise required="true" hooks="math" id="252d2fdc848f4fa7936c3a48e9795289">
@@ -1063,7 +1063,7 @@ Then %R is an equivalence relation (we assume everyone is related to themselves,
         <paragraph hooks="math"><![CDATA[
 More generally, we can view the quotient set %X/%R as the separation of %X into as many groups as possible such that no two relatives are separated into separate groups. We can illustrate this with a Python example. Suppose we have the following relation on the set <code>{'Alice', 'Bob', 'Carl', 'Dan', and 'Eve'}</code>:
         ]]></paragraph>
-        <code hooks="Python"><![CDATA[
+        <code class="py"><![CDATA[
 R = {\
      ('Alice', 'Alice'), ('Bob', 'Bob'), ('Carl', 'Carl'), ('Dan', 'Dan'), ('Eve', 'Eve'),\
      ('Alice', 'Carl'), ('Carl', 'Alice'), ('Dan', 'Eve'), ('Eve', 'Dan')\
@@ -1072,7 +1072,7 @@ R = {\
         <text hooks="math"><![CDATA[
 We can then compute the set of families:
         ]]></text>
-        <code hooks="Python"><![CDATA[
+        <code class="py"><![CDATA[
 families = quotient({'Alice', 'Bob', 'Carl', 'Dan', 'Eve'}, R)
         ]]></code>
         <text hooks="math"><![CDATA[
@@ -1748,9 +1748,9 @@ Consider the number 8 and 9. The factors of 8 are 1, 2, 4, and 8, while the fact
         <text hooks="math"><![CDATA[
 We can implement the inefficient algorithm for the greatest common divisor using Python in the following way:
         ]]></text>
-        <code hooks="Python"><![CDATA[
-@def gcd(x, y):
-  @return @max({z @for z @in @range(0, @min(x,y)) @if x % z == 0 @and y % z == 0})
+        <code class="py"><![CDATA[
+def gcd(x, y):
+  return max({z for z in range(0, min(x,y)) if x % z == 0 and y % z == 0})
          ]]></code>
       </example>
       <exercise required="true" id="00b5aa4aa094475e9ebaaf499df13806">
@@ -1765,8 +1765,8 @@ Is this an equivalence relation?
           <text hooks="math"><![CDATA[
 The relation is reflexive because \gcd(%x,%x) = %x, and it is symmetric because \gcd(%x,%y) = \gcd(%y,%x). However it is not transitive. For example, \gcd(4,6) = 2 and \gcd(6,9) = 3, but \gcd(4,9) = 1. Note also that we can define such a relation for some range using Python:
           ]]></text>
-          <code hooks="Python"><![CDATA[
-{(x,y) @for x @in S @for y @in S @if gcd(x,y) != 1}
+          <code class="py"><![CDATA[
+{(x,y) for x in S for y in S if gcd(x,y) != 1}
            ]]></code>
         </solution>
       </exercise>
@@ -7303,29 +7303,29 @@ The latest version of Python 3 can be downloaded at: <b><a href="https://www.pyt
       <text><![CDATA[
 The simplest Python program is a single file (called a <i>module</i>) with the file extension <code>.py</code>. For example, suppose the following is contained within a file called <code>example.py</code>:
       ]]></text>
-      <code hooks="Python"><![CDATA[
+      <code class="py"><![CDATA[
 # This is a comment in "example.py".
 # Below is a Python statement.
-@print("Hello, world.")
+print("Hello, world.")
       ]]></code>
       <text><![CDATA[
 Assuming Python is installed on your system, to run the above program from the command line you can use the following (you may need to use <code>python3</code>, <code>python3.2</code>, <code>python3.3</code>, etc. depending on the Python installation you're using). Note that in the examples below <code>%&gt;</code> represents a terminal prompt, which may look different on your system.
       ]]></text>
-      <code hooks="Python"><![CDATA[
+      <code class="py"><![CDATA[
 %> python example.py
 Hello, world.
       ]]></code>
       <text><![CDATA[
 If you run Python without an argument on the command line, you will enter Python's interactive prompt. You can then evaluate expressions and execute individual statements using this prompt; you can also load and execute a Python module file:
       ]]></text>
-      <code hooks="Python"><![CDATA[
+      <code class="py"><![CDATA[
 %> python
 Python 3.2 ...
 Type "help", "copyright", "credits" or "license" for more information.
->>> @exec(@open("example.py").read()) # Load "example.py" module.
+>>> exec(open("example.py").read()) # Load "example.py" module.
 Hello, world.
 >>> x = "Hello." # Execute an assignment statement.
->>> @print(x)     # Execute a "print" statement.
+>>> print(x)     # Execute a "print" statement.
 Hello.
 >>> x            # Evaluate a string expression.
 'Hello.'
@@ -7343,13 +7343,13 @@ Python provides native support for several data structures that we will use thro
           <unorderedlist>
             <item><![CDATA[The usual logical operations are available using the operators <code>and</code>, <code>or</code>, and <code>not</code>.]]></item>
           </unorderedlist>
-          <code hooks="Python"><![CDATA[
->>> @True                                      # A boolean constant.
-@True
->>> @False                                     # A boolean constant.
-@False
->>> @True @and @False @or @True @and (@not @False)    # A boolean expression.
-@True
+          <code class="py"><![CDATA[
+>>> True                                      # A boolean constant.
+True
+>>> False                                     # A boolean constant.
+False
+>>> True and False or True and (not False)    # A boolean expression.
+True
           ]]></code>
         </item>
         <item>
@@ -7359,14 +7359,14 @@ Python provides native support for several data structures that we will use thro
             <item><![CDATA[The usual relational operators <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code> are available.]]></item>
             <item><![CDATA[The <code>int()</code> function can convert a string that looks like an integer into an integer.]]></item>
           </unorderedlist>
-          <code hooks="Python"><![CDATA[
+          <code class="py"><![CDATA[
 >>> 123                                       # An integer constant.
-@True
+True
 >>> 1 * (2 + 3) // 4 - 5                      # An integer expression.
 -4
 >>> 4 * 5 >= 19                               # A boolean expression involving integers.
-@True
->>> @int("123")                                # A string being converted into an integer
+True
+>>> int("123")                                # A string being converted into an integer
 123
           ]]></code>
         </item>
@@ -7378,12 +7378,12 @@ Python provides native support for several data structures that we will use thro
             <item><![CDATA[The function <code>len()</code> returns the length of a string.]]></item>
             <item><![CDATA[Individual characters in a string can be accessed using the bracketed index notation (e.g., <code>s[i]</code>). These characters are also strings themselves.]]></item>
           </unorderedlist>
-          <code hooks="Python"><![CDATA[
+          <code class="py"><![CDATA[
 >>> 'Example.'                                # A string.
 'Example.'
 >>> "Example."                                # Alternate notation for a string.
 'Example.'
->>> @len("ABCD")                               # String length.
+>>> len("ABCD")                               # String length.
 4
 >>> "ABCD" + "EFG"                            # String concatenation.
 'ABCDEFG'
@@ -7400,17 +7400,17 @@ Python provides native support for several data structures that we will use thro
             <item><![CDATA[Individual entries in a list can be accessed using the bracketed index notation (e.g., <code>a[i]</code>).]]></item>
             <item><![CDATA[To check if a value is in a list, use the <code>in</code> relational operator.]]></item>
           </unorderedlist>
-          <code hooks="Python"><![CDATA[
+          <code class="py"><![CDATA[
 >>> [1,2,"A","B"]                             # A list.
 [1, 2, 'A', 'B']
 >>> [1, 2] + ['A','B']                        # Concatenating lists.
 [1, 2, 'A', 'B']
->>> @len([1,2,"A","B"] )                       # List length.
+>>> len([1,2,"A","B"] )                       # List length.
 4
 >>> [1,2,"A","B"][0]                          # First entry in the list.
 1
->>> 1 @in [1, 2]                               # List containment check.
-@True
+>>> 1 in [1, 2]                               # List containment check.
+True
           ]]></code>
         </item>
         <item>
@@ -7425,23 +7425,23 @@ Python provides native support for several data structures that we will use thro
             <item><![CDATA[Individual entries in a tuple can be accessed using the bracketed index notation (e.g., <code>t[i]</code>).]]></item>
             <item><![CDATA[To check if a value is in a tuple, use the <code>in</code> relational operator.]]></item>
           </unorderedlist>
-          <code hooks="Python"><![CDATA[
+          <code class="py"><![CDATA[
 >>> (1,2,"A","B")                             # A tuple.
 (1, 2, 'A', 'B')
 >>> (1,)                                      # Another tuple.
 (1,)
 >>> (1, 2) + ('A','B')                        # Concatenating tuples.
 (1, 2, 'A', 'B')
->>> @list((1, 2, 'A','B'))                     # A tuple being converted into a list.
+>>> list((1, 2, 'A','B'))                     # A tuple being converted into a list.
 [1, 2, 'A', 'B']
->>> @tuple([1, 2, 'A','B'])                    # A list being converted into a tuple.
+>>> tuple([1, 2, 'A','B'])                    # A list being converted into a tuple.
 (1, 2, 'A', 'B')
->>> @len((1,2,"A","B"))                        # Tuple length.
+>>> len((1,2,"A","B"))                        # Tuple length.
 4
 >>> (1,2,"A","B")[0]                          # First entry in the tuple.
 1
->>> 1 @in (1, 2)                               # Tuple containment check.
-@True
+>>> 1 in (1, 2)                               # Tuple containment check.
+True
           ]]></code>
         </item>
         <item>
@@ -7455,26 +7455,26 @@ Python provides native support for several data structures that we will use thro
             <item><![CDATA[To access individual entries in a set, it is necessary to turn the set into a list or tuple.]]></item>
             <item><![CDATA[To check if a value is in a set, use the <code>in</code> relational operator.]]></item>
           </unorderedlist>
-          <code hooks="Python"><![CDATA[
+          <code class="py"><![CDATA[
 >>> {1,2,"A","B"}                             # A set.
 {1, 2, 'A', 'B'}
 >>> ({1,2}.union({3,4})).intersection({4,5})  # Set operations.
 {4}
->>> @set([1, 2]).union(@set(('A','B')))         # Converting a list and a tuple to sets.
+>>> set([1, 2]).union(set(('A','B')))         # Converting a list and a tuple to sets.
 {'A', 1, 2, 'B'}
->>> @len({1,2,"A","B"})                        # Set size.
+>>> len({1,2,"A","B"})                        # Set size.
 4
->>> 1 @in {1,2,"A","B"}                        # Tuple containment check.
-@True
+>>> 1 in {1,2,"A","B"}                        # Tuple containment check.
+True
           ]]></code>
         </item>
         <item>
           <text><![CDATA[<b>Frozen sets</b> are like sets, except they can be members of other sets. A set can be turned into a frozen set using the <code>frozenset()</code> function.]]></text>
-          <code hooks="Python"><![CDATA[
->>> @frozenset({1,2,3})                        # A frozen set.
-@frozenset({1, 2, 3})
->>> {@frozenset({1,2}), @frozenset({3,4})}      # Set of frozen sets.
-{@frozenset({3, 4}), @frozenset({1, 2})}
+          <code class="py"><![CDATA[
+>>> frozenset({1,2,3})                        # A frozen set.
+frozenset({1, 2, 3})
+>>> {frozenset({1,2}), frozenset({3,4})}      # Set of frozen sets.
+{frozenset({3, 4}), frozenset({1, 2})}
           ]]></code>
         </item>
         <item>
@@ -7486,14 +7486,14 @@ Python provides native support for several data structures that we will use thro
             <item><![CDATA[The function <code>len()</code> returns the number of entries in the dictionary.]]></item>
             <item><![CDATA[Individual entries in a dictionary can be accessed using the bracketed index notation (e.g., <code>d[key]</code>).]]></item>
           </unorderedlist>
-          <code hooks="Python"><![CDATA[
+          <code class="py"><![CDATA[
 >>> {"A":1, "B":2}                            # A dictionary.
 {'A': 1, 'B': 2}
->>> @list({"A":1, "B":2}.keys())               # Dictionary keys.
+>>> list({"A":1, "B":2}.keys())               # Dictionary keys.
 ['A', 'B']
->>> @list({"A":1, "B":2}.values())             # Dictionary values.
+>>> list({"A":1, "B":2}.values())             # Dictionary values.
 [1, 2]
->>> @len({"A":1, "B":2})                       # Dictionary size.
+>>> len({"A":1, "B":2})                       # Dictionary size.
 2
 >>> {"A":1, "B":2}["A"]                       # Obtain a dictionary value using a key.
 1
@@ -7510,10 +7510,10 @@ Python provides a variety of ways to supply parameter arguments when invoking fu
           <text><![CDATA[
  <b>Function calls and method/procedure invocations</b> consist of the function, procedure, or method name followed by a parenthesized, comma-delimited list of arguments. For example, suppose a function or procedure <code>example()</code> is defined as follows:
           ]]></text>
-          <code hooks="Python"><![CDATA[
-@def example(x, y, z):
-  @print("Invoked.")
-  @return x + y + z
+          <code class="py"><![CDATA[
+def example(x, y, z):
+  print("Invoked.")
+  return x + y + z
           ]]></code>
           <text><![CDATA[
     To invoke the above definition, we can use one of the following techniques.
@@ -7523,7 +7523,7 @@ Python provides a variety of ways to supply parameter arguments when invoking fu
               <text><![CDATA[
 <b>Passing arguments directly</b> involves listing the comma-delimited arguments directly between parentheses.
               ]]></text>
-              <code hooks="Python"><![CDATA[
+              <code class="py"><![CDATA[
 >>> example(1,2,3)
 Invoked.
 6
@@ -7533,7 +7533,7 @@ Invoked.
               <text><![CDATA[
 <b>The argument unpacking operator</b> (also known as the <code>*</code>-operator, the <b>scatter</b> operator, or the <b>splat</b> operator) involves providing a list to the function, preceded by the <code>*</code> symbol; the arguments will be drawn from the elements in the list.
               ]]></text>
-              <code hooks="Python"><![CDATA[
+              <code class="py"><![CDATA[
 >>> args = [1,2,3]
 >>> example(*args)
 Invoked.
@@ -7544,7 +7544,7 @@ Invoked.
               <text><![CDATA[
 <b>The keyword argument unpacking operator</b> (also known as the <code>**</code>-operator) involves providing a dictionary to the function, preceded by the <code>**</code> symbol; each named paramter in the function definition will be looked up in the dictionary, and the value associated with that dictionary key will be used as the argument passed to that parameter.
               ]]></text>
-              <code hooks="Python"><![CDATA[
+              <code class="py"><![CDATA[
 >>> args = {'z':3, 'x':1, 'y':2}
 >>> example(**args)
 Invoked.
@@ -7557,14 +7557,14 @@ Invoked.
           <text><![CDATA[
 <b>Default parameter values</b> can be specified in any definition. Suppose the following definition is provided.
           ]]></text>
-          <code hooks="Python"><![CDATA[
-@def example(x = 1, y = 2, z = 3):
-  @return x + y + z
+          <code class="py"><![CDATA[
+def example(x = 1, y = 2, z = 3):
+  return x + y + z
           ]]></code>
           <text><![CDATA[
 The behavior is then as follows: if an argument corresponding to a parameter is not supplied, the default value found in the definition is used. If an argument is supplied, the supplied argument value is used.
           ]]></text>
-          <code hooks="Python"><![CDATA[
+          <code class="py"><![CDATA[
 >>> example(0, 0)
 3
 >>> example(0)
@@ -7582,33 +7582,33 @@ Python provides concise notations for defining data structures and performing lo
       <unorderedlist>
         <item>
           <text><![CDATA[<b>List comprehensions</b> make it possible to construct a list by iterating over one or more other data structure instances (such as a list, tuple, set, or dictionary) and performing some operation on each element or combination of elements. The resulting list will contain the result of evaluating the body for every combination.]]></text>
-          <code hooks="Python"><![CDATA[
->>> [ x @for x @in [1,2,3] ]
+          <code class="py"><![CDATA[
+>>> [ x for x in [1,2,3] ]
 [1, 2, 3]
->>> [ 2 * x @for x @in {1,2,3} ]
+>>> [ 2 * x for x in {1,2,3} ]
 [2, 4, 6]
->>> [ x + y @for x @in {1,2,3} @for y @in (1,2,3) ]
+>>> [ x + y for x in {1,2,3} for y in (1,2,3) ]
 [2, 3, 4, 3, 4, 5, 4, 5, 6]
           ]]></code>
           <text><![CDATA[It is also possible to add conditions anywhere after the first <code>for</code> clause. This will filter which combinations are actually used to add a value to the resulting list.]]></text>
-          <code hooks="Python"><![CDATA[
->>> [ x @for x @in {1,2,3} @if x < 3 ]
+          <code class="py"><![CDATA[
+>>> [ x for x in {1,2,3} if x < 3 ]
 [1, 2]
->>> [ x + y @for x @in {1,2,3} @for y @in (1,2,3) @if x > 2 @and y > 1 ]
+>>> [ x + y for x in {1,2,3} for y in (1,2,3) if x > 2 and y > 1 ]
 [5, 6]
           ]]></code>
         </item>
         <item>
           <text><![CDATA[<b>Set comprehensions</b> make it possible to construct a set by iterating over one or more other data structure instances (such as a list, tuple, set, or dictionary) and performing some operation on each element or combination of elements. The resulting list will contain the result of evaluating the body for every combination. Notice that the result will contain no duplicates because the result is a set.]]></text>
-          <code hooks="Python"><![CDATA[
->>> { x @for x @in [1,2,3,1,2,3] }
+          <code class="py"><![CDATA[
+>>> { x for x in [1,2,3,1,2,3] }
 {1, 2, 3}
           ]]></code>
         </item>
         <item>
           <text><![CDATA[<b>Dictionary comprehensions</b> make it possible to construct a dictionary by iterating over one or more other data structure instances (such as a list, tuple, set, or dictionary) and performing some operation on each element or combination of elements. The resulting dictionary will contain the result of evaluating the body for every combination.]]></text>
-          <code hooks="Python"><![CDATA[
->>> { key : 2 @for key @in ["A","B","C"] }
+          <code class="py"><![CDATA[
+>>> { key : 2 for key in ["A","B","C"] }
 {'A': 2, 'C': 2, 'B': 2}
           ]]></code>
         </item>
@@ -7618,21 +7618,21 @@ Python provides concise notations for defining data structures and performing lo
       <text><![CDATA[
 The built-in function <code>type()</code> can be used to determine the type of a value. Below, we provide examples of how to check whether a given expression has one of the common Python types:
       ]]></text>
-      <code hooks="Python"><![CDATA[
->>> @type(@True) == @bool
-@True
->>> @type(123) == @int
-@True
->>> @type("ABC") == @str
-@True
->>> @type([1,2,3]) == @list
-@True
->>> @type(("A",1,{1,2})) == @tuple
-@True
->>> @type({1,2,3}) == @set
-@True
->>> @type({"A":1, "B":2}) == @dict
-@True
+      <code class="py"><![CDATA[
+>>> type(True) == bool
+True
+>>> type(123) == int
+True
+>>> type("ABC") == str
+True
+>>> type([1,2,3]) == list
+True
+>>> type(("A",1,{1,2})) == tuple
+True
+>>> type({1,2,3}) == set
+True
+>>> type({"A":1, "B":2}) == dict
+True
       ]]></code>
     </subsection>
     <subsection title="Common Python definition and control constructs (i.e., Python statements)">
@@ -7642,32 +7642,32 @@ A Python program is a sequence of Python statements. Each statement is either a 
       <unorderedlist>
         <item>
           <text><![CDATA[<b>Variable assignments</b> make it possible to assign a value or object to a variable.]]></text>
-          <code hooks="Python"><![CDATA[
+          <code class="py"><![CDATA[
 x = 10
           ]]></code>
           <text><![CDATA[It is also possible to assign a tuple (or any computation that produces a tuple) to another tuple:]]></text>
-          <code hooks="Python"><![CDATA[
+          <code class="py"><![CDATA[
 (x, y) = (1, 2)
           ]]></code>
         </item>
         <item>
           <text><![CDATA[<b>Function and procedure definitions</b> consist of the <code>def</code> keyword, followed by the name of the function or procedure, and then by one or more arguments (delimited by parentheses and separated by commas).]]></text>
-          <code hooks="Python"><![CDATA[
-@def example(a, b, c):
-    @return a + b + c
+          <code class="py"><![CDATA[
+def example(a, b, c):
+    return a + b + c
           ]]></code>
         </item>
         <item>
           <text><![CDATA[<b>Conditional statements</b> consist of one or more branches, each with its own boolean expression as the condition (with the exception of <code>else</code>). The body of each branch is an indented sequence of statements.]]></text>
-          <code hooks="Python"><![CDATA[
-@def fibonacci(n):
+          <code class="py"><![CDATA[
+def fibonacci(n):
     # Computes the nth Fibonacci number.
-    @if n <= 0:
-        @return 0
-    @elif n <= 2:
-        @return 1
-    @else:
-        @return fibonacci(n-1) + fibonacci(n-2)
+    if n <= 0:
+        return 0
+    elif n <= 2:
+        return 1
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
           ]]></code>
         </item>
         <item>
@@ -7675,48 +7675,48 @@ x = 10
           <unorderedlist>
             <item>
               <text><![CDATA[The <b>while</b> construct has a boolean expression as its condition (much like <code>if</code>). The body is executed over and over until the expression in the condition evaluates to <code>False</code>, or a <code>break</code> statement is encountered.]]></text>
-              <code hooks="Python"><![CDATA[
-@def example1(n):
+              <code class="py"><![CDATA[
+def example1(n):
     # Takes an integer n and returns the sum of
     # the integers from 1 to n-1.
     i = 0
     sum = 0
-    @while i < n:
+    while i < n:
         sum = sum + i
         i = i + 1
-    @return sum
+    return sum
 
-@def example2(n):
+def example2(n):
     # Takes an integer n and returns the sum of
     # the integers from 1 to n-1.
     i = 0
     sum = 0
-    @while True:
+    while True:
         sum = sum + i
         i = i + 1
-        @if i == n:
-            @break
-    @return sum
+        if i == n:
+            break
+    return sum
               ]]></code>
             </item>
             <item>
               <text><![CDATA[The <b>for</b> construct makes it possible to repeat a sequence of statements once for every object in a list, tuple, or set, or once for every key in a dictionary.]]></text>
-              <code hooks="Python"><![CDATA[
-@def example3(n):
+              <code class="py"><![CDATA[
+def example3(n):
     # Takes an integer n and returns the sum of
     # the integers from 1 to n-1.
     sum = 0
-    @for i @in @range(0,n):
+    for i in range(0,n):
         sum = sum + i
-    @return sum
+    return sum
 
-@def example4(d):
+def example4(d):
     # Takes a dictionary d that maps keys to
     # integers and returns the sum of the integers.
     sum = 0
-    @for key @in d:
+    for key in d:
         sum = sum + d[key]
-    @return sum
+    return sum
               ]]></code>
             </item>
           </unorderedlist>
