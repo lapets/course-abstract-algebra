@@ -460,17 +460,43 @@ For any <i>y</i> <span style="font-size:12px;">&#8712;</span> &#8484;, <i>y</i> 
         
 <span class="text">We can define the divisibility and primality predicates in Python in the following way:</span>
         
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;divides(x,&nbsp;y):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;y&nbsp;%&nbsp;x&nbsp;==&nbsp;0&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;The&nbsp;remainder&nbsp;of&nbsp;y/x&nbsp;is&nbsp;0.</span><br/><br/><span class="keyword">def</span>&nbsp;prime(y):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">range</span>(2,y):<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;divides(x,y):<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">False</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">True</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def divides(x, y):
+    return y % x == 0   # The remainder of y/x is 0.
+
+def prime(y):
+    for x in range(2,y):
+        if divides(x,y):
+            return False
+    return True
+        </code></pre></div></div>
       </div></div></div>
 <a name="1231e0ed892346a396f55cd665904b0d"></a><div class="linked block"><div class="link-block">[<a href="#1231e0ed892346a396f55cd665904b0d">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="example task_required"><span class="block_label">Example:</span> 
         
 <span class="text">We can gradually generalize our primality predicate from the <a href="#78a1e0ed892346a396f55cd665904b0d">previous example</a> to work for any other predicate. Note that we restate the property slightly: a number is prime if no smaller number can divide it evenly, so if we ever find one that doesn't satisfy this property, we immediately return <code>False</code>. This is effectively the implementation of a <i>quantifier</i>, which we <a href="#2cd418f2876c42d59a57e34bd6288f22">introduce</a> further below.</span>
         
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;doesNotDivide(x,&nbsp;y):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;y&nbsp;%&nbsp;x&nbsp;!=&nbsp;0&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;The&nbsp;remainder&nbsp;of&nbsp;y/x&nbsp;is&nbsp;nonzero.</span><br/><br/><span class="keyword">def</span>&nbsp;prime(y):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">range</span>(2,y):<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;<span class="keyword">not</span>&nbsp;doesNotDivide(x,y):<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">False</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">True</span><br/><br/><span class="keyword">def</span>&nbsp;checkAll(S,&nbsp;P):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;S:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;not&nbsp;P(x):<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">False</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">True</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def doesNotDivide(x, y):
+    return y % x != 0   # The remainder of y/x is nonzero.
+
+def prime(y):
+    for x in range(2,y):
+        if not doesNotDivide(x,y):
+            return False
+    return True
+
+def checkAll(S, P):
+    for x in S:
+        if not P(x):
+            return False
+    return True
+        </code></pre></div></div>
         
 <span class="text">Given the above, it is now possible to get the same behavior provided by <code>prime()</code> by supplying appropriate arguments:</span>
         
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;checkAll(<span class="builtin">set</span>(<span class="builtin">range</span>(2,y)),&nbsp;<span class="keyword">lambda</span>&nbsp;x:&nbsp;doesNotDivide(x,y))<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+>>> checkAll(set(range(2,y)), lambda x: doesNotDivide(x,y))
+        </code></pre></div></div>
       </div></div></div>
 <a name="cdf2df96b7924749a37bcbc2f4415180"></a><div class="linked block"><div class="link-block">[<a href="#cdf2df96b7924749a37bcbc2f4415180">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="definition true_required"><span class="block_label">Definition:</span> 
 For any <i>x</i>,<i>y</i> <span style="font-size:12px;">&#8712;</span> &#8484;, <i>x</i> is a <i>proper factor</i> of <i>y</i> &nbsp;&nbsp; iff &nbsp;&nbsp; <i>y</i>/<i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484; and <i>x</i> < <i>y</i>.
@@ -572,11 +598,34 @@ which is a positive integer).</span>
         
 <span class="text">Suppose we define the following two Python functions that take predicates (or, more specifically, functions that represent predicates) as input.</span>
         
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;forall(S,&nbsp;P):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;S:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;<span class="keyword">not</span>&nbsp;P(x):<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">False</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">True</span><br/><br/><span class="keyword">def</span>&nbsp;exists(S,&nbsp;P):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;S:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;P(x):<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">True</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">False</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def forall(S, P):
+    for x in S:
+        if not P(x):
+            return False
+    return True
+
+def exists(S, P):
+    for x in S:
+        if P(x):
+            return True
+    return False
+        </code></pre></div></div>
         
 <span class="text">We could redefine the above using comprehensions. We will also introduce a <code>subset()</code> operation on sets.</span>
         
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;forall(X,&nbsp;P):<br/>&nbsp;&nbsp;S&nbsp;=&nbsp;{x&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;X&nbsp;<span class="keyword">if</span>&nbsp;P(x)}<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">len</span>(S)&nbsp;==&nbsp;<span class="builtin">len</span>(X)<br/><br/><span class="keyword">def</span>&nbsp;exists(X,&nbsp;P):<br/>&nbsp;&nbsp;S&nbsp;=&nbsp;{x&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;X&nbsp;<span class="keyword">if</span>&nbsp;P(x)}<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">len</span>(S)&nbsp;>&nbsp;0<br/><br/><span class="keyword">def</span>&nbsp;subset(X,Y):<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;forall(X,&nbsp;<span class="keyword">lambda</span>&nbsp;x:&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;Y)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def forall(X, P):
+  S = {x for x in X if P(x)}
+  return len(S) == len(X)
+
+def exists(X, P):
+  S = {x for x in X if P(x)}
+  return len(S) > 0
+
+def subset(X,Y):
+  return forall(X, lambda x: x in Y)
+        </code></pre></div></div>
         
 <span class="text">Then we can introduce the following definitions and corresponding Python examples.</span>
         
@@ -636,19 +685,53 @@ Notice that if <i>X</i> is empty, the "base case" for &forall; must be true (sin
 a set <i>X</i> and a predicate <i>P</i>.</span>
         <ul><li>
 <span class="text">All the elements of a set <i>X</i> satisfy the predicate <i>P</i>.</span>
-<div class="code"><div class="source"><br/><span class="comment">#&nbsp;We&nbsp;provide&nbsp;two&nbsp;equivalent&nbsp;implementations.</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/><span class="keyword">def</span>&nbsp;all(X,&nbsp;P):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;&nbsp;forall(X,&nbsp;P)<br/>&nbsp;&nbsp;&nbsp;&nbsp;<br/><span class="keyword">def</span>&nbsp;all(X,&nbsp;P):<br/>&nbsp;&nbsp;S&nbsp;=&nbsp;{x&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;X&nbsp;<span class="keyword">if</span>&nbsp;P(x)}<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">len</span>(S)&nbsp;==&nbsp;<span class="builtin">len</span>(X)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+# We provide two equivalent implementations.
+            
+def all(X, P):
+    return  forall(X, P)
+    
+def all(X, P):
+  S = {x for x in X if P(x)}
+  return len(S) == len(X)
+            </code></pre></div></div></li><li>
 <span class="text">None of the elements of a set <i>X</i> satisfy the predicate <i>P</i>.</span>
-<div class="code"><div class="source"><br/><span class="comment">#&nbsp;We&nbsp;provide&nbsp;two&nbsp;equivalent&nbsp;implementations.</span><br/><br/><span class="keyword">def</span>&nbsp;none(X,&nbsp;P):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;&nbsp;forall(X,&nbsp;<span class="keyword">lambda</span>&nbsp;x:&nbsp;<span class="keyword">not</span>&nbsp;P(x))<br/>&nbsp;&nbsp;&nbsp;&nbsp;<br/><span class="keyword">def</span>&nbsp;none(X,&nbsp;P):<br/>&nbsp;&nbsp;S&nbsp;=&nbsp;{x&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;X&nbsp;<span class="keyword">if</span>&nbsp;P(x)}<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">len</span>(S)&nbsp;==&nbsp;0<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+# We provide two equivalent implementations.
+
+def none(X, P):
+    return  forall(X, lambda x: not P(x))
+    
+def none(X, P):
+  S = {x for x in X if P(x)}
+  return len(S) == 0
+            </code></pre></div></div></li><li>
 <span class="text">At most one of the elements of a set <i>X</i> satisfy the predicate <i>P</i>.</span>
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;atMostOne(X,&nbsp;P):<br/>&nbsp;&nbsp;S&nbsp;=&nbsp;{x&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;X&nbsp;<span class="keyword">if</span>&nbsp;P(x)}<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">len</span>(S)&nbsp;<=&nbsp;1<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+def atMostOne(X, P):
+  S = {x for x in X if P(x)}
+  return len(S) <= 1
+            </code></pre></div></div></li><li>
 <span class="text">At least one of the elements of a set <i>X</i> satisfy the predicate <i>P</i>.</span>
-<div class="code"><div class="source"><br/><span class="comment">#&nbsp;We&nbsp;provide&nbsp;two&nbsp;equivalent&nbsp;implementations.</span><br/><br/><span class="keyword">def</span>&nbsp;atLeastOne(X,&nbsp;P):<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;exists(X,&nbsp;P)<br/><br/><span class="keyword">def</span>&nbsp;atLeastOne(X,&nbsp;P):<br/>&nbsp;&nbsp;S&nbsp;=&nbsp;{x&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;X&nbsp;<span class="keyword">if</span>&nbsp;P(x)}<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">len</span>(S)&nbsp;>=&nbsp;1<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ul>
+<div class="code"><div class="source"><pre><code class="py">
+# We provide two equivalent implementations.
+
+def atLeastOne(X, P):
+  return exists(X, P)
+
+def atLeastOne(X, P):
+  S = {x for x in X if P(x)}
+  return len(S) >= 1
+            </code></pre></div></div></li></ul>
       </div></div></div>
 <a name="69acaf35c3e74e6593beb864d3f3ea6f"></a><div class="linked block"><div class="link-block">[<a href="#69acaf35c3e74e6593beb864d3f3ea6f">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="exercise task_required"><span class="block_label">Exercise:</span> 
         
 <span class="text">Use quantifiers to implement a Python function corresponding to the predicate <i style="text-decoration:underline;"><i>p</i> is prime</i> for any integer <i>p</i>.</span>
         
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;prime(p):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;&nbsp;p&nbsp;>&nbsp;1&nbsp;<span class="keyword">and</span>&nbsp;forall(<span class="builtin">set</span>(<span class="builtin">range</span>(2,&nbsp;p)),&nbsp;<span class="keyword">lambda</span>&nbsp;n:&nbsp;p&nbsp;%&nbsp;n&nbsp;!=&nbsp;0)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def prime(p):
+    return  p > 1 and forall(set(range(2, p)), lambda n: p % n != 0)
+        </code></pre></div></div>
       </div></div></div></div>
   <a name="2.6"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#2.6">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">2.6.</span> Formulas: predicates dealing with finite sets of integers</h3>
 <a name="a53c6952efd64145a6fa15dd570b1d24"></a><div class="linked block"><div class="link-block">[<a href="#a53c6952efd64145a6fa15dd570b1d24">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="definition true_required"><span class="block_label">Definition:</span> 
@@ -826,25 +909,42 @@ Suppose we have the sets <i>X</i> = {<b>a</b>, <b>b</b>, <b>c</b>} and <i>Y</i> 
         
 <span class="text">Define the set of all even numbers between 0 and 100 (inclusive). There are at least two ways we can do this:</span>
         
-<div class="code"><div class="source"><br/>evens&nbsp;=&nbsp;{&nbsp;2&nbsp;*&nbsp;x&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">set</span>(<span class="builtin">range</span>(0,51))&nbsp;}<br/>evens&nbsp;=&nbsp;{&nbsp;x&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">set</span>(<span class="builtin">range</span>(0,101))&nbsp;<span class="keyword">if</span>&nbsp;x&nbsp;%&nbsp;2&nbsp;==&nbsp;0&nbsp;}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+evens = { 2 * x for x in set(range(0,51)) }
+evens = { x for x in set(range(0,101)) if x % 2 == 0 }
+        </code></pre></div></div>
       </div></div></div>
 <a name="3bd4848251cb47c98a603e19d5beea64"></a><div class="linked block"><div class="link-block">[<a href="#3bd4848251cb47c98a603e19d5beea64">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="exercise task_required"><span class="block_label">Exercise:</span> 
         
 <span class="text">Implement a Python function that computes the set product of two sets <code>X</code> and <code>Y</code>.</span>
         
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;product(X,&nbsp;Y):<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;{&nbsp;(x,y)&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;X&nbsp;<span class="keyword">for</span>&nbsp;y&nbsp;<span class="keyword">in</span>&nbsp;Y&nbsp;}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def product(X, Y):
+  return { (x,y) for x in X for y in Y }
+        </code></pre></div></div>
       </div></div></div>
 <a name="06bf17302b314e80837ad892aca57106"></a><div class="linked block"><div class="link-block">[<a href="#06bf17302b314e80837ad892aca57106">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="exercise task_required"><span class="block_label">Exercise:</span> 
         
 <span class="text">Implement a Python function that takes a finite set of integers and builds the relation on that set correspondingto the operator relational operator &le;.</span>
         
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;leq(S):<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;{&nbsp;(x,&nbsp;y)&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;S&nbsp;<span class="keyword">for</span>&nbsp;y&nbsp;<span class="keyword">in</span>&nbsp;S&nbsp;<span class="keyword">if</span>&nbsp;x&nbsp;<=&nbsp;y&nbsp;}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def leq(S):
+  return { (x, y) for x in S for y in S if x <= y }
+        </code></pre></div></div>
       </div></div></div>
 <a name="46859e4a64eb47eba16fd09822382e83"></a><div class="linked block"><div class="link-block">[<a href="#46859e4a64eb47eba16fd09822382e83">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="exercise task_required"><span class="block_label">Exercise:</span> 
         
 <span class="text">Implement a Python function that determines whether a relation <code>R</code> is a relation over a set <code>X</code>.</span>
         
-<div class="code"><div class="source"><br/><span class="comment">#&nbsp;Using&nbsp;our&nbsp;definition&nbsp;of&nbsp;subset().</span><br/><span class="keyword">def</span>&nbsp;relation(R,&nbsp;X):<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;subset(R,&nbsp;product(X,&nbsp;X))<br/><br/><span class="comment">#&nbsp;Using&nbsp;the&nbsp;built-in&nbsp;set&nbsp;implementation.</span><br/><span class="keyword">def</span>&nbsp;relation(R,&nbsp;X):<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;R.issubset(product(X,&nbsp;X))<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+# Using our definition of subset().
+def relation(R, X):
+  return subset(R, product(X, X))
+
+# Using the built-in set implementation.
+def relation(R, X):
+  return R.issubset(product(X, X))
+        </code></pre></div></div>
       </div></div></div>
 <a name="79e0f3993b2e409f95882713c4ad5f5b"></a><div class="linked block"><div class="link-block">[<a href="#79e0f3993b2e409f95882713c4ad5f5b">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="exercise task_required"><span class="block_label">Exercise:</span> 
         
@@ -853,7 +953,10 @@ Suppose we have the sets <i>X</i> = {<b>a</b>, <b>b</b>, <b>c</b>} and <i>Y</i> 
 </td></tr></table></td></tr></table>
 One example of an asymmetric relation is the "less than" relation on integers, usually represented using the < relational operator. How can we write a Python function that takes as its input a relation <code>R</code> and a set <code>X</code> and determines whether that relation is asymmetric? Recall that we can represent the implication logical operator using the Python operator <code><=</code>.</span>
         
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;isAsymmetric(X,&nbsp;R):<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;relation(R,X)&nbsp;<span class="keyword">and</span>&nbsp;forall(X,&nbsp;<span class="keyword">lambda</span>&nbsp;a:&nbsp;forall(X,&nbsp;<span class="keyword">lambda</span>&nbsp;b:&nbsp;((a,b)&nbsp;<span class="keyword">in</span>&nbsp;R)&nbsp;<=&nbsp;(<span class="keyword">not</span>&nbsp;((b,a)&nbsp;<span class="keyword">in</span>&nbsp;R))))<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def isAsymmetric(X, R):
+  return relation(R,X) and forall(X, lambda a: forall(X, lambda b: ((a,b) in R) <= (not ((b,a) in R))))
+        </code></pre></div></div>
       </div></div></div></div>
   <a name="2.9"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#2.9">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">2.9.</span> Terms: set quotients and quotient maps</h3>
 <span class="text top">Given an equivalence relation on a set, we can partition that set into a collection of distinct subsets, called <i>equivalence classes</i>,
@@ -868,11 +971,18 @@ For any set <i>X</i> and equivalence relation <i>R</i> on <i>X</i>, let the quot
 <span class="text">Implement a Python function that takes two inputs (a set <i>X</i> and an equivalence relation <i>R</i> on that set), and outputs the
 quotient set <i>X</i>/<i>R</i>.</span>
         
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;quotient(X,R):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;{<span class="builtin">frozenset</span>({y&nbsp;<span class="keyword">for</span>&nbsp;y&nbsp;<span class="keyword">in</span>&nbsp;X&nbsp;<span class="keyword">if</span>&nbsp;(x,y)&nbsp;<span class="keyword">in</span>&nbsp;R})&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;X}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def quotient(X,R):
+    return {frozenset({y for y in X if (x,y) in R}) for x in X}
+        </code></pre></div></div>
         
 <span class="text">Below, we evaluate the above function on an example input.</span>  
         
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;quotient({1,2,3,4},&nbsp;{(1,1),(2,2),(3,3),(2,3),(3,2),(4,4)})<br/><br/>{<span class="builtin">frozenset</span>({4}),&nbsp;<span class="builtin">frozenset</span>({2,&nbsp;3}),&nbsp;<span class="builtin">frozenset</span>({1})}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+>>> quotient({1,2,3,4}, {(1,1),(2,2),(3,3),(2,3),(3,2),(4,4)})
+
+{frozenset({4}), frozenset({2, 3}), frozenset({1})}
+        </code></pre></div></div>
       </div></div></div>
 <a name="716e6323dee9472ba28e91ef44eebf02"></a><div class="linked block"><div class="link-block">[<a href="#716e6323dee9472ba28e91ef44eebf02">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="definition true_required"><span class="block_label">Definition:</span> 
 For a set <i>X</i> and a relation <i>R</i> over <i>X</i>, the relation that relates each <i>x</i> <span style="font-size:12px;">&#8712;</span> <i>X</i> to its equivalence class in <i>X</i> under <i>R</i> is called
@@ -883,7 +993,10 @@ the <i>quotient map</i>. The function is typically denoted using [ ... ]. That i
 <span class="text">Implement a Python function that takes two inputs (a set <i>X</i> and an equivalence relation <i>R</i> on that set), and outputs the
 quotient map taking each element <i>x</i> <span style="font-size:12px;">&#8712;</span> <i>X</i> to its corresponding equivalence class [<i>x</i>] <span style="font-size:12px;">&#8712;</span> <i>X</i>/<i>R</i>.</span>  
         
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;quotientMap(X,R):<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;{(x,&nbsp;<span class="builtin">frozenset</span>({y&nbsp;<span class="keyword">for</span>&nbsp;y&nbsp;<span class="keyword">in</span>&nbsp;X&nbsp;<span class="keyword">if</span>&nbsp;(x,y)&nbsp;<span class="keyword">in</span>&nbsp;R}))&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;X}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def quotientMap(X,R):
+  return {(x, frozenset({y for y in X if (x,y) in R})) for x in X}
+        </code></pre></div></div>
       </div></div></div>
 <a name="252d2fdc848f4fa7936c3a48e9795289"></a><div class="linked block"><div class="link-block">[<a href="#252d2fdc848f4fa7936c3a48e9795289">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="exercise task_required"><span class="block_label">Exercise:</span> 
         
@@ -904,11 +1017,18 @@ Then <i>R</i> is an equivalence relation (we assume everyone is related to thems
 More generally, we can view the quotient set <i>X</i>/<i>R</i> as the separation of <i>X</i> into as many groups as possible such that no two relatives are separated into separate groups. We can illustrate this with a Python example. Suppose we have the following relation on the set <code>{'Alice', 'Bob', 'Carl', 'Dan', and 'Eve'}</code>:
         </div>
         
-<div class="code"><div class="source"><br/>R&nbsp;=&nbsp;{\<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="literal">'Alice'</span>,&nbsp;<span class="literal">'Alice'</span>),&nbsp;(<span class="literal">'Bob'</span>,&nbsp;<span class="literal">'Bob'</span>),&nbsp;(<span class="literal">'Carl'</span>,&nbsp;<span class="literal">'Carl'</span>),&nbsp;(<span class="literal">'Dan'</span>,&nbsp;<span class="literal">'Dan'</span>),&nbsp;(<span class="literal">'Eve'</span>,&nbsp;<span class="literal">'Eve'</span>),\<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="literal">'Alice'</span>,&nbsp;<span class="literal">'Carl'</span>),&nbsp;(<span class="literal">'Carl'</span>,&nbsp;<span class="literal">'Alice'</span>),&nbsp;(<span class="literal">'Dan'</span>,&nbsp;<span class="literal">'Eve'</span>),&nbsp;(<span class="literal">'Eve'</span>,&nbsp;<span class="literal">'Dan'</span>)\<br/>&nbsp;&nbsp;&nbsp;&nbsp;}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+R = {\
+     ('Alice', 'Alice'), ('Bob', 'Bob'), ('Carl', 'Carl'), ('Dan', 'Dan'), ('Eve', 'Eve'),\
+     ('Alice', 'Carl'), ('Carl', 'Alice'), ('Dan', 'Eve'), ('Eve', 'Dan')\
+    }
+        </code></pre></div></div>
         
 <span class="text">We can then compute the set of families:</span>
         
-<div class="code"><div class="source"><br/>families&nbsp;=&nbsp;quotient({<span class="literal">'Alice'</span>,&nbsp;<span class="literal">'Bob'</span>,&nbsp;<span class="literal">'Carl'</span>,&nbsp;<span class="literal">'Dan'</span>,&nbsp;<span class="literal">'Eve'</span>},&nbsp;R)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+families = quotient({'Alice', 'Bob', 'Carl', 'Dan', 'Eve'}, R)
+        </code></pre></div></div>
         
 <span class="text">A visualization might look as follows:</span>
         
@@ -925,53 +1045,132 @@ Solutions to each of the programming problem parts below should fit on 1-3 lines
         </div>
       </div><ol class="problems"><li class="problem"><ol class="parts"><li class="part">
 <span class="text">Implement a Python function <code>perfectSquares(n)</code> that takes a single positive integer argument <code>n</code> and returns all positive perfect square integers less than or equal to <i>n</i>. <b  style="color:green;">You must use a set comprehension to receive credit.</b> Efficiency is not important.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;perfectSquares(16)<br/>{1,&nbsp;4,&nbsp;9,&nbsp;16}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> perfectSquares(16)
+{1, 4, 9, 16}
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a Python function <code>squareFree(n)</code> that takes a single positive integer argument <code>n</code> and returns <code>True</code> if and only if <code>n</code> has no square factors. This happens only when the following logical formula is true for all integers <code>k</code> greater than 1 but less than <code>n</code>:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>k</i> is a perfect square &nbsp;&nbsp;&nbsp;&nbsp; implies &nbsp;&nbsp;&nbsp;&nbsp; <i>k</i> does not divide <i>n</i>
 </td></tr></table></td></tr></table>
 <b style="color:green;">You cannot use loops, and you must use quantifiers to receive credit.</b> Efficiency is not important.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;squareFree(39)<br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;squareFree(16)<br/><span class="builtin">False</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;squareFree(20)<br/><span class="builtin">False</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+>>> squareFree(39)
+True
+>>> squareFree(16)
+False
+>>> squareFree(20)
+False
+              </code></pre></div></div>
 <span class="text">Curiously, the number of squarefree integers less than <i>n</i> <a href="https://en.wikipedia.org/wiki/Square-free_integer#Distribution">approaches</a> <i>n</i> &sdot; (6/&pi;<sup>2</sup>) as <i>n</i> grows.</span></li><li class="part">
 <span class="text">Implement a Python function <code>same(n, m)</code> that takes two positive integer arguments <code>n</code> and <code>m</code> and returns <code>True</code> if both are perfect squares <b>or</b> if both are not perfect squares, and <code>False</code> otherwise.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;same(9,&nbsp;16)<br/>True<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;same(7,&nbsp;25)<br/>False<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;same(7,&nbsp;11)<br/>True<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> same(9, 16)
+True
+>>> same(7, 25)
+False
+>>> same(7, 11)
+True
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a Python function <code>separate(S)</code> that takes any finite set of positive integers <code>S</code> and returns a relation over <code>S</code> in which any two numbers in <code>S</code> that <b>are both</b> perfect squares are related to each other, and in which any two numbers in <code>S</code> that <b>are both not</b> perfect squares are related to each other.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;separate({4,6,8,9})<br/>{(4,4),&nbsp;(9,9),&nbsp;(4,9),&nbsp;(9,4),&nbsp;(6,8),&nbsp;(8,6),&nbsp;(6,6),&nbsp;(8,8)}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;separate({7,11,16})<br/>{(16,16),&nbsp;(7,11),&nbsp;(11,7),&nbsp;(7,7),&nbsp;(11,11)}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> separate({4,6,8,9})
+{(4,4), (9,9), (4,9), (9,4), (6,8), (8,6), (6,6), (8,8)}
+>>> separate({7,11,16})
+{(16,16), (7,11), (11,7), (7,7), (11,11)}
+              </code></pre></div></div></li><li class="part">
 <span class="text">Determine which of the three properties of an equivalence relation (reflexivity, symmetry, and transitivity) <i>always</i> apply to any result of <code>separate()</code> (assuming its input is a finite set of positive integers). Define three veriables in your code; each will represent a counterexample input (if it exists) that leads to an output that does not have the corresponding property:</span>
-<div class="code"><div class="source"><br/>notReflexiveOn&nbsp;=&nbsp;?<br/>notSymmetricOn&nbsp;=&nbsp;?<br/>notTransitiveOn&nbsp;=&nbsp;?<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+notReflexiveOn = ?
+notSymmetricOn = ?
+notTransitiveOn = ?
+              </code></pre></div></div>
 <span class="text">If a property <i>always</i> applies to any output of <code>separate()</code>, simply assign <code>None</code> to the corresponding variable. If a property <i>does not</i> apply to all outputs of <code>separate()</code>, assign an input set to the corresponding variable that returns an output relation that does <b>not</b> satisfy that property. For example, if we were doing the same thing for the property of <a href="#79e0f3993b2e409f95882713c4ad5f5b">asymmetry</a>, we would choose a value for <code>asymmetric</code> such that:</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;isAsymmetric(notAsymmetricOn,&nbsp;separate(notAsymmetricOn))<br/><span class="builtin">False</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ol></li><li class="problem">
+<div class="code"><div class="source"><pre><code class="py">
+>>> isAsymmetric(notAsymmetricOn, separate(notAsymmetricOn))
+False
+              </code></pre></div></div></li></ol></li><li class="problem">
 <span class="text">Solve the following problems involving relations. Recall that using Python, we are representing relations as sets of tuples (i.e., pairs such as <code>(1,2)</code>). <b style="color:green;">You cannot use loops, and you must use quantifiers to receive credit; see <a href="#79e0f3993b2e409f95882713c4ad5f5b">this example</a>.</b></span><ol class="parts"><li class="part">
 <span class="text">Implement a function <code>isReflexive()</code> that takes as its input two arguments: a set <code>X</code> and a relation <code>R</code>. The function should return <code>True</code> if the relation <code>R</code> is a reflexive relation on <code>X</code>, and it should return <code>False</code> otherwise.</span>
-<div class="code"><div class="source"><br/>isReflexive({1,2,3,4},&nbsp;{(1,1),&nbsp;(2,2)})&nbsp;==&nbsp;<span class="builtin">False</span><br/>isReflexive({1,2},&nbsp;{(1,1),&nbsp;(2,2),&nbsp;(2,1),&nbsp;(1,2)})&nbsp;==&nbsp;<span class="builtin">True</span><br/>isReflexive({1,2,3},&nbsp;{(1,2),&nbsp;(2,1),&nbsp;(3,3)})&nbsp;==&nbsp;<span class="builtin">False</span><br/>isReflexive({<span class="literal">'a'</span>,<span class="literal">'b'</span>,<span class="literal">'c'</span>},&nbsp;{(<span class="literal">'a'</span>,<span class="literal">'a'</span>),&nbsp;(<span class="literal">'b'</span>,<span class="literal">'b'</span>),&nbsp;(<span class="literal">'a'</span>,<span class="literal">'c'</span>)})&nbsp;==&nbsp;<span class="builtin">False</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+isReflexive({1,2,3,4}, {(1,1), (2,2)}) == False
+isReflexive({1,2}, {(1,1), (2,2), (2,1), (1,2)}) == True
+isReflexive({1,2,3}, {(1,2), (2,1), (3,3)}) == False
+isReflexive({'a','b','c'}, {('a','a'), ('b','b'), ('a','c')}) == False
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a function <code>isSymmetric()</code> that takes as its input two arguments: a set <code>X</code> and a relation <code>R</code>. The function should return <code>True</code> if the relation <code>R</code> is a symmetric relation on <code>X</code>, and it should return <code>False</code> otherwise.</span>
-<div class="code"><div class="source"><br/>isSymmetric({1,2},&nbsp;set())&nbsp;==&nbsp;<span class="builtin">True</span><br/>isSymmetric({1,2},&nbsp;{(1,1),&nbsp;(2,2),&nbsp;(2,1),&nbsp;(1,2)})&nbsp;==&nbsp;<span class="builtin">True</span><br/>isSymmetric({1,2,3},&nbsp;{(1,2),&nbsp;(2,1),&nbsp;(3,3)})&nbsp;==&nbsp;<span class="builtin">True</span><br/>isSymmetric({<span class="literal">'a'</span>,<span class="literal">'b'</span>,<span class="literal">'c'</span>},&nbsp;{(<span class="literal">'a'</span>,<span class="literal">'a'</span>),&nbsp;(<span class="literal">'b'</span>,<span class="literal">'b'</span>),&nbsp;(<span class="literal">'a'</span>,<span class="literal">'c'</span>)})&nbsp;==&nbsp;<span class="builtin">False</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+isSymmetric({1,2}, set()) == True
+isSymmetric({1,2}, {(1,1), (2,2), (2,1), (1,2)}) == True
+isSymmetric({1,2,3}, {(1,2), (2,1), (3,3)}) == True
+isSymmetric({'a','b','c'}, {('a','a'), ('b','b'), ('a','c')}) == False
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a function <code>isTransitive()</code> that takes as its input two arguments: a set <code>X</code> and a relation <code>R</code>. The function should return <code>True</code> if the relation <code>R</code> is a transitive relation on <code>X</code>, and it should return <code>False</code> otherwise.</span></li><li class="part">
 <span class="text">Implement a function <code>isEquivalence()</code> that takes as its input two arguments: a set <code>X</code> and a relation <code>R</code>. The function should return <code>True</code> if the relation <code>R</code> is an equivalence relation on <code>X</code>, and it should return <code>False</code> otherwise. <b>Hint:</b> read the notes in this section carefully and reuse functions that have already been defined.</span>
-<div class="code"><div class="source"><br/>isEquivalence({1,2,3},&nbsp;{(1,1),&nbsp;(2,2),&nbsp;(3,3)})&nbsp;==&nbsp;<span class="builtin">True</span><br/>isEquivalence({1,2,3},&nbsp;{(1,2),&nbsp;(2,1),&nbsp;(3,3)})&nbsp;==&nbsp;<span class="builtin">False</span><br/>isEquivalence({1,2},&nbsp;{(1,1),&nbsp;(2,2),&nbsp;(1,2),&nbsp;(2,1)})&nbsp;==&nbsp;<span class="builtin">True</span><br/>isEquivalence({0,3,6},&nbsp;{(0,3),&nbsp;(3,6),&nbsp;(0,6),&nbsp;(3,0),&nbsp;(6,3),&nbsp;(6,0)})&nbsp;==&nbsp;<span class="builtin">False</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ol></li><li class="problem">
+<div class="code"><div class="source"><pre><code class="py">
+isEquivalence({1,2,3}, {(1,1), (2,2), (3,3)}) == True
+isEquivalence({1,2,3}, {(1,2), (2,1), (3,3)}) == False
+isEquivalence({1,2}, {(1,1), (2,2), (1,2), (2,1)}) == True
+isEquivalence({0,3,6}, {(0,3), (3,6), (0,6), (3,0), (6,3), (6,0)}) == False
+              </code></pre></div></div></li></ol></li><li class="problem">
 <span class="text">You should include the following definition in your module:</span>
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;quotient(X,&nbsp;R):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;{<span class="builtin">frozenset</span>({y&nbsp;<span class="keyword">for</span>&nbsp;y&nbsp;<span class="keyword">in</span>&nbsp;X&nbsp;<span class="keyword">if</span>&nbsp;(x,y)&nbsp;<span class="keyword">in</span>&nbsp;R})&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;X}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def quotient(X, R):
+    return {frozenset({y for y in X if (x,y) in R}) for x in X}
+          </code></pre></div></div>
 <span class="text">Solve the following problems by defining appropriate relations.</span><ol class="parts"><li class="part">
 <span class="text">Include the following definitions in your code:</span>
-<div class="code"><div class="source"><br/>X1&nbsp;=&nbsp;{<span class="literal">"a"</span>,<span class="literal">"b"</span>,<span class="literal">"c"</span>,<span class="literal">"d"</span>,<span class="literal">"e"</span>,<span class="literal">"f"</span>}<br/>R1&nbsp;=&nbsp;?<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+X1 = {"a","b","c","d","e","f"}
+R1 = ?
+              </code></pre></div></div>
 <span class="text">Define the variable <code>R1</code> above so that <code>R1</code> is an equivalence relation over <code>X1</code>, and so that the following formulas are satisfied:</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;isEquivalence(X1,R1)<br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;quotient(X1,R1)&nbsp;==&nbsp;{<span class="builtin">frozenset</span>({<span class="literal">"a"</span>,<span class="literal">"c"</span>}),&nbsp;<span class="builtin">frozenset</span>({<span class="literal">"b"</span>,<span class="literal">"d"</span>}),&nbsp;<span class="builtin">frozenset</span>({<span class="literal">"e"</span>,&nbsp;<span class="literal">"f"</span>})}<br/><span class="builtin">True</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> isEquivalence(X1,R1)
+True
+>>> quotient(X1,R1) == {frozenset({"a","c"}), frozenset({"b","d"}), frozenset({"e", "f"})}
+True
+              </code></pre></div></div></li><li class="part">
 <span class="text">Include the following definitions in your code:</span>
-<div class="code"><div class="source"><br/>X2&nbsp;=&nbsp;{0,1,2,3,4,5,6,7,8,9,10,11}<br/>R2&nbsp;=&nbsp;?<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+X2 = {0,1,2,3,4,5,6,7,8,9,10,11}
+R2 = ?
+              </code></pre></div></div>
 <span class="text">Define the variable <code>R2</code> above so that <code>R2</code> is an equivalence relation over <code>X2</code>, and so that the following formulas are satisfied:</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;isEquivalence(X2,R2)<br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;quotient(X2,R2)&nbsp;==&nbsp;{<span class="builtin">frozenset</span>({0,2,4,6,8,10}),&nbsp;<span class="builtin">frozenset</span>({1,3,5,7,9,11})}<br/><span class="builtin">True</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> isEquivalence(X2,R2)
+True
+>>> quotient(X2,R2) == {frozenset({0,2,4,6,8,10}), frozenset({1,3,5,7,9,11})}
+True
+              </code></pre></div></div></li><li class="part">
 <span class="text">Include the following definitions in your code:</span>
-<div class="code"><div class="source"><br/>X3&nbsp;=&nbsp;<span class="builtin">set</span>(<span class="builtin">range</span>(0,90))<br/>R3&nbsp;=&nbsp;?<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+X3 = set(range(0,90))
+R3 = ?
+              </code></pre></div></div>
 <span class="text">Define the variable <code>R3</code> above so that <code>R3</code> is an equivalence relation over <code>X3</code>, and so that the following formulas satisfied:</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;isEquivalence(X3,R3)<br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;quotient(X3,R3)&nbsp;==&nbsp;{<span class="builtin">frozenset</span>(<span class="builtin">range</span>(0,30)),&nbsp;<span class="builtin">frozenset</span>(<span class="builtin">range</span>(30,60)),&nbsp;<span class="builtin">frozenset</span>(<span class="builtin">range</span>(60,90))}<br/><span class="builtin">True</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+>>> isEquivalence(X3,R3)
+True
+>>> quotient(X3,R3) == {frozenset(range(0,30)), frozenset(range(30,60)), frozenset(range(60,90))}
+True
+              </code></pre></div></div>
 <span class="text"><b style="color:green;">You must use a set comprehension to define <code>R3</code>.</b> Solutions that use an explicitly defined set will receive no credit.</span></li></ol></li><li class="problem">
 <span class="text">Suppose we build a relation <i>D</i> on the set of all countries <i>C</i> that encodes whether it is possible to drive from one country to another (even if it requires crossing into other countries on the way):
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;"> <i>D</i> <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> { (<i>a</i>, <i>b</i>) | <i>a</i> <span style="font-size:12px;">&#8712;</span> <i>C</i>, <i>b</i> <span style="font-size:12px;">&#8712;</span> <i>C</i>, it is possible to drive from <i>a</i> to <i>b</i> by car }
 </td></tr></table></td></tr></table>
 Assume that you can fly from any country to any other country by plane.</span><ol class="parts"><li class="part">
 <span class="text">What if you want to visit every country in the input set <i>C</i> (starting your trip on land in one specific country), but you want to take <b>as few plane flights as possible</b>? Write a one-line function <code>minimumFlights()</code> that takes a set of countries <i>C</i> and a relation on that set <i>D</i> representing reachability by driving, and returns an integer representing the minimum number of flights you will need to take to visit every country.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;C&nbsp;=&nbsp;{<span class="literal">'Iceland'</span>,&nbsp;<span class="literal">'Vietnam'</span>,&nbsp;<span class="literal">'Kazakhstan'</span>,&nbsp;<span class="literal">'Australia'</span>}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;D&nbsp;=&nbsp;{(<span class="literal">'Vietnam'</span>,&nbsp;<span class="literal">'Kazakhstan'</span>),&nbsp;(<span class="literal">'Kazakhstan'</span>,&nbsp;<span class="literal">'Vietnam'</span>)}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;minimumFlights(C,&nbsp;D)<br/>2<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> C = {'Iceland', 'Vietnam', 'Kazakhstan', 'Australia'}
+>>> D = {('Vietnam', 'Kazakhstan'), ('Kazakhstan', 'Vietnam')}
+>>> minimumFlights(C, D)
+2
+              </code></pre></div></div></li><li class="part">
 <span class="text">Write a one-line function <code>longestDrive()</code> that takes a set of countries <i>C</i> and a relation on that set <i>D</i> representing reachability by driving, and returns an integer representing the maximum number of countries you can visit on a single, uninterrupted drive.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;longestDrive(C,&nbsp;D)<br/>2<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ol></li></ol>
+<div class="code"><div class="source"><pre><code class="py">
+>>> longestDrive(C, D)
+2
+              </code></pre></div></div></li></ol></li></ol>
 </div><hr class="work_separator"/><br/>
 </div>
 <a name="3"></a>
@@ -1542,7 +1741,10 @@ divisor of this value and <i>y</i> is still <i>a</i>.</span>
         
 <span class="text">We can implement the inefficient algorithm for the greatest common divisor using Python in the following way:</span>
         
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;gcd(x,&nbsp;y):<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">max</span>({z&nbsp;<span class="keyword">for</span>&nbsp;z&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">range</span>(0,&nbsp;<span class="builtin">min</span>(x,y))&nbsp;<span class="keyword">if</span>&nbsp;x&nbsp;%&nbsp;z&nbsp;==&nbsp;0&nbsp;<span class="keyword">and</span>&nbsp;y&nbsp;%&nbsp;z&nbsp;==&nbsp;0})<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def gcd(x, y):
+  return max({z for z in range(0, min(x,y)) if x % z == 0 and y % z == 0})
+         </code></pre></div></div>
       </div></div></div>
 <a name="00b5aa4aa094475e9ebaaf499df13806"></a><div class="linked block"><div class="link-block">[<a href="#00b5aa4aa094475e9ebaaf499df13806">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="exercise task_required"><span class="block_label">Exercise:</span> 
         
@@ -1555,7 +1757,9 @@ Is this an equivalence relation?</span>
           
 <span class="text">The relation is reflexive because gcd(<i>x</i>,<i>x</i>) = <i>x</i>, and it is symmetric because gcd(<i>x</i>,<i>y</i>) = gcd(<i>y</i>,<i>x</i>). However it is not transitive. For example, gcd(4,6) = 2 and gcd(6,9) = 3, but gcd(4,9) = 1. Note also that we can define such a relation for some range using Python:</span>
           
-<div class="code"><div class="source"><br/>{(x,y)&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;S&nbsp;<span class="keyword">for</span>&nbsp;y&nbsp;<span class="keyword">in</span>&nbsp;S&nbsp;<span class="keyword">if</span>&nbsp;gcd(x,y)&nbsp;!=&nbsp;1}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+{(x,y) for x in S for y in S if gcd(x,y) != 1}
+           </code></pre></div></div>
         </div></div><div class="solution_spacer"></div>
       </div></div></div>
 <a name="3cf51c6fb52a40909578ea9d076fc503"></a><div class="linked block"><div class="link-block">[<a href="#3cf51c6fb52a40909578ea9d076fc503">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="fact true_required"><span class="block_label">Fact:</span> 
@@ -2282,7 +2486,10 @@ Since there is a witness for every liar, there are at least as many witness as l
 You may import the following library functions in your module:
         </div>
         
-<div class="code"><div class="source"><br/><span class="keyword">from</span>&nbsp;fractions&nbsp;<span class="keyword">import</span>&nbsp;gcd<br/><span class="keyword">from</span>&nbsp;math&nbsp;<span class="keyword">import</span>&nbsp;log<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+from fractions import gcd
+from math import log
+        </code></pre></div></div>
         
 <span class="text">You may also use:
 <ul>
@@ -2308,16 +2515,59 @@ Solutions to each of the programming problem parts below should be fairly concis
 <span class="text">650472472230302 &sdot; <i>x</i> &equiv; 1 (mod 8910581811374)</span></li></ol></li><li class="problem">
 <span class="text">Implement the following Python functions. These functions take advantage of the <a href="#c32b1fae4f5d4abb997c85429ae85976">generalized Euclid's lemma</a> to make it possible to generate a random number within a specified range. <b style="color:firebrick;">Your implementations must be extremely efficient, and must handle very large inputs, as shown in the examples below. Implementations that perform exhaustive, exponential-time searches will receive no credit.</b></span><ol class="parts"><li class="part">
 <span class="text">Implement a function <code>closest(t, ks)</code> that takes two arguments: a target integer <code>t</code> and a list of integers <code>ks</code>. The function should return the integer <code>k</code> in <code>ks</code> that is <i>closest</i> to <code>t</code> (i.e., the integer <code>k</code> in <code>ks</code> that minimizes the absolute value of the difference |<code>t</code> &#8722; <code>k</code>| between the two numbers). This will serve as a helper function for subsequent problems in this assignment.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;closest(5,&nbsp;[1,3,4,9,10])<br/>4<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;closest(8,&nbsp;[1,3,4,9,10])<br/>9<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> closest(5, [1,3,4,9,10])
+4
+>>> closest(8, [1,3,4,9,10])
+9
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a function <code>findCoprime(m)</code> that takes a single positive integer argument <code>m</code> and returns an integer <code>b</code> where <code>b</code> &gt; 1 and <code>b</code> is coprime with <code>m</code>. Your implementation does not need to return exactly the same answers as you see in the example outputs. However, the output generated by your implementation must be coprime with the input. <b>Hint:</b> <b style="color:green;">use facts about coprime numbers (e.g., <a href="#135ad791f7d2406db11b709d04f03f63">this</a>, <a href="#6e9970794ae24fc6860368be7afe8154">this</a>, <a href="#d748c2e939724ce4a08db35933e7af69">this</a>, <a href="#9e7a019d05154ba0b8e71ad59d57ad0a">this</a>, and/or <a href="#3a48cfd102124a17a72c0eb3e81c8724">this</a>)</b>.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;findCoprime(10)<br/>7<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;findCoprime(100)<br/>63<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;findCoprime(872637825353262)<br/>545398640845789<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;findCoprime(2**200)<br/>1004336277661868922213726307713226626576376871114245522063361<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;gcd(findCoprime(2**100000),&nbsp;2**100000)<br/>1<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> findCoprime(10)
+7
+>>> findCoprime(100)
+63
+>>> findCoprime(872637825353262)
+545398640845789
+>>> findCoprime(2**200)
+1004336277661868922213726307713226626576376871114245522063361
+>>> gcd(findCoprime(2**100000), 2**100000)
+1
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a function <code>randByIndex(m, i)</code> that takes two positive integer arguments: <code>m</code> represents the upper bound of random numbers to be generated, and <code>i</code> represents an index specifying which random number in a the sequence should be generated. You may assume <code>m</code> &ge; 4 and that 1 &le; <code>i</code> &le; <code>m</code> &#8722; 1. The function must return the <code>i</code>th "random" number in a permutation of the numbers {0, ..., <code>m</code> &#8722; 1} by implementing the <a href="#9e7a019d05154ba0b8e71ad59d57ad0c">simplified linear congruential generator</a> with a well-chosen coprime.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[randByIndex(10,&nbsp;i)&nbsp;<span class="keyword">for</span>&nbsp;i&nbsp;<span class="keyword">in</span>&nbsp;{0,1,2,3,4,5,6,7,8,9}]<br/>[0,&nbsp;7,&nbsp;4,&nbsp;1,&nbsp;8,&nbsp;5,&nbsp;2,&nbsp;9,&nbsp;6,&nbsp;3]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[randByIndex(77,&nbsp;i)&nbsp;<span class="keyword">for</span>&nbsp;i&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">range</span>(0,76)]<br/>[&nbsp;0,&nbsp;48,&nbsp;19,&nbsp;67,&nbsp;38,&nbsp;&nbsp;9,&nbsp;57,&nbsp;28,&nbsp;76,&nbsp;47,&nbsp;18,&nbsp;66,&nbsp;<br/>&nbsp;37,&nbsp;&nbsp;8,&nbsp;56,&nbsp;27,&nbsp;75,&nbsp;46,&nbsp;17,&nbsp;65,&nbsp;36,&nbsp;&nbsp;7,&nbsp;55,&nbsp;26,<br/>&nbsp;74,&nbsp;45,&nbsp;16,&nbsp;64,&nbsp;35,&nbsp;&nbsp;6,&nbsp;54,&nbsp;25,&nbsp;73,&nbsp;44,&nbsp;15,&nbsp;63,&nbsp;<br/>&nbsp;34,&nbsp;&nbsp;5,&nbsp;53,&nbsp;24,&nbsp;72,&nbsp;43,&nbsp;14,&nbsp;62,&nbsp;33,&nbsp;&nbsp;4,&nbsp;52,&nbsp;23,&nbsp;<br/>&nbsp;71,&nbsp;42,&nbsp;13,&nbsp;61,&nbsp;32,&nbsp;&nbsp;3,&nbsp;51,&nbsp;22,&nbsp;70,&nbsp;41,&nbsp;12,&nbsp;60,&nbsp;<br/>&nbsp;31,&nbsp;&nbsp;2,&nbsp;50,&nbsp;21,&nbsp;69,&nbsp;40,&nbsp;11,&nbsp;59,&nbsp;30,&nbsp;&nbsp;1,&nbsp;49,&nbsp;20,&nbsp;<br/>&nbsp;68,&nbsp;39,&nbsp;10,&nbsp;58]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;randByIndex(2**200,&nbsp;2**99+1)<br/>1004336277661868922213726307713860451876490985814993873666049<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+>>> [randByIndex(10, i) for i in {0,1,2,3,4,5,6,7,8,9}]
+[0, 7, 4, 1, 8, 5, 2, 9, 6, 3]
+>>> [randByIndex(77, i) for i in range(0,76)]
+[ 0, 48, 19, 67, 38,  9, 57, 28, 76, 47, 18, 66, 
+ 37,  8, 56, 27, 75, 46, 17, 65, 36,  7, 55, 26,
+ 74, 45, 16, 64, 35,  6, 54, 25, 73, 44, 15, 63, 
+ 34,  5, 53, 24, 72, 43, 14, 62, 33,  4, 52, 23, 
+ 71, 42, 13, 61, 32,  3, 51, 22, 70, 41, 12, 60, 
+ 31,  2, 50, 21, 69, 40, 11, 59, 30,  1, 49, 20, 
+ 68, 39, 10, 58]
+>>> randByIndex(2**200, 2**99+1)
+1004336277661868922213726307713860451876490985814993873666049
+              </code></pre></div></div>
 <span class="text">Your implementation does not need to return exactly the same answers as you see in the example outputs. However, the output generated by your implementation must produce a permutation when used in a comprehension, as in the examples, and must work on very large upper bounds and indices.</span></li></ol></li><li class="problem">
 <span class="text">Implement a function <code>probablePrime(m)</code> that takes a single integer argument <code>m</code> where <code>m</code> >= 1. The function should return <code>True</code> if <code>m</code> is probably prime, and <code>False</code> otherwise. Your code should employ the <a href="#458a8c0d2a934388ade43c11e27bb3e5">Fermat primality test</a> by generating some number of random witnesses in the appropriate range and using them to test the primality of <code>m</code>. You will need to determine what is a reasonable number of potential witnesses to test. <b style="color:firebrick;">Implementations that perform an exponentially large exhaustive search, even if the algorithm is <i>mathematically</i> correct, will not earn full credit.</b></span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;probablePrime(31)<br/>True<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;probablePrime(107)<br/>True<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;probablePrime(230204771)<br/>True<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;probablePrime(10738019798475862873464857984759825354679201872)<br/>False<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="problem">
+<div class="code"><div class="source"><pre><code class="py">
+>>> probablePrime(31)
+True
+>>> probablePrime(107)
+True
+>>> probablePrime(230204771)
+True
+>>> probablePrime(10738019798475862873464857984759825354679201872)
+False
+          </code></pre></div></div></li><li class="problem">
 <span class="text">Implement a function <code>makePrime(d)</code> that takes a single integer argument <code>d</code> where <code>d</code> >= 1 and returns a probably prime number that has <b>exactly <code>d</code> digits</b>. Your implementation should be sufficiently efficient to produce an output for <code>d</code> = <code>100</code> in a reasonably short amount of time. <b style="color:firebrick;">Implementations that perform an exponentially large exhaustive search, even if the algorithm is <i>mathematically</i> correct, will not earn full credit.</b></span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;makePrime(2)<br/>47<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;makePrime(100)<br/>3908330587430939367983163094172482420761782436265274101479718696329311615357177668931627057438461519<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ol>
+<div class="code"><div class="source"><pre><code class="py">
+>>> makePrime(2)
+47
+>>> makePrime(100)
+3908330587430939367983163094172482420761782436265274101479718696329311615357177668931627057438461519
+          </code></pre></div></div></li></ol>
 </div><hr class="work_separator"/><br/>
   <a name="3.9"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#3.9">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.9.</span> Multiplicative inverses</h3>
 <span class="text top">To better understand multiplicative inverses, we first review the definition of an additive inverse.</span>
@@ -3290,7 +3540,10 @@ then (<i>a</i> &sdot; <i>b</i>) has an inverse (<i>a</i><sup>-1</sup> &sdot; <i>
 You may import the following library functions in your module (you may not need all these functions for this assignment depending on how you approach the problems, but they may be used):
         </div>
         
-<div class="code"><div class="source"><br/><span class="keyword">from</span>&nbsp;math&nbsp;<span class="keyword">import</span>&nbsp;floor<br/><span class="keyword">from</span>&nbsp;fractions&nbsp;<span class="keyword">import</span>&nbsp;gcd<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+from math import floor
+from fractions import gcd
+        </code></pre></div></div>
         
 <span class="text">You may also use:
   <li>the built-in <code>pow()</code> function to compute modular exponents efficiently (i.e., a<sup><i>k</i></sup> mod <i>n</i> can be written in Python as <code>pow(a,k,n)</code>), and</li>
@@ -3326,42 +3579,127 @@ Solutions to each of the programming problem parts below should be fairly concis
 </td></tr></table></td></tr></table></span></li></ol></li><li class="problem">
 <span class="text">Implement the following Python functions for computing multiplicative inverses of congruence classes.</span><ol class="parts"><li class="part">
 <span class="text">Implement a function <code>invPrime(a, p)</code> that takes two integers <code>a</code> and <code>p</code> > 1 where <code>p</code> is prime. The function should return the multiplicative inverse of <code>a</code> <span style="font-size:12px;">&#8712;</span> &#8484;/<code>p</code>&#8484; (if <code>a</code> &equiv; 0, it should return <code>None</code>). Your solution must <a href="#71a8e073b8f244809d2c321d5b5d2987">use Fermat's little theorem</a>.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[invPrime(i,&nbsp;7)&nbsp;<span class="keyword">for</span>&nbsp;i&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">range</span>(0,7)]<br/>[<span class="builtin">None</span>,&nbsp;1,&nbsp;4,&nbsp;5,&nbsp;2,&nbsp;3,&nbsp;6]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[invPrime(i,&nbsp;13)&nbsp;<span class="keyword">for</span>&nbsp;i&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">range</span>(1,13)]<br/>[1,&nbsp;7,&nbsp;9,&nbsp;10,&nbsp;8,&nbsp;11,&nbsp;2,&nbsp;5,&nbsp;3,&nbsp;4,&nbsp;6,&nbsp;12]<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> [invPrime(i, 7) for i in range(0,7)]
+[None, 1, 4, 5, 2, 3, 6]
+>>> [invPrime(i, 13) for i in range(1,13)]
+[1, 7, 9, 10, 8, 11, 2, 5, 3, 4, 6, 12]
+              </code></pre></div></div></li><li class="part">
 <span class="text">Include the following definition in your code. This non-recursive implementation of the <a href="#4b73a6de740d492d9bf4d536da9f15ce">extended Euclidean algorithm</a> avoids a stack overflow error on large inputs.</span>
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;egcd(a,&nbsp;b):<br/>&nbsp;&nbsp;&nbsp;&nbsp;(x,&nbsp;s,&nbsp;y,&nbsp;t)&nbsp;=&nbsp;(0,&nbsp;1,&nbsp;1,&nbsp;0)<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span>&nbsp;b&nbsp;!=&nbsp;0:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;k&nbsp;=&nbsp;a&nbsp;//&nbsp;b<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a,&nbsp;b)&nbsp;=&nbsp;(b,&nbsp;a&nbsp;%&nbsp;b)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(x,&nbsp;s,&nbsp;y,&nbsp;t)&nbsp;=&nbsp;(s&nbsp;-&nbsp;k*x,&nbsp;x,&nbsp;t&nbsp;-&nbsp;k*y,&nbsp;y)<br/><span class="keyword">return</span>&nbsp;(s,&nbsp;t)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def egcd(a, b):
+    (x, s, y, t) = (0, 1, 1, 0)
+    while b != 0:
+        k = a // b
+        (a, b) = (b, a % b)
+        (x, s, y, t) = (s - k*x, x, t - k*y, y)
+return (s, t)
+              </code></pre></div></div>
 <span class="text">Given two inputs <code>a</code> and <code>b</code>, <code>egcd(a, b)</code> returns a solution <code>(s, t)</code> to the following instance of <a href="#4353592f86d4482c93cebb6da6d749b9">B&eacute;zout's identity</a>:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>a</code> &sdot; <code>s</code> + <code>b</code> &sdot; <code>t</code><td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>gcd(a, b)</code>
 </td></tr></table></td></tr></table> 
 Using <code>egcd()</code>, implement a function <code>inv(a, m)</code> that takes two integers <code>a</code> and <code>m</code> > 1. If <code>a</code> and <code>m</code> are coprime, it should return the multiplicative inverse of <code>a</code> <span style="font-size:12px;">&#8712;</span> &#8484;/<code>m</code>&#8484;. If <code>a</code> and <code>m</code> are not coprime, it should return <code>None</code>.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[inv(i,&nbsp;13)&nbsp;<span class="keyword">for</span>&nbsp;i&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">range</span>(1,13)]<br/>[1,&nbsp;7,&nbsp;9,&nbsp;10,&nbsp;8,&nbsp;11,&nbsp;2,&nbsp;5,&nbsp;3,&nbsp;4,&nbsp;6,&nbsp;12]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[inv(i,&nbsp;8)&nbsp;<span class="keyword">for</span>&nbsp;i&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">range</span>(1,8)]<br/>[1,&nbsp;<span class="builtin">None</span>,&nbsp;3,&nbsp;<span class="builtin">None</span>,&nbsp;5,&nbsp;<span class="builtin">None</span>,&nbsp;7]<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ol></li><li class="problem">
+<div class="code"><div class="source"><pre><code class="py">
+>>> [inv(i, 13) for i in range(1,13)]
+[1, 7, 9, 10, 8, 11, 2, 5, 3, 4, 6, 12]
+>>> [inv(i, 8) for i in range(1,8)]
+[1, None, 3, None, 5, None, 7]
+              </code></pre></div></div></li></ol></li><li class="problem">
 <span class="text">Implement the following Python functions for solving certain (linear) systems of equations involving congruence classes.</span><ol class="parts"><li class="part">
 <span class="text">Implement a function <code>solveOne(c, b, a, m)</code> that takes four integers <code>c</code>, <code>b</code>, <code>a</code>, and <code>m</code> &ge; 1. If <code>c</code> and <code>m</code> are coprime, the function should return the solution <i>x</i> <span style="font-size:12px;">&#8712;</span> {0, ..., <code>m</code>-1} to the following equation:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>c</code> &sdot; <i>x</i> + <i>b</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>m</code>)
 </td></tr></table></td></tr></table>
 If <code>c</code> and <code>m</code> are not coprime, the function should return <code>None</code>.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveOne(3,&nbsp;0,&nbsp;4,&nbsp;7)<br/>6<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveOne(1,&nbsp;2,&nbsp;7,&nbsp;11)<br/>5<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveOne(2,&nbsp;0,&nbsp;3,&nbsp;8)<br/><span class="builtin">None</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> solveOne(3, 0, 4, 7)
+6
+>>> solveOne(1, 2, 7, 11)
+5
+>>> solveOne(2, 0, 3, 8)
+None
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a function <code>solveTwo(e1, e2)</code> that takes two tuples <code>e1</code> and <code>e2</code> as inputs, each of the form <code>(c, b, a, m)</code> (i.e., containing four integer elements). Thus, the two tuples, if we call them <code>(c, b, a, m)</code> and <code>(t, s, r, n)</code>, correspond to a system of equations of the form:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>c</code> &sdot; <i>x</i> + <code>b</code> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>m</code>) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
   <code>t</code> &sdot; <i>x</i> + <code>s</code> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>r</code> (mod <code>n</code>)
 </td></tr></table></td></tr></table>
 The function <code>solveTwo()</code> should return the unique solution <i>x</i> to the above system of equations. If either equation cannot be solved using <code>solveOne()</code>, or <code>n</code> and <code>m</code> are not coprime, the function should return <code>None</code>.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveTwo((3,&nbsp;0,&nbsp;4,&nbsp;7),&nbsp;(1,&nbsp;2,&nbsp;7,&nbsp;11))<br/>27<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> solveTwo((3, 0, 4, 7), (1, 2, 7, 11))
+27
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a function <code>solveAll(es)</code> that takes a list of one or more equations, each of the form <code>(c, b, a, m)</code>. The list corresponds to the system of equations (assume all the <i>m</i><sub><i>i</i></sub> are mutually coprime):
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>c</i><sub>1</sub> &sdot; <i>x</i> + <i>b</i><sub>1</sub> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <i>a</i><sub>1</sub> (mod <i>m</i><sub>1</sub>) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
                           <td></tr></table></td><td style="text-align:center;"> &#8942; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;">  </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
   <i>c</i><sub><i>k</i></sub> &sdot; <i>x</i> + <i>b</i><sub><i>k</i></sub> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <i>a</i><sub><i>k</i></sub> (mod <i>m</i><sub><i>k</i></sub>)
 </td></tr></table></td></tr></table>
 The function <code>solveAll()</code> should return the unique congruence class solution <i>x</i> to the above system of equations. If any individual equation cannot be solved using <code>solveOne()</code>, or if the moduli are not all mutually coprime, the function should return <code>None</code>.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveAll([(3,0,4,7),&nbsp;(1,0,5,11)])<br/>27<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveAll([(5,0,3,7),&nbsp;(3,0,5,11),&nbsp;(11,0,4,13)])<br/>856<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveAll([(1,0,2,3),&nbsp;(7,0,8,31),&nbsp;(3,0,5,7),&nbsp;(11,0,4,13)])<br/>7109<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveAll([(3,0,2,4),&nbsp;(7,0,8,9),&nbsp;(2,0,8,25),&nbsp;(4,0,4,7)])<br/>554<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ol></li><li class="problem">
+<div class="code"><div class="source"><pre><code class="py">
+>>> solveAll([(3,0,4,7), (1,0,5,11)])
+27
+>>> solveAll([(5,0,3,7), (3,0,5,11), (11,0,4,13)])
+856
+>>> solveAll([(1,0,2,3), (7,0,8,31), (3,0,5,7), (11,0,4,13)])
+7109
+>>> solveAll([(3,0,2,4), (7,0,8,9), (2,0,8,25), (4,0,4,7)])
+554
+              </code></pre></div></div></li></ol></li><li class="problem">
 <span class="text">In this problem we will exploit the Chinese Remainder Theorem (in the same way we did in <a href="#df42e88c1fcd11e3831ff55c91aec05Z">this example</a>, <a href="#ed75855fa50c4005a8e2f284bdcb23cf">this example</a>, and <a href="#e44bcc8621a0449690fc9f708c74ec65">this example</a>) to create an algorithm that can efficiently compute sums of terms that have extremely large exponents. Throughout this problem we represent the sum of a collection of exponentiation operations as a list of tuples in which each tuple contains two integers: the base and the exponent. For example, the list <code>[(2,4),(3,5),(-6,3)]</code> represents the sum of powers 2<sup>4</sup> + 3<sup>5</sup> + (&#8722;6)<sup>3</sup>.</span><ol class="parts"><li class="part">
 <span class="text">Implement a function <code>sumPowsModPrime(nes, p)</code> that takes a list <code>nes</code> representing a sum of powers and, as efficiently as possible, computes the sum modulo a prime <code>p</code>. You may <b>not</b> assume that any particular patterns will exist in the bases or exponents (e.g., make sure that your function behaves correctly if a base is a multiple of the prime modulus <code>p</code>).</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;(2**4&nbsp;+&nbsp;3**5&nbsp;+&nbsp;(-6)**3)&nbsp;%&nbsp;59<br/>43<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sumPowsModPrime([(2,4),&nbsp;(3,5),&nbsp;(-6,3)],&nbsp;59)<br/>43<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sumPowsModPrime([(2,10**1000000&nbsp;+&nbsp;1),&nbsp;(-2,10**1000000&nbsp;+&nbsp;1),&nbsp;(3,3)],&nbsp;103)<br/>27<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+>>> (2**4 + 3**5 + (-6)**3) % 59
+43
+>>> sumPowsModPrime([(2,4), (3,5), (-6,3)], 59)
+43
+>>> sumPowsModPrime([(2,10**1000000 + 1), (-2,10**1000000 + 1), (3,3)], 103)
+27
+              </code></pre></div></div>
 <span class="text"><b>Hint:</b> keep <a href="#fa37b1eca05d47e3ae9fc97803551667">this fact</a> and <a href="#360652037d3e48069d182158129d21af">Euler's theorem</a> in mind and use comprehensions and <code>pow()</code> to write a one-line body for this function.</span></li><li class="part">
 <span class="text">Implement a function <code>sumPowsModPrimes(nes, ps)</code> that takes a list of one or more tuples <code>nes</code> (i.e., <code>nes</code> is of the form <code>[(a1,n1),...,(ak,nk)]</code>) as its first argument, and a list of one or more primes <code>ps</code> (i.e., of the form <code>[p1,...,pm]</code>) as its second argument. The function should return the correct result of the sum of powers as long as the following is true (e.g., on a computer with unlimited memory and time):
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  0 <td></tr></table></td><td style="text-align:center;"> &le; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a1</code><sup><code>n1</code></sup> + ... + <code>ak</code><sup><code>nk</code></sup> <td></tr></table></td><td style="text-align:center;"> &lt; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>p1</code> &sdot; ... &sdot; <code>pm</code>
 </td></tr></table></td></tr></table>
 <b style="color:green;">Do not check the above condition; it is an <i>assumption</i> that you can make and a <i>requirement</i> that users of your function must fulfill if they want to use it.</b> You may assume the second list contains distinct prime numbers. You may <b>not</b> assume that the numbers in the first input list have any particular patterns or relationships; they can be in any order, they can be of any size, and they may or may not share factors. Your implementation must work efficiently on very large inputs (e.g., with computations like 2<sup>29999999999999999999999999999999996</sup>, as presented in the examples below). <b style="color:green;">Solutions that call a CRT solver more than once will receive no credit.</b></span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sumPowsModPrimes([(2,3),&nbsp;(5,6)],&nbsp;[3,5,7,11,13,17,19,23,29])&nbsp;==&nbsp;2**3&nbsp;+&nbsp;5**6<br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;primes&nbsp;=[\<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15481619,15481633,15481657,15481663,15481727,15481733,15481769,15481787&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15481793,15481801,15481819,15481859,15481871,15481897,15481901,15481933&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15481981,15481993,15481997,15482011,15482023,15482029,15482119,15482123&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15482149,15482153,15482161,15482167,15482177,15482219,15482231,15482263&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15482309,15482323,15482329,15482333,15482347,15482371,15482377,15482387&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15482419,15482431,15482437,15482447,15482449,15482459,15482477,15482479&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15482531,15482567,15482569,15482573,15482581,15482627,15482633,15482639&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15482669,15482681,15482683,15482711,15482729,15482743,15482771,15482773&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15482783,15482807,15482809,15482827,15482851,15482861,15482893,15482911&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15482917,15482923,15482941,15482947,15482977,15482993,15483023,15483029&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15483067,15483077,15483079,15483089,15483101,15483103,15483121,15483151&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15483161,15483211,15483253,15483317,15483331,15483337,15483343,15483359&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15483383,15483409,15483449,15483491,15483493,15483511,15483521,15483553&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15483557,15483571,15483581,15483619,15483631,15483641,15483653,15483659&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15483683,15483697,15483701,15483703,15483707,15483731,15483737,15483749&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15483799,15483817,15483829,15483833,15483857,15483869,15483907,15483971&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15483977,15483983,15483989,15483997,15484033,15484039,15484061,15484087&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15484099,15484123,15484141,15484153,15484187,15484199,15484201,15484211&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15484219,15484223,15484243,15484247,15484279,15484333,15484363,15484387&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15484393,15484409,15484421,15484453,15484457,15484459,15484471,15484489&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15484517,15484519,15484549,15484559,15484591,15484627,15484631,15484643&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15484661,15484697,15484709,15484723,15484769,15484771,15484783,15484817&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15484823,15484873,15484877,15484879,15484901,15484919,15484939,15484951&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15484961,15484999,15485039,15485053,15485059,15485077,15485083,15485143&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15485161,15485179,15485191,15485221,15485243,15485251,15485257,15485273&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15485287,15485291,15485293,15485299,15485311,15485321,15485339,15485341&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15485357,15485363,15485383,15485389,15485401,15485411,15485429,15485441&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15485447,15485471,15485473,15485497,15485537,15485539,15485543,15485549&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15485557,15485567,15485581,15485609,15485611,15485621,15485651,15485653&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15485669,15485677,15485689,15485711,15485737,15485747,15485761,15485773&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,15485783,15485801,15485807,15485837,15485843,15485849,15485857,15485863]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sumPowsModPrimes(\<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2,29999999999999999999999999999999996)\<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,(-8,9999999999999999999999999999999999)\<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,(2,29999999999999999999999999999999996)\<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,(7,7),(-13,3)],&nbsp;primes)<br/>821346<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> sumPowsModPrimes([(2,3), (5,6)], [3,5,7,11,13,17,19,23,29]) == 2**3 + 5**6
+True
+>>> primes =[\
+         15481619,15481633,15481657,15481663,15481727,15481733,15481769,15481787 
+        ,15481793,15481801,15481819,15481859,15481871,15481897,15481901,15481933 
+        ,15481981,15481993,15481997,15482011,15482023,15482029,15482119,15482123 
+        ,15482149,15482153,15482161,15482167,15482177,15482219,15482231,15482263 
+        ,15482309,15482323,15482329,15482333,15482347,15482371,15482377,15482387 
+        ,15482419,15482431,15482437,15482447,15482449,15482459,15482477,15482479 
+        ,15482531,15482567,15482569,15482573,15482581,15482627,15482633,15482639 
+        ,15482669,15482681,15482683,15482711,15482729,15482743,15482771,15482773 
+        ,15482783,15482807,15482809,15482827,15482851,15482861,15482893,15482911 
+        ,15482917,15482923,15482941,15482947,15482977,15482993,15483023,15483029 
+        ,15483067,15483077,15483079,15483089,15483101,15483103,15483121,15483151 
+        ,15483161,15483211,15483253,15483317,15483331,15483337,15483343,15483359 
+        ,15483383,15483409,15483449,15483491,15483493,15483511,15483521,15483553 
+        ,15483557,15483571,15483581,15483619,15483631,15483641,15483653,15483659 
+        ,15483683,15483697,15483701,15483703,15483707,15483731,15483737,15483749 
+        ,15483799,15483817,15483829,15483833,15483857,15483869,15483907,15483971 
+        ,15483977,15483983,15483989,15483997,15484033,15484039,15484061,15484087 
+        ,15484099,15484123,15484141,15484153,15484187,15484199,15484201,15484211 
+        ,15484219,15484223,15484243,15484247,15484279,15484333,15484363,15484387 
+        ,15484393,15484409,15484421,15484453,15484457,15484459,15484471,15484489 
+        ,15484517,15484519,15484549,15484559,15484591,15484627,15484631,15484643 
+        ,15484661,15484697,15484709,15484723,15484769,15484771,15484783,15484817 
+        ,15484823,15484873,15484877,15484879,15484901,15484919,15484939,15484951 
+        ,15484961,15484999,15485039,15485053,15485059,15485077,15485083,15485143 
+        ,15485161,15485179,15485191,15485221,15485243,15485251,15485257,15485273 
+        ,15485287,15485291,15485293,15485299,15485311,15485321,15485339,15485341 
+        ,15485357,15485363,15485383,15485389,15485401,15485411,15485429,15485441 
+        ,15485447,15485471,15485473,15485497,15485537,15485539,15485543,15485549 
+        ,15485557,15485567,15485581,15485609,15485611,15485621,15485651,15485653 
+        ,15485669,15485677,15485689,15485711,15485737,15485747,15485761,15485773 
+        ,15485783,15485801,15485807,15485837,15485843,15485849,15485857,15485863]
+>>> sumPowsModPrimes(\
+       [(2,29999999999999999999999999999999996)\
+       ,(-8,9999999999999999999999999999999999)\
+       ,(2,29999999999999999999999999999999996)\
+       ,(7,7),(-13,3)], primes)
+821346
+              </code></pre></div></div></li><li class="part">
 <span class="text"><b>Extra credit:</b> Reimplement the <code>makePrime(d, k)</code> function from <b>Assignment #2</b> so that it uses Python's own <a href="https://docs.python.org/3/library/random.html#random.randint"><code>random.randint()</code></a> function and returns a list of <code>k</code> distinct primes, each of which is <code>d</code> digits long.</span></li></ol></li></ol>
 </div><hr class="work_separator"/><br/>
 </div><a name="R.1"></a><div class="review"><hr class="last_subsection_was_work"/><h2 class="linked"><span class="link-title">[<a href="#R.1">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">Review #1.</span> Properties, Algorithms, and Applications of Modular Arithmetic</h2>
@@ -4806,7 +5144,10 @@ Bob can use Shamir secret sharing to accomplish this. Bob can take one of the fa
 <b style="color:firebrick;">You may import the following library functions in your module (you may not need all these functions for this assignment depending on how you approach the problems, but they may be used):</b>
         </div>
         
-<div class="code"><div class="source"><br/><span class="keyword">from</span>&nbsp;math&nbsp;<span class="keyword">import</span>&nbsp;floor<br/><span class="keyword">from</span>&nbsp;fractions&nbsp;<span class="keyword">import</span>&nbsp;gcd<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+from math import floor
+from fractions import gcd
+        </code></pre></div></div>
         
 <span class="text"><b style="color:firebrick;">Your file may not import any other modules or employ any external library functions associated with
 integers and sets unless explicitly permitted to do so in a particular problem.</b> Solutions to each of the programming problem parts below should be fairly concise. You will be graded on the correctness, concision, and mathematical legibility of your code. The different problems and problem parts rely on the lecture notes and on each other; carefully consider whether you can use functions from the lecture notes, or functions you define in one part within subsequent parts.</span>
@@ -4850,29 +5191,78 @@ Define an explicit polynomial <i>g</i>(<i>u</i>) that computes the number of tim
 <span class="text">Implement a Python function <code>sqrtsPrime(a, p)</code> that takes two arguments: an integer <code>a</code> and a prime number <code>p</code>. You may assume that <code>a</code> and <code>p</code> are coprime. If <code>p</code> is not in 3 + 4&#8484; or <code>a</code> has no square roots in &#8484;/<code>p</code>&#8484;, the function should return <code>None</code>. Otherwise, it should return the two congruence classes in &#8484;/<code>p</code>&#8484; that solve the following equation:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>p</code>)
 </td></tr></table></td></tr></table></span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sqrtsPrime(2,&nbsp;7)<br/>(3,&nbsp;4)<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sqrtsPrime(5,&nbsp;7)&nbsp;<span class="comment">#&nbsp;5&nbsp;has&nbsp;no&nbsp;square&nbsp;roots</span><br/>None<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sqrtsPrime(5,&nbsp;17)&nbsp;<span class="comment">#&nbsp;17&nbsp;mod&nbsp;4&nbsp;=/=&nbsp;3</span><br/>None<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sqrtsPrime(763472161,&nbsp;5754853343)<br/>(27631,&nbsp;5754825712)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> sqrtsPrime(2, 7)
+(3, 4)
+>>> sqrtsPrime(5, 7) # 5 has no square roots
+None
+>>> sqrtsPrime(5, 17) # 17 mod 4 =/= 3
+None
+>>> sqrtsPrime(763472161, 5754853343)
+(27631, 5754825712)
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a Python function <code>sqrtsPrimePower(a, p, k)</code> that takes three arguments: an integer <code>a</code>, a prime number <code>p</code>, and a positive integer <code>k</code>. You may assume that <code>a</code> and <code>p</code> are coprime. If <code>p</code> is not in 3 + 4&#8484; or <code>a</code> has no square roots in &#8484;/<code>p</code><sup><code>k</code></sup>&#8484;, the function should return <code>None</code>. Otherwise, it should return the congruence classes in &#8484;/<code>p</code><sup><code>k</code></sup>&#8484; that solve the following equation:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>p</code><sup><code>k</code></sup>)
 </td></tr></table></td></tr></table></span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sqrtsPrimePower(2,&nbsp;7,&nbsp;2)<br/>(10,&nbsp;39)<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sqrtsPrimePower(763472161,&nbsp;5754853343,&nbsp;4)<br/>(27631,&nbsp;1096824245608362247285266960246506343570)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> sqrtsPrimePower(2, 7, 2)
+(10, 39)
+>>> sqrtsPrimePower(763472161, 5754853343, 4)
+(27631, 1096824245608362247285266960246506343570)
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a Python function <code>sqrts(a, pks)</code> that takes two arguments: an integer <code>a</code> and a list of tuples <code>pks</code> in which each tuple is a distinct positive prime number paired with a positive integer power. You may assume that <code>a</code> and <code>n</code> are coprime. You may assume that all the primes in <code>pks</code> are in 3 + &#8484;/4&#8484; (if any are not, the function should return <code>None</code>). Let <code>n</code> be the product of all the prime powers in the list <code>pks</code>. Then the function should return a set of all the distinct square roots of <code>a</code> in &#8484;/<code>n</code>&#8484; that are solutions to the following equation:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>n</code></sup>)
 </td></tr></table></td></tr></table>
 Your implementation must be efficient (i.e., it may not iterate over all possible values in &#8484;/<code>n</code>&#8484; to look for square roots), <span style="color:green;">and it must work for any positive number of entries in <code>pks</code></span>.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sqrts(2,&nbsp;[(7,4)])<br/>{235,&nbsp;2166}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sqrts(1,&nbsp;[(7,1),&nbsp;(11,1)])<br/>{1,&nbsp;76,&nbsp;43,&nbsp;34}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sqrts(1,&nbsp;[(7,1),&nbsp;(11,1),&nbsp;(3,1)])<br/>{1,&nbsp;76,&nbsp;43,&nbsp;34,&nbsp;155,&nbsp;188,&nbsp;197,&nbsp;230}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sqrts(1,&nbsp;[(7,2),&nbsp;(11,1),&nbsp;(3,2)])<br/>{1,&nbsp;197,&nbsp;881,&nbsp;1079,&nbsp;3772,&nbsp;3970,&nbsp;4654,&nbsp;4850}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sqrts(1,&nbsp;[(7,1),&nbsp;(11,1),&nbsp;(3,1),&nbsp;(19,1)])<br/>{1,&nbsp;265,&nbsp;419,&nbsp;1198,&nbsp;1310,&nbsp;1462,&nbsp;1616,&nbsp;1882,&nbsp;2507,&nbsp;2773,&nbsp;2927,&nbsp;3079,&nbsp;3191,&nbsp;3970,&nbsp;4124,&nbsp;4388}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sqrts(76349714515459441,&nbsp;[(1500450271,3),&nbsp;(5754853343,2)])<br/>{276314521,<br/>&nbsp;111875075121925861006908948065990250824231090118,<br/>&nbsp;50900491283175338098734392241768315796265192809,<br/>&nbsp;60974583838750522908174555824221935028242211830}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+>>> sqrts(2, [(7,4)])
+{235, 2166}
+>>> sqrts(1, [(7,1), (11,1)])
+{1, 76, 43, 34}
+>>> sqrts(1, [(7,1), (11,1), (3,1)])
+{1, 76, 43, 34, 155, 188, 197, 230}
+>>> sqrts(1, [(7,2), (11,1), (3,2)])
+{1, 197, 881, 1079, 3772, 3970, 4654, 4850}
+>>> sqrts(1, [(7,1), (11,1), (3,1), (19,1)])
+{1, 265, 419, 1198, 1310, 1462, 1616, 1882, 2507, 2773, 2927, 3079, 3191, 3970, 4124, 4388}
+>>> sqrts(76349714515459441, [(1500450271,3), (5754853343,2)])
+{276314521,
+ 111875075121925861006908948065990250824231090118,
+ 50900491283175338098734392241768315796265192809,
+ 60974583838750522908174555824221935028242211830}
+              </code></pre></div></div>
 <span class="text">You may find the following helper function useful in implementing your solution.</span>
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;combinations(ls):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;len(ls)&nbsp;==&nbsp;0:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;[[]]<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else</span>:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;[&nbsp;[x]+l&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;ls[0]&nbsp;<span class="keyword">for</span>&nbsp;l&nbsp;<span class="keyword">in</span>&nbsp;combinations(ls[1:])&nbsp;]<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def combinations(ls):
+    if len(ls) == 0:
+        return [[]]
+    else:
+        return [ [x]+l for x in ls[0] for l in combinations(ls[1:]) ]
+              </code></pre></div></div>
 <span class="text">This function takes a list of lists as its input and returns a list of all possible combinations of one element from each list.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;combinations([[1,2],&nbsp;[<span class="literal">'a'</span>,<span class="literal">'b'</span>],&nbsp;[<span class="literal">'X'</span>,<span class="literal">'Y'</span>]])<br/>[[1,&nbsp;<span class="literal">'a'</span>,&nbsp;<span class="literal">'X'</span>],&nbsp;[1,&nbsp;<span class="literal">'a'</span>,&nbsp;<span class="literal">'Y'</span>],&nbsp;[1,&nbsp;<span class="literal">'b'</span>,&nbsp;<span class="literal">'X'</span>],&nbsp;[1,&nbsp;<span class="literal">'b'</span>,&nbsp;<span class="literal">'Y'</span>],&nbsp;[2,&nbsp;<span class="literal">'a'</span>,&nbsp;<span class="literal">'X'</span>],&nbsp;[2,&nbsp;<span class="literal">'a'</span>,&nbsp;<span class="literal">'Y'</span>],&nbsp;[2,&nbsp;<span class="literal">'b'</span>,&nbsp;<span class="literal">'X'</span>],&nbsp;[2,&nbsp;<span class="literal">'b'</span>,&nbsp;<span class="literal">'Y'</span>]]<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ol></li><li class="problem">
+<div class="code"><div class="source"><pre><code class="py">
+>>> combinations([[1,2], ['a','b'], ['X','Y']])
+[[1, 'a', 'X'], [1, 'a', 'Y'], [1, 'b', 'X'], [1, 'b', 'Y'], [2, 'a', 'X'], [2, 'a', 'Y'], [2, 'b', 'X'], [2, 'b', 'Y']]
+              </code></pre></div></div></li></ol></li><li class="problem">
 <span class="text">Implement the following Python functions for factoring a positive integer. These algorithms must be efficient (i.e., they must run in polynomial time).</span><ol class="parts"><li class="part">
 <span class="text">Implement a function <code>factorsFromPhi(n, phi_n)</code> that takes two integers <code>n</code> and <code>phi_n</code>. You may assume (i.e., you do <i>not</i> need to verify in your code) that <code>n</code> is a product of two distinct positive prime numbers and that <code>phi_n</code> = &phi;(<code>n</code>). The function should return both prime factors of <code>n</code> as a tuple.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;factorsFromPhi(77,&nbsp;60)<br/>(7,&nbsp;11)<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;factorsFromPhi(14369648346682547857,&nbsp;14369648335605206820)<br/>(9576890767,&nbsp;1500450271)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> factorsFromPhi(77, 60)
+(7, 11)
+>>> factorsFromPhi(14369648346682547857, 14369648335605206820)
+(9576890767, 1500450271)
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a function <code>factorsFromRoots(n, x, y)</code> that takes three integers <code>n</code>, <code>x</code>, and <code>y</code>. You may assume that <code>n</code> is a product of two distinct positive prime numbers, and that the following is true:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>x</code><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>y</code><sup>2</sup> (mod <code>n</code>) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
   <code>x</code> <td></tr></table></td><td style="text-align:center;"> &#8802; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> &plusmn; <code>y</code> (mod <code>n</code>) 
 </td></tr></table></td></tr></table>
 The function should return both prime factors of <code>n</code> as a tuple.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;factorsFromRoots(35,&nbsp;1,&nbsp;6)<br/>(5,&nbsp;7)<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;factorsFromRoots(14369648346682547857,&nbsp;12244055913891446225,&nbsp;1389727304093947647)<br/>(1500450271,&nbsp;9576890767)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ol></li><li class="problem">
+<div class="code"><div class="source"><pre><code class="py">
+>>> factorsFromRoots(35, 1, 6)
+(5, 7)
+>>> factorsFromRoots(14369648346682547857, 12244055913891446225, 1389727304093947647)
+(1500450271, 9576890767)
+              </code></pre></div></div></li></ol></li><li class="problem">
 <span class="text">In this problem you will implement the three component algorithms of the RSA cryptographic protocol described in lecture.</span><ol class="parts"><li class="part">
 <span class="text">Define a Python function <code>generate(k)</code> that takes a single integer input <code>k</code> and returns a tuple <code>(n,e,d)</code> corresponding to the public values <code>n</code> and <code>e</code> and private key <code>d</code> in the RSA cryptographic protocol. The output <code>n</code> must be the product of two distinct, randomly chosen <code>k</code>-digit primes. You may import and use the Python random number generator (<code>from random import random</code> or <code>from random import randint</code>), and you may want to reuse the extended Euclidean algorithm implementation provided in the <a href="#assignment3">previous homework assignment</a>.</span></li><li class="part">
 <span class="text">Define a Python function <code>encrypt(m, t)</code> that takes two inputs: an integer <code>m</code> and a tuple <code>(n,e)</code> representing an RSA public key. It should return a single integer: the RSA ciphertext <code>c</code>.</span></li><li class="part">
@@ -5296,7 +5686,12 @@ This would then imply (by basic set theory):
 <b style="color:firebrick;">You may import the following library functions in your module (you may not need all these functions for this assignment depending on how you approach the problems, but they may be used):</b>
         </div>
         
-<div class="code"><div class="source"><br/><span class="keyword">from</span>&nbsp;math&nbsp;<span class="keyword">import</span>&nbsp;floor<br/><span class="keyword">from</span>&nbsp;fractions&nbsp;<span class="keyword">import</span>&nbsp;gcd<br/><span class="keyword">from</span>&nbsp;random&nbsp;<span class="keyword">import</span>&nbsp;randint<br/><span class="keyword">from</span>&nbsp;urllib.request&nbsp;<span class="keyword">import</span>&nbsp;urlopen<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+from math import floor
+from fractions import gcd
+from random import randint
+from urllib.request import urlopen
+        </code></pre></div></div>
         
 <span class="text"><b style="color:firebrick;">Your file may not import any other modules or employ any external library functions associated with integers and sets unless explicitly permitted to do so in a particular problem.</b> Solutions to each of the programming problem parts below should be fairly concise. You will be graded on the correctness, concision, and mathematical legibility of your code. The different problems and problem parts rely on the lecture notes and on each other; carefully consider whether you can use functions from the lecture notes, or functions you define in one part within subsequent parts.</span>
       </div><ol class="problems"><li class="problem">
@@ -5318,20 +5713,44 @@ This would then imply (by basic set theory):
 <span class="text">Explain why there can be no isomorphism between the two algebraic structures (<i>S</i><sub>4</sub>, <span style="font-size:10px;">o</span>) and (&#8484;/4&#8484;, +).</span></li></ol></li><li class="problem">
 <span class="text">Implement the following Python functions for working with permutations. Any code that does not conform exactly to the specified requirements will receive <b>no credit</b>.</span><ol class="parts"><li class="part">
 <span class="text">Implement a function <code>permute(p, l)</code> that takes two arguments: a permutation <code>p</code> (represented as a Python list of integers) and a list <code>l</code> of the same length as the permutation. It should return the list after it has been permuted according to the permutation.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;permute([2,1,0],&nbsp;[<span class="literal">'a'</span>,<span class="literal">'b'</span>,<span class="literal">'c'</span>])<br/>[<span class="literal">'c'</span>,<span class="literal">'b'</span>,<span class="literal">'a'</span>]<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> permute([2,1,0], ['a','b','c'])
+['c','b','a']
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a function <code>C(k, m)</code> that takes two integers <code>k</code> and <code>m</code> where <code>k</code> &lt; <code>m</code> and returns the cyclic permutation in <i>C</i><sub><i>m</i></sub> that shifts all elements up by <i>k</i>.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;C(1,&nbsp;4)<br/>[1,&nbsp;2,&nbsp;3,&nbsp;0]<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> C(1, 4)
+[1, 2, 3, 0]
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a function <code>M(a, m)</code> that takes two coprime integers <code>a</code> and <code>m</code> where <code>0</code> &lt; <code>a</code> &lt; <code>m</code> and returns the multiplication-induced permutation in <i>M</i><sub><i>m</i></sub> that corresponds to multiplication by <i>a</i> modulo <i>m</i>:</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;M(2,&nbsp;5)<br/>[0,&nbsp;2,&nbsp;4,&nbsp;1,&nbsp;3]<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> M(2, 5)
+[0, 2, 4, 1, 3]
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a function <code>sort(l)</code> that takes a list of integers of some length <i>n</i> and returns:
 <ul>
   <li>a cyclic permutation <i>p</i> <span style="font-size:12px;">&#8712;</span> <i>C</i><sub><i>n</i></sub> that will sort the list into ascending order, if it exists;</li>
   <li>a multiplication-induced permutation <i>p</i> <span style="font-size:12px;">&#8712;</span> <i>M</i><sub><i>n</i></sub> that will sort the list into ascending order, if it exists;</li>
   <li><code>None</code> otherwise.</li>
 </ul></span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sort([38,16,27])<br/>[1,2,0]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;permute(sort([38,49,16,27]),&nbsp;[38,49,16,27])<br/>[16,27,38,49]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sort([1,&nbsp;13,&nbsp;4,&nbsp;17,&nbsp;6,&nbsp;23,&nbsp;9])<br/>[0,&nbsp;2,&nbsp;4,&nbsp;6,&nbsp;1,&nbsp;3,&nbsp;5]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;sort([0,&nbsp;17,&nbsp;4,&nbsp;21,&nbsp;8,&nbsp;25,&nbsp;12,&nbsp;29,&nbsp;16,&nbsp;3,&nbsp;20,&nbsp;7,&nbsp;24,&nbsp;11,&nbsp;28,\<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15,&nbsp;2,&nbsp;19,&nbsp;6,&nbsp;23,&nbsp;10,&nbsp;27,&nbsp;14,&nbsp;1,&nbsp;18,&nbsp;5,&nbsp;22,&nbsp;9,&nbsp;26,&nbsp;13])<br/>[0,&nbsp;23,&nbsp;16,&nbsp;9,&nbsp;2,&nbsp;25,18,&nbsp;11,&nbsp;4,&nbsp;27,&nbsp;20,&nbsp;13,&nbsp;6,&nbsp;29,&nbsp;22,<br/>&nbsp;15,&nbsp;8,&nbsp;1,&nbsp;24,&nbsp;17,&nbsp;10,&nbsp;3,&nbsp;26,&nbsp;19,&nbsp;12,&nbsp;5,&nbsp;28,&nbsp;21,&nbsp;14,&nbsp;7]<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ol></li><li class="problem">
+<div class="code"><div class="source"><pre><code class="py">
+>>> sort([38,16,27])
+[1,2,0]
+>>> permute(sort([38,49,16,27]), [38,49,16,27])
+[16,27,38,49]
+>>> sort([1, 13, 4, 17, 6, 23, 9])
+[0, 2, 4, 6, 1, 3, 5]
+>>> sort([0, 17, 4, 21, 8, 25, 12, 29, 16, 3, 20, 7, 24, 11, 28,\
+          15, 2, 19, 6, 23, 10, 27, 14, 1, 18, 5, 22, 9, 26, 13])
+[0, 23, 16, 9, 2, 25,18, 11, 4, 27, 20, 13, 6, 29, 22,
+ 15, 8, 1, 24, 17, 10, 3, 26, 19, 12, 5, 28, 21, 14, 7]
+              </code></pre></div></div></li></ol></li><li class="problem">
 <span class="text">In this problem you will implement a secure and correct multiplication algorithm by using an untrusted, unreliable third-party web service to perform the actual multiplication. The web service consists of a PHP script at <code><a href="http://cs-people.bu.edu/lapets/235/unreliable.php">http://cs-people.bu.edu/lapets/235/unreliable.php</a></code> (e.g., the result of ((2 &sdot; 3 &sdot; 4) mod 7) can be obtained at <code><a href="http://cs-people.bu.edu/lapets/235/unreliable.php?n=7&data=2,3,4">http://cs-people.bu.edu/lapets/235/unreliable.php?n=7&data=2,3,4</a></code>). You can use the Python function below to invoke this script (this Python code needs to run on a computer connected to the internet).</span>
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;unreliableUntrustedProduct(xs,&nbsp;n):<br/>&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;=&nbsp;<span class="literal">'http://cs-people.bu.edu/lapets/235/unreliable.php'</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">int</span>(urlopen(url+<span class="literal">"?n="</span>+<span class="builtin">str</span>(n)+<span class="literal">"&data="</span>+<span class="literal">","</span>.join([<span class="builtin">str</span>(x)&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;xs])).read().decode())<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def unreliableUntrustedProduct(xs, n):
+    url = 'http://cs-people.bu.edu/lapets/235/unreliable.php'
+    return int(urlopen(url+"?n="+str(n)+"&data="+",".join([str(x) for x in xs])).read().decode())
+          </code></pre></div></div>
 <span class="text">To test your code on a service that does not sometimes return incorrect answers, you can also use the URL <code>http://cs-people.bu.edu/lapets/235/reliable.php</code>.</span><ol class="parts"><li class="part">
 <span class="text">Implement a function <code>privateProduct(xs, p, q)</code> that takes three inputs: a non-empty list of integers <code>xs</code>, a prime <code>p</code>, and another distinct prime <code>q</code>. The function must compute the product modulo <code>p</code> of all the integers in the list <code>xs</code> (assuming the web service performs its job correctly, which it may sometimes not do):
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>privateProduct(xs, p, q)</code> <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>(xs[0] * xs[1] * ... * xs[len(xs)-1]) % p</code>
@@ -5348,7 +5767,20 @@ Start with your solution to part (a) and extend it by choosing a random value <c
 To check if the answer you obtained from <code>unreliableUntrustedProduct()</code> is actually correct, determine whether the decrypted value modulo <code>q</code> has the expected value (i.e., is it really <code>r</code><sup><code>len(xs)</code></sup> modulo <code>q</code>). If this check fails, keep repeating the entire process from the beginning until it succeeds.
               </div></li></ol></li><li class="problem">
 <span class="text">Implement a function <code>isomorphism(A, B)</code> that takes two tuples <code>A</code> and <code>B</code> as inputs. Each tuple consists of two entries: the first is an ordered list of elements from an algebraic structure, and the second is a function on elements of that binary structure. Thus, the tuple <code>A</code> represents an algebraic structure (<i>A</i>, &oplus;), and the tuple <code>B</code> represents an algebraic structure (<i>B</i>, &otimes;). You may assume that the list of elements is closed under the operation represented by the function. You may also assume that the bijection between the sets <i>A</i> and <i>B</i> is already provided by the order of the elements in each list (i.e., the <i>i</i>th entry in the first list corresponds to the <i>i</i>th entry in the second). The <code>isomorphism()</code> function should return <code>True</code> if there is indeed an isomorphism between (<i>A</i>, &oplus;) and (<i>B</i>, &otimes;), and <code>False</code> otherwise.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;plusMod2&nbsp;=&nbsp;<span class="keyword">lambda</span>&nbsp;x,y:&nbsp;(x&nbsp;+&nbsp;y)&nbsp;%&nbsp;2<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;A&nbsp;=&nbsp;([0,1],&nbsp;plusMod2)<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;B&nbsp;=&nbsp;([C(0,2),&nbsp;C(1,2)],&nbsp;permute)<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;isomorphism(A,&nbsp;B)<br/><span class="builtin">True</span><br/><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;plusMod4&nbsp;=&nbsp;<span class="keyword">lambda</span>&nbsp;x,y:&nbsp;(x&nbsp;+&nbsp;y)&nbsp;%&nbsp;4<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;multMod8&nbsp;=&nbsp;<span class="keyword">lambda</span>&nbsp;x,y:&nbsp;(x&nbsp;*&nbsp;y)&nbsp;%&nbsp;8<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;A&nbsp;=&nbsp;([0,1,2,3],&nbsp;plusMod4)<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;B&nbsp;=&nbsp;([1,3,5,7],&nbsp;multMod8)<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;isomorphism(A,&nbsp;B)<br/><span class="builtin">False</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="problem">
+<div class="code"><div class="source"><pre><code class="py">
+>>> plusMod2 = lambda x,y: (x + y) % 2
+>>> A = ([0,1], plusMod2)
+>>> B = ([C(0,2), C(1,2)], permute)
+>>> isomorphism(A, B)
+True
+
+>>> plusMod4 = lambda x,y: (x + y) % 4
+>>> multMod8 = lambda x,y: (x * y) % 8
+>>> A = ([0,1,2,3], plusMod4)
+>>> B = ([1,3,5,7], multMod8)
+>>> isomorphism(A, B)
+False
+          </code></pre></div></div></li><li class="problem">
 <span class="text"><b>Extra credit:</b> In a comment, solve and explain each of the following.</span><ol class="parts"><li class="part">
 <span class="text">Either find an isomorphism between ((&#8484;/8&#8484;)*, &sdot;) and ((&#8484;/10&#8484;)*, &sdot;) or explain why one cannot exist despite the fact that |(&#8484;/8&#8484;)*| = &phi;(8) = &phi;(10) = |(&#8484;/10&#8484;)*|.</span></li><li class="part">
 <span class="text">Either find an isomorphism between (&#8484;/4&#8484;, +) and ((&#8484;/8&#8484;)*, &sdot;) or explain why one cannot exist despite the fact that |Z/4&#8484;| = 4 = &phi;(8) = |(&#8484;/8&#8484;)*|.</span></li></ol></li></ol>
@@ -5987,7 +6419,11 @@ One notation for this set of polynomials is &#8484;/2&#8484;[<i>x</i>], which ca
 <b style="color:firebrick;">For the programming parts, you may import the following library functions in your module (you may not need all these functions for this assignment depending on how you approach the problems, but they may be used):</b>
         </div>
         
-<div class="code"><div class="source"><br/><span class="keyword">from</span>&nbsp;math&nbsp;<span class="keyword">import</span>&nbsp;floor<br/><span class="keyword">from</span>&nbsp;fractions&nbsp;<span class="keyword">import</span>&nbsp;gcd<br/><span class="keyword">from</span>&nbsp;random&nbsp;<span class="keyword">import</span>&nbsp;randint<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+from math import floor
+from fractions import gcd
+from random import randint
+        </code></pre></div></div>
         
 <span class="text"><b style="color:firebrick;">Your file may not import any other modules or employ any external library functions associated with integers and sets unless explicitly permitted to do so in a particular problem.</b></span>
       </div><ol class="problems"><li class="problem">
@@ -6024,12 +6460,30 @@ Assuming that Bob has at most 60 problems to solve, how many problems does Bob h
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>c</code> &sdot; <i>x</i> + <code>b</code> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>m</code>)
 </td></tr></table></td></tr></table>
 If no solution exists, the function should return <code>None</code>. The function must work correctly for all possible equations (you should use the <a href="#29831f3f3ebd42bb91d29c5d9b298236">linear congruence theorem</a>).</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveOne(1,&nbsp;0,&nbsp;2,&nbsp;3)<br/>2<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveOne(3,&nbsp;1,&nbsp;5,&nbsp;7)<br/>6<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveOne(1,&nbsp;0,&nbsp;5,&nbsp;11)<br/>5<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveOne(2,&nbsp;0,&nbsp;3,&nbsp;8)<br/><span class="builtin">None</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveOne(6,&nbsp;3,&nbsp;5,&nbsp;8)<br/>3<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> solveOne(1, 0, 2, 3)
+2
+>>> solveOne(3, 1, 5, 7)
+6
+>>> solveOne(1, 0, 5, 11)
+5
+>>> solveOne(2, 0, 3, 8)
+None
+>>> solveOne(6, 3, 5, 8)
+3
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a function <code>solveOneSameMod(c, b, a, m)</code> that takes four integers <code>c</code>, <code>b</code>, <code>a</code>, and <code>m</code> &ge; 1. If it exists, the function should return <b>the set of all solutions</b> <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/<code>m</code>&#8484; to the following equation:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>c</code> &sdot; <i>x</i> + <code>b</code> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>m</code>)
 </td></tr></table></td></tr></table>
 If no solution exists, the function should return <code>None</code>. Your solution does not need to be efficient, but it must use <code>solveOne()</code> as a subroutine.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveOneSameMod(3,&nbsp;0,&nbsp;4,&nbsp;7)<br/>{6}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveOneSameMod(2,&nbsp;0,&nbsp;3,&nbsp;8)<br/><span class="builtin">None</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveOneSameMod(6,&nbsp;3,&nbsp;5,&nbsp;8)<br/>{3,&nbsp;7}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> solveOneSameMod(3, 0, 4, 7)
+{6}
+>>> solveOneSameMod(2, 0, 3, 8)
+None
+>>> solveOneSameMod(6, 3, 5, 8)
+{3, 7}
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a function <code>solveTwo(e1, e2)</code> that takes two tuples <code>e1</code> and <code>e2</code> as inputs, each of the form <code>(c, b, a, m)</code> (i.e., containing four integer elements). Each tuple <code>(c, b, a, m)</code> corresponds to an equation of the form:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>c</code> &sdot; <i>x</i> + <code>b</code> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>m</code>)
 </td></tr></table></td></tr></table>
@@ -6038,24 +6492,60 @@ Thus, the two tuples, if we call them <code>(c, b, a, m)</code> and <code>(t, s,
   <code>t</code> &sdot; <i>x</i> + <code>s</code> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>r</code> (mod <code>n</code>)
 </td></tr></table></td></tr></table>
 The function <code>solveTwo()</code> should return the unique solution <i>x</i> to the above system of equations. If either equation cannot be solved using <code>solveOne()</code>, the function should return <code>None</code>.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveTwo((3,&nbsp;0,&nbsp;4,&nbsp;7),&nbsp;(1,&nbsp;0,&nbsp;5,&nbsp;11))<br/>27<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveTwo((1,&nbsp;0,&nbsp;1,&nbsp;6),&nbsp;(1,&nbsp;0,&nbsp;3,&nbsp;8))<br/>19<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveTwo((1,&nbsp;0,&nbsp;0,&nbsp;6),&nbsp;(1,&nbsp;0,&nbsp;3,&nbsp;8))<br/><span class="builtin">None</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+>>> solveTwo((3, 0, 4, 7), (1, 0, 5, 11))
+27
+>>> solveTwo((1, 0, 1, 6), (1, 0, 3, 8))
+19
+>>> solveTwo((1, 0, 0, 6), (1, 0, 3, 8))
+None
+              </code></pre></div></div></li><li class="part">
 <span class="text">Implement a function <code>solveAll(es)</code> that takes a list of one or more equations, each of the form <code>(c, b, a, m)</code>. The function should return the unique solution <i>x</i> to the system of equations represented by the list of equations. If the system of equations has no solution, the function should return <code>None</code>.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveAll([(1,0,2,3)])<br/>2<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveAll([(3,0,4,7),&nbsp;(1,0,5,11)])<br/>27<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveAll([(5,0,3,7),&nbsp;(3,0,5,11),&nbsp;(11,0,4,13)])<br/>856<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveAll([(1,0,2,3),&nbsp;(7,0,8,31),&nbsp;(3,0,5,7),&nbsp;(11,0,4,13)])<br/>7109<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveAll([(3,0,2,4),&nbsp;(7,0,8,9),&nbsp;(2,0,8,25),&nbsp;(4,0,4,7)])<br/>554<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveAll([(1,0,1,6),&nbsp;(1,0,3,8)])<br/>19<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;solveAll([(1,0,0,6),&nbsp;(1,0,3,8)])<br/><span class="builtin">None</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ol></li><li class="problem">
+<div class="code"><div class="source"><pre><code class="py">
+>>> solveAll([(1,0,2,3)])
+2
+>>> solveAll([(3,0,4,7), (1,0,5,11)])
+27
+>>> solveAll([(5,0,3,7), (3,0,5,11), (11,0,4,13)])
+856
+>>> solveAll([(1,0,2,3), (7,0,8,31), (3,0,5,7), (11,0,4,13)])
+7109
+>>> solveAll([(3,0,2,4), (7,0,8,9), (2,0,8,25), (4,0,4,7)])
+554
+>>> solveAll([(1,0,1,6), (1,0,3,8)])
+19
+>>> solveAll([(1,0,0,6), (1,0,3,8)])
+None
+              </code></pre></div></div></li></ol></li><li class="problem">
 <span class="text">In this problem you will implement a reliable addition algorithm for &#8484;/256&#8484; by using an unreliable addition algorithm for &#8484;/256&#8484;. <b>You may not use the addition operator <code>+</code> anywhere in your solutions to this problem</b>. You may assume you are given access to a function <code>plus256unreliable(x, y)</code> that returns an answer that is at most 4 away from the true sum modulo <code>256</code> (assume there is no chance of this error causing the answer to wrap around):
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  | <code>plus256unreliable(x, y)</code> &#8722; (<code>(x + y) % 256</code>) | <td></tr></table></td><td style="text-align:center;"> &lt; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>4</code>
 </td></tr></table></td></tr></table>
 You may use the following Python simulation of this unreliable function in order to test your code:</span>
-<div class="code"><div class="source"><br/><span class="keyword">from</span>&nbsp;random&nbsp;<span class="keyword">import</span>&nbsp;randint<br/><span class="keyword">def</span>&nbsp;plus256unreliable(x,&nbsp;y):<br/>&nbsp;&nbsp;&nbsp;&nbsp;r&nbsp;=&nbsp;randint(0,7)&nbsp;-&nbsp;4<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;(<span class="builtin">min</span>(255,&nbsp;<span class="builtin">max</span>(0,&nbsp;((x&nbsp;+&nbsp;y)%256)&nbsp;+&nbsp;r)))<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div><ol class="parts"><li class="part">
+<div class="code"><div class="source"><pre><code class="py">
+from random import randint
+def plus256unreliable(x, y):
+    r = randint(0,7) - 4
+    return (min(255, max(0, ((x + y)%256) + r)))
+          </code></pre></div></div><ol class="parts"><li class="part">
 <span class="text">Implement a Python function <code>plus16(x, y)</code> that reliably returns <code>(x + y) % 16</code> with 100% accuracy. <b>You may use <code>//</code>, <code>*</code>, <code>plus256unreliable()</code>, and numerical constants, but you may not use anything else in your definition.</b> <span style="color:green; font-weight:bold;"><b>Hint</b>: you can call <code>plus256unreliable()</code> more than once.</span></span></li><li class="part">
 <span class="text">Implement a Python function <code>plus256(x, y)</code> that reliably returns <code>(x + y) % 256</code> with 100% accuracy. <b>Your solution must use <code>solveAll()</code>, and you are allowed to use <code>%</code>, but you may not use the addition or subtraction operators</b>: choose four appropriate prime or mutually coprime moduli, perform the addition operations modulo those moduli, then restore the original result using <code>solveAll()</code>.</b></span></li></ol></li><li class="problem">
 <span class="text">Suppose you are given the following function (which simulates the component of Shor's algorithm that can run efficiently on a quantum computer). Given <code>n</code> <span style="font-size:12px;">&#8712;</span> &#8469; and <code>a</code> <span style="font-size:12px;">&#8712;</span> &#8484;/<i>n</i>&#8484;, it returns the smallest non-zero congruence class <i>r</i> <span style="font-size:12px;">&#8712;</span> &#8484;/&phi;(<i>n</i>)&#8484; such that <code>a</code><sup><i>r</i></sup> &equiv; 1 (mod <code>n</code>). In other words, it returns |closure({<code>a</code>}, &sdot;)| where &sdot; is multiplication modulo <code>n</code>.</span>
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;quantum(a,&nbsp;n):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;[<span class="builtin">pow</span>(a,k,n)&nbsp;<span class="keyword">for</span>&nbsp;k&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">range</span>(1,&nbsp;n)].index(1)&nbsp;+&nbsp;1<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def quantum(a, n):
+    return [pow(a,k,n) for k in range(1, n)].index(1) + 1
+          </code></pre></div></div>
 <span class="text">Implement a function <code>factor(n)</code> that returns a non-trivial factor of a composite number input <code>n</code> = <i>p</i> &sdot; <i>q</i> by calling <code>quantum()</code>. <b>Solutions that use exhaustive search will receive no credit.</b></span></li><li class="problem">
 <span class="text"><b>Extra credit:</b> In Problem 4, you implemented an efficient factoring algorithm that used the function <code>quantum()</code>. In this problem, you will implement an efficient version of <code>quantum()</code> using another function. Suppose you are given an efficient function <code>blackbox()</code> that takes three positive integers <code>k1</code>, <code>k2</code>, and <code>n</code> where <code>k1</code> &lt; <code>k2</code>. For each possible exponent <code>k</code> <span style="font-size:12px;">&#8712;</span> {<code>k1</code>, ..., <code>k2</code>}, the function efficiently computes the <b>average</b> of the following set of values:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  {<i>a</i><sup><code>k</code></sup> mod <code>n</code> | <i>a</i> <span style="font-size:12px;">&#8712;</span> {1,...,<code>n</code>-1}}
 </td></tr></table></td></tr></table>
 It then returns the minimum of the averages over all <code>k</code> <span style="font-size:12px;">&#8712;</span> {<code>k1</code>, ..., <code>k2</code>}. An <b>inefficient</b> but equivalent implementation is provided below <b>for testing purposes</b>:</span>
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;avg(a):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">float</span>(<span class="builtin">sum</span>(a))/<span class="builtin">len</span>(a)<br/><br/><span class="keyword">def</span>&nbsp;blackbox(k1,&nbsp;k2,&nbsp;n):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="builtin">min</span>([(avg([<span class="builtin">pow</span>(a,k,n)&nbsp;<span class="keyword">for</span>&nbsp;a&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">range</span>(1,n)]))&nbsp;<span class="keyword">for</span>&nbsp;k&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">range</span>(k1,&nbsp;k2)])<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def avg(a):
+    return float(sum(a))/len(a)
+
+def blackbox(k1, k2, n):
+    return min([(avg([pow(a,k,n) for a in range(1,n)])) for k in range(k1, k2)])
+          </code></pre></div></div>
 <span class="text">Implement an efficient (polynomial-time) function <code>quantum(a, n)</code> that takes any composite <code>n</code> that is the product of two distinct primes, and returns the smallest non-zero congruence class <i>r</i> <span style="font-size:12px;">&#8712;</span> &#8484;/&phi;(<i>n</i>)&#8484; such that <i>a</i><sup><i>r</i></sup> &equiv; 1 (mod <i>n</i>). Your implementation of <code>quantum()</code> may make up to log<sub>2</sub>(<code>n</code>) calls to <code>blackbox()</code>, but not more than that.</span></li><li class="problem">
 <span class="text"><b>Extra extra credit:</b> Using an approach similar to the one we saw in <a href="#18231a61b42aaaeddd8347f75c7f4aaa">this example</a>, determine the set of all distinct polynomials that are of the form <i>a</i><sub><i>k</i></sub> <i>x</i><sup><i>k</i></sup> + <i>a</i><sub><i>k</i>-1</sub> <i>x</i><sup><i>k</i>-1</sup> + ... + <i>a</i><sub>2</sub> <i>x</i><sup>2</sup> + <i>a</i><sub>1</sub> <i>x</i><sup>1</sup> + <i>a</i><sub>0</sub> <i>x</i><sup>0</sup> if <i>a</i><sub><i>i</i></sub> are all from &#8484;/3&#8484; and + represents addition modulo 3; in other words, list all elememts of &#8484;/3&#8484;[<i>x</i>]. Furthermore, find at least one other group that is isomorphic to &#8484;/3&#8484;[<i>x</i>], and explicitly write down the bijection for that isomorphism.</span></li></ol>
 </div><hr class="work_separator"/><br/>
@@ -6353,72 +6843,289 @@ Each of the scenarios is considered below.
 <span class="text top">The latest version of Python 3 can be downloaded at: <b><a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></b>. In this course, we will require the use if <b>Python 3</b>, which has been installed on all the <a href="http://www.bu.edu/cs/resources/laboratories/undergraduate-lab/">CS Department's undergraduate computing lab</a> machines, as well as on <code>csa2/csa3</code>.</span></div>
   <a name="A.2"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#A.2">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">A.2.</span> Assembling a Python module</h3>
 <span class="text top">The simplest Python program is a single file (called a <i>module</i>) with the file extension <code>.py</code>. For example, suppose the following is contained within a file called <code>example.py</code>:</span>
-<div class="code top"><div class="source"><br/><span class="comment">#&nbsp;This&nbsp;is&nbsp;a&nbsp;comment&nbsp;in&nbsp;example.py.</span><br/><span class="comment">#&nbsp;Below&nbsp;is&nbsp;a&nbsp;Python&nbsp;statement.</span><br/><span class="builtin">print</span>(<span class="literal">"Hello,&nbsp;world."</span>)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code top"><div class="source"><pre><code class="py">
+# This is a comment in "example.py".
+# Below is a Python statement.
+print("Hello, world.")
+      </code></pre></div></div>
 <span class="text top">Assuming Python is installed on your system, to run the above program from the command line you can use the following (you may need to use <code>python3</code>, <code>python3.2</code>, <code>python3.3</code>, etc. depending on the Python installation you're using). Note that in the examples below <code>%&gt;</code> represents a terminal prompt, which may look different on your system.</span>
-<div class="code top"><div class="source"><br/>%>&nbsp;python&nbsp;example.py<br/>Hello,&nbsp;world.<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code top"><div class="source"><pre><code class="py">
+%> python example.py
+Hello, world.
+      </code></pre></div></div>
 <span class="text top">If you run Python without an argument on the command line, you will enter Python's interactive prompt. You can then evaluate expressions and execute individual statements using this prompt; you can also load and execute a Python module file:</span>
-<div class="code top"><div class="source"><br/>%>&nbsp;python<br/>Python&nbsp;3.2&nbsp;...<br/>Type&nbsp;<span class="literal">"help"</span>,&nbsp;<span class="literal">"copyright"</span>,&nbsp;<span class="literal">"credits"</span>&nbsp;or&nbsp;<span class="literal">"license"</span>&nbsp;for&nbsp;more&nbsp;information.<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">exec</span>(<span class="builtin">open</span>(<span class="literal">"example.py"</span>).read())&nbsp;<span class="comment">#&nbsp;Load&nbsp;example.py&nbsp;module.</span><br/>Hello,&nbsp;world.<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;x&nbsp;=&nbsp;<span class="literal">"Hello."</span>&nbsp;<span class="comment">#&nbsp;Execute&nbsp;an&nbsp;assignment&nbsp;statement.</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">print</span>(x)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Execute&nbsp;a&nbsp;print&nbsp;statement.</span><br/>Hello.<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Evaluate&nbsp;a&nbsp;string&nbsp;expression.</span><br/><span class="literal">'Hello.'</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;1&nbsp;+&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Evaluate&nbsp;a&nbsp;numerical&nbsp;expression.</span><br/>3<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></div>
+<div class="code top"><div class="source"><pre><code class="py">
+%> python
+Python 3.2 ...
+Type "help", "copyright", "credits" or "license" for more information.
+>>> exec(open("example.py").read()) # Load "example.py" module.
+Hello, world.
+>>> x = "Hello." # Execute an assignment statement.
+>>> print(x)     # Execute a "print" statement.
+Hello.
+>>> x            # Evaluate a string expression.
+'Hello.'
+>>> 1 + 2        # Evaluate a numerical expression.
+3
+      </code></pre></div></div></div>
   <a name="A.3"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#A.3">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">A.3.</span> Common data structures (i.e., Python expressions)</h3>
 <span class="text top">Python provides native support for several data structures that we will use throughout this course: integers, strings, lists, tuples, sets, and dictionaries (also known as finite maps). In this subsection, we present how instances of these data structures are represented in Python, as well as the most common operations and functions that can be applied to these data structure instances.</span><ul class="top"><li>
 <span class="text"><b>Booleans</b> consist of two constants: <code>True</code> and <code>False</code>.</span><ul><li>The usual logical operations are available using the operators <code>and</code>, <code>or</code>, and <code>not</code>.</li></ul>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">True</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;A&nbsp;boolean&nbsp;constant.</span><br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">False</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;A&nbsp;boolean&nbsp;constant.</span><br/><span class="builtin">False</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">True</span>&nbsp;<span class="keyword">and</span>&nbsp;<span class="builtin">False</span>&nbsp;<span class="keyword">or</span>&nbsp;<span class="builtin">True</span>&nbsp;<span class="keyword">and</span>&nbsp;(<span class="keyword">not</span>&nbsp;<span class="builtin">False</span>)&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;A&nbsp;boolean&nbsp;expression.</span><br/><span class="builtin">True</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+>>> True                                      # A boolean constant.
+True
+>>> False                                     # A boolean constant.
+False
+>>> True and False or True and (not False)    # A boolean expression.
+True
+          </code></pre></div></div></li><li>
 <span class="text"><b>Integers</b> are written as in most other programming languages (i.e., as a sequence of digits).</span><ul><li>The usual arithmetic operations are available using the operators <code>+</code>, <code>*</code>, <code>-</code>, and <code>/</code>. The infix operator <code>//</code> represents integer division, and the infix operators <code>**</code> represents exponentiation. Negative integers are prefixed with the negation operator <code>-</code>.</li><li>The usual relational operators <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code> are available.</li><li>The <code>int()</code> function can convert a string that looks like an integer into an integer.</li></ul>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;An&nbsp;integer&nbsp;constant.</span><br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;1&nbsp;*&nbsp;(2&nbsp;+&nbsp;3)&nbsp;//&nbsp;4&nbsp;-&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;An&nbsp;integer&nbsp;expression.</span><br/>-4<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;4&nbsp;*&nbsp;5&nbsp;>=&nbsp;19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;A&nbsp;boolean&nbsp;expression&nbsp;involving&nbsp;integers.</span><br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">int</span>(<span class="literal">"123"</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;A&nbsp;string&nbsp;being&nbsp;converted&nbsp;into&nbsp;an&nbsp;integer</span><br/>123<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+>>> 123                                       # An integer constant.
+True
+>>> 1 * (2 + 3) // 4 - 5                      # An integer expression.
+-4
+>>> 4 * 5 >= 19                               # A boolean expression involving integers.
+True
+>>> int("123")                                # A string being converted into an integer
+123
+          </code></pre></div></div></li><li>
 <span class="text"><b>Strings</b> are delimited by either <code>'</code> or <code>"</code> characters. Strings can be treated as lists of single-character strings. Another way to look at this is that there is no distinction between a character and a string: all characters are just strings of length 1. Multiline strings can be delimited using <code>"""</code> or <code>'''</code> (i.e., three quotation mark characters at the beginning and end of the string literal).</span><ul><li>The empty string is denoted using <code>''</code> or <code>""</code>.</li><li>Two strings can be concatenated using <code>+</code>.</li><li>The function <code>len()</code> returns the length of a string.</li><li>Individual characters in a string can be accessed using the bracketed index notation (e.g., <code>s[i]</code>). These characters are also strings themselves.</li></ul>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="literal">'Example.'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;A&nbsp;string.</span><br/><span class="literal">'Example.'</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="literal">"Example."</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Alternate&nbsp;notation&nbsp;for&nbsp;a&nbsp;string.</span><br/><span class="literal">'Example.'</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">len</span>(<span class="literal">"ABCD"</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;String&nbsp;length.</span><br/>4<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="literal">"ABCD"</span>&nbsp;+&nbsp;<span class="literal">"EFG"</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;String&nbsp;concatenation.</span><br/><span class="literal">'ABCDEFG'</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="literal">"ABCD"</span>[2]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Third&nbsp;character&nbsp;in&nbsp;the&nbsp;string.</span><br/><span class="literal">'C'</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+>>> 'Example.'                                # A string.
+'Example.'
+>>> "Example."                                # Alternate notation for a string.
+'Example.'
+>>> len("ABCD")                               # String length.
+4
+>>> "ABCD" + "EFG"                            # String concatenation.
+'ABCDEFG'
+>>> "ABCD"[2]                                 # Third character in the string.
+'C'
+          </code></pre></div></div></li><li>
 <span class="text"><b>Lists</b> are similar to arrays: they are ordered sequences of objects and/or values. The entries of a list can be of a mixture of different types, and lists containing one or more objects are delimited using <code>[</code> and <code>]</code>, with the individual list entries separated by commas. Lists cannot be members of sets.</span><ul><li>The empty list is denoted using <code>[]</code>.</li><li>Two lists can be concatenated using <code>+</code>.</li><li>The function <code>len()</code> returns the length of a list.</li><li>Individual entries in a list can be accessed using the bracketed index notation (e.g., <code>a[i]</code>).</li><li>To check if a value is in a list, use the <code>in</code> relational operator.</li></ul>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[1,2,<span class="literal">"A"</span>,<span class="literal">"B"</span>]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;A&nbsp;list.</span><br/>[1,&nbsp;2,&nbsp;<span class="literal">'A'</span>,&nbsp;<span class="literal">'B'</span>]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[1,&nbsp;2]&nbsp;+&nbsp;[<span class="literal">'A'</span>,<span class="literal">'B'</span>]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Concatenating&nbsp;lists.</span><br/>[1,&nbsp;2,&nbsp;<span class="literal">'A'</span>,&nbsp;<span class="literal">'B'</span>]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">len</span>([1,2,<span class="literal">"A"</span>,<span class="literal">"B"</span>]&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;List&nbsp;length.</span><br/>4<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[1,2,<span class="literal">"A"</span>,<span class="literal">"B"</span>][0]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;First&nbsp;entry&nbsp;in&nbsp;the&nbsp;list.</span><br/>1<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;1&nbsp;<span class="keyword">in</span>&nbsp;[1,&nbsp;2]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;List&nbsp;containment&nbsp;check.</span><br/><span class="builtin">True</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+>>> [1,2,"A","B"]                             # A list.
+[1, 2, 'A', 'B']
+>>> [1, 2] + ['A','B']                        # Concatenating lists.
+[1, 2, 'A', 'B']
+>>> len([1,2,"A","B"] )                       # List length.
+4
+>>> [1,2,"A","B"][0]                          # First entry in the list.
+1
+>>> 1 in [1, 2]                               # List containment check.
+True
+          </code></pre></div></div></li><li>
 <span class="text"><b>Tuples</b> are similar to lists (they are ordered, and can contain objects of different types), except they are delimited by parentheses <code>(</code> and <code>)</code>, with entries separated by commas. The main distinction between lists and tuples is that tuples are hashable (i.e., they can be members of sets).</span><ul><li>The empty tuple is denoted using <code>()</code>.</li><li>A tuple containing a single object <code>x</code> is denoted using <code>(x, )</code>.</li><li>Two tuples can be concatenated using <code>+</code>.</li><li>A tuple can be turned into a list using the <code>list()</code> function.</li><li>A list can be turned into a tuple using the <code>tuple()</code> function.</li><li>The function <code>len()</code> returns the length of a tuple.</li><li>Individual entries in a tuple can be accessed using the bracketed index notation (e.g., <code>t[i]</code>).</li><li>To check if a value is in a tuple, use the <code>in</code> relational operator.</li></ul>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;(1,2,<span class="literal">"A"</span>,<span class="literal">"B"</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;A&nbsp;tuple.</span><br/>(1,&nbsp;2,&nbsp;<span class="literal">'A'</span>,&nbsp;<span class="literal">'B'</span>)<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;(1,)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Another&nbsp;tuple.</span><br/>(1,)<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;(1,&nbsp;2)&nbsp;+&nbsp;(<span class="literal">'A'</span>,<span class="literal">'B'</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Concatenating&nbsp;tuples.</span><br/>(1,&nbsp;2,&nbsp;<span class="literal">'A'</span>,&nbsp;<span class="literal">'B'</span>)<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">list</span>((1,&nbsp;2,&nbsp;<span class="literal">'A'</span>,<span class="literal">'B'</span>))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;A&nbsp;tuple&nbsp;being&nbsp;converted&nbsp;into&nbsp;a&nbsp;list.</span><br/>[1,&nbsp;2,&nbsp;<span class="literal">'A'</span>,&nbsp;<span class="literal">'B'</span>]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">tuple</span>([1,&nbsp;2,&nbsp;<span class="literal">'A'</span>,<span class="literal">'B'</span>])&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;A&nbsp;list&nbsp;being&nbsp;converted&nbsp;into&nbsp;a&nbsp;tuple.</span><br/>(1,&nbsp;2,&nbsp;<span class="literal">'A'</span>,&nbsp;<span class="literal">'B'</span>)<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">len</span>((1,2,<span class="literal">"A"</span>,<span class="literal">"B"</span>))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Tuple&nbsp;length.</span><br/>4<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;(1,2,<span class="literal">"A"</span>,<span class="literal">"B"</span>)[0]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;First&nbsp;entry&nbsp;in&nbsp;the&nbsp;tuple.</span><br/>1<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;1&nbsp;<span class="keyword">in</span>&nbsp;(1,&nbsp;2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Tuple&nbsp;containment&nbsp;check.</span><br/><span class="builtin">True</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+>>> (1,2,"A","B")                             # A tuple.
+(1, 2, 'A', 'B')
+>>> (1,)                                      # Another tuple.
+(1,)
+>>> (1, 2) + ('A','B')                        # Concatenating tuples.
+(1, 2, 'A', 'B')
+>>> list((1, 2, 'A','B'))                     # A tuple being converted into a list.
+[1, 2, 'A', 'B']
+>>> tuple([1, 2, 'A','B'])                    # A list being converted into a tuple.
+(1, 2, 'A', 'B')
+>>> len((1,2,"A","B"))                        # Tuple length.
+4
+>>> (1,2,"A","B")[0]                          # First entry in the tuple.
+1
+>>> 1 in (1, 2)                               # Tuple containment check.
+True
+          </code></pre></div></div></li><li>
 <span class="text"><b>Sets</b> are unordered sequences that cannot contain duplicates. They are a close approximation of mathematical sets. Sets cannot be members of sets.</span><ul><li>The empty set is denoted using <code>set()</code>.</li><li>The methods <code>.union()</code> and <code>.intersect</code> correspond to the standard set operations.</li><li>A list or tuple can be turned into a set using the <code>set()</code> function.</li><li>A set can be turned into a list or tuple using the <code>list()</code> or <code>list()</code> function, respectively.</li><li>The function <code>len()</code> returns the size of a set.</li><li>To access individual entries in a set, it is necessary to turn the set into a list or tuple.</li><li>To check if a value is in a set, use the <code>in</code> relational operator.</li></ul>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;{1,2,<span class="literal">"A"</span>,<span class="literal">"B"</span>}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;A&nbsp;set.</span><br/>{1,&nbsp;2,&nbsp;<span class="literal">'A'</span>,&nbsp;<span class="literal">'B'</span>}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;({1,2}.union({3,4})).intersection({4,5})&nbsp;&nbsp;<span class="comment">#&nbsp;Set&nbsp;operations.</span><br/>{4}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">set</span>([1,&nbsp;2]).union(<span class="builtin">set</span>((<span class="literal">'A'</span>,<span class="literal">'B'</span>)))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Converting&nbsp;a&nbsp;list&nbsp;and&nbsp;a&nbsp;tuple&nbsp;to&nbsp;sets.</span><br/>{<span class="literal">'A'</span>,&nbsp;1,&nbsp;2,&nbsp;<span class="literal">'B'</span>}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">len</span>({1,2,<span class="literal">"A"</span>,<span class="literal">"B"</span>})&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Set&nbsp;size.</span><br/>4<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;1&nbsp;<span class="keyword">in</span>&nbsp;{1,2,<span class="literal">"A"</span>,<span class="literal">"B"</span>}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Tuple&nbsp;containment&nbsp;check.</span><br/><span class="builtin">True</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+>>> {1,2,"A","B"}                             # A set.
+{1, 2, 'A', 'B'}
+>>> ({1,2}.union({3,4})).intersection({4,5})  # Set operations.
+{4}
+>>> set([1, 2]).union(set(('A','B')))         # Converting a list and a tuple to sets.
+{'A', 1, 2, 'B'}
+>>> len({1,2,"A","B"})                        # Set size.
+4
+>>> 1 in {1,2,"A","B"}                        # Tuple containment check.
+True
+          </code></pre></div></div></li><li>
 <span class="text"><b>Frozen sets</b> are like sets, except they can be members of other sets. A set can be turned into a frozen set using the <code>frozenset()</code> function.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">frozenset</span>({1,2,3})&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;A&nbsp;frozen&nbsp;set.</span><br/><span class="builtin">frozenset</span>({1,&nbsp;2,&nbsp;3})<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;{<span class="builtin">frozenset</span>({1,2}),&nbsp;<span class="builtin">frozenset</span>({3,4})}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Set&nbsp;of&nbsp;frozen&nbsp;sets.</span><br/>{<span class="builtin">frozenset</span>({3,&nbsp;4}),&nbsp;<span class="builtin">frozenset</span>({1,&nbsp;2})}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+>>> frozenset({1,2,3})                        # A frozen set.
+frozenset({1, 2, 3})
+>>> {frozenset({1,2}), frozenset({3,4})}      # Set of frozen sets.
+{frozenset({3, 4}), frozenset({1, 2})}
+          </code></pre></div></div></li><li>
 <span class="text"><b>Dictionaries</b> are unordered collections of associations between some set of keys and some set of values. Dictionaries are also known as finite maps.</span><ul><li>The empty dictionary is denoted using <code>{}</code>.</li><li>The list of keys that the dictionary associates with values can be obtained using <code>list(d.keys())</code>.</li><li>The list of values that the dictionary contains can be obtained using <code>list(d.values())</code>.</li><li>The function <code>len()</code> returns the number of entries in the dictionary.</li><li>Individual entries in a dictionary can be accessed using the bracketed index notation (e.g., <code>d[key]</code>).</li></ul>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;{<span class="literal">"A"</span>:1,&nbsp;<span class="literal">"B"</span>:2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;A&nbsp;dictionary.</span><br/>{<span class="literal">'A'</span>:&nbsp;1,&nbsp;<span class="literal">'B'</span>:&nbsp;2}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">list</span>({<span class="literal">"A"</span>:1,&nbsp;<span class="literal">"B"</span>:2}.keys())&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Dictionary&nbsp;keys.</span><br/>[<span class="literal">'A'</span>,&nbsp;<span class="literal">'B'</span>]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">list</span>({<span class="literal">"A"</span>:1,&nbsp;<span class="literal">"B"</span>:2}.values())&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Dictionary&nbsp;values.</span><br/>[1,&nbsp;2]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">len</span>({<span class="literal">"A"</span>:1,&nbsp;<span class="literal">"B"</span>:2})&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Dictionary&nbsp;size.</span><br/>2<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;{<span class="literal">"A"</span>:1,&nbsp;<span class="literal">"B"</span>:2}[<span class="literal">"A"</span>]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Obtain&nbsp;a&nbsp;dictionary&nbsp;value&nbsp;using&nbsp;a&nbsp;key.</span><br/>1<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ul></div>
+<div class="code"><div class="source"><pre><code class="py">
+>>> {"A":1, "B":2}                            # A dictionary.
+{'A': 1, 'B': 2}
+>>> list({"A":1, "B":2}.keys())               # Dictionary keys.
+['A', 'B']
+>>> list({"A":1, "B":2}.values())             # Dictionary values.
+[1, 2]
+>>> len({"A":1, "B":2})                       # Dictionary size.
+2
+>>> {"A":1, "B":2}["A"]                       # Obtain a dictionary value using a key.
+1
+          </code></pre></div></div></li></ul></div>
   <a name="A.4"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#A.4">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">A.4.</span> Function, procedure, and method invocations</h3>
 <span class="text top">Python provides a variety of ways to supply parameter arguments when invoking functions, procedures, and methods.</span><ul class="top"><li>
 <span class="text"><b>Function calls and method/procedure invocations</b> consist of the function, procedure, or method name followed by a parenthesized, comma-delimited list of arguments. For example, suppose a function or procedure <code>example()</code> is defined as follows:</span>
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;example(x,&nbsp;y,&nbsp;z):<br/>&nbsp;&nbsp;<span class="builtin">print</span>(<span class="literal">"Invoked."</span>)<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;x&nbsp;+&nbsp;y&nbsp;+&nbsp;z<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def example(x, y, z):
+  print("Invoked.")
+  return x + y + z
+          </code></pre></div></div>
 <span class="text">To invoke the above definition, we can use one of the following techniques.</span><ul><li>
 <span class="text"><b>Passing arguments directly</b> involves listing the comma-delimited arguments directly between parentheses.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;example(1,2,3)<br/>Invoked.<br/>6<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+>>> example(1,2,3)
+Invoked.
+6
+              </code></pre></div></div></li><li>
 <span class="text"><b>The argument unpacking operator</b> (also known as the <code>*</code>-operator, the <b>scatter</b> operator, or the <b>splat</b> operator) involves providing a list to the function, preceded by the <code>*</code> symbol; the arguments will be drawn from the elements in the list.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;args&nbsp;=&nbsp;[1,2,3]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;example(*args)<br/>Invoked.<br/>6<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+>>> args = [1,2,3]
+>>> example(*args)
+Invoked.
+6
+              </code></pre></div></div></li><li>
 <span class="text"><b>The keyword argument unpacking operator</b> (also known as the <code>**</code>-operator) involves providing a dictionary to the function, preceded by the <code>**</code> symbol; each named paramter in the function definition will be looked up in the dictionary, and the value associated with that dictionary key will be used as the argument passed to that parameter.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;args&nbsp;=&nbsp;{<span class="literal">'z'</span>:3,&nbsp;<span class="literal">'x'</span>:1,&nbsp;<span class="literal">'y'</span>:2}<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;example(**args)<br/>Invoked.<br/>6<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ul></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+>>> args = {'z':3, 'x':1, 'y':2}
+>>> example(**args)
+Invoked.
+6
+              </code></pre></div></div></li></ul></li><li>
 <span class="text"><b>Default parameter values</b> can be specified in any definition. Suppose the following definition is provided.</span>
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;example(x&nbsp;=&nbsp;1,&nbsp;y&nbsp;=&nbsp;2,&nbsp;z&nbsp;=&nbsp;3):<br/>&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;x&nbsp;+&nbsp;y&nbsp;+&nbsp;z<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def example(x = 1, y = 2, z = 3):
+  return x + y + z
+          </code></pre></div></div>
 <span class="text">The behavior is then as follows: if an argument corresponding to a parameter is not supplied, the default value found in the definition is used. If an argument is supplied, the supplied argument value is used.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;example(0,&nbsp;0)<br/>3<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;example(0)<br/>5<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;example()<br/>6<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ul></div>
+<div class="code"><div class="source"><pre><code class="py">
+>>> example(0, 0)
+3
+>>> example(0)
+5
+>>> example()
+6
+          </code></pre></div></div></li></ul></div>
   <a name="A.5"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#A.5">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">A.5.</span> Comprehensions</h3>
 <span class="text top">Python provides concise notations for defining data structures and performing logical computations. In particular, it support a comprehension notation that can be used to build lists, tuples, sets, and dictionaries.</span><ul class="top"><li>
 <span class="text"><b>List comprehensions</b> make it possible to construct a list by iterating over one or more other data structure instances (such as a list, tuple, set, or dictionary) and performing some operation on each element or combination of elements. The resulting list will contain the result of evaluating the body for every combination.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[&nbsp;x&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;[1,2,3]&nbsp;]<br/>[1,&nbsp;2,&nbsp;3]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[&nbsp;2&nbsp;*&nbsp;x&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;{1,2,3}&nbsp;]<br/>[2,&nbsp;4,&nbsp;6]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[&nbsp;x&nbsp;+&nbsp;y&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;{1,2,3}&nbsp;<span class="keyword">for</span>&nbsp;y&nbsp;<span class="keyword">in</span>&nbsp;(1,2,3)&nbsp;]<br/>[2,&nbsp;3,&nbsp;4,&nbsp;3,&nbsp;4,&nbsp;5,&nbsp;4,&nbsp;5,&nbsp;6]<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+>>> [ x for x in [1,2,3] ]
+[1, 2, 3]
+>>> [ 2 * x for x in {1,2,3} ]
+[2, 4, 6]
+>>> [ x + y for x in {1,2,3} for y in (1,2,3) ]
+[2, 3, 4, 3, 4, 5, 4, 5, 6]
+          </code></pre></div></div>
 <span class="text">It is also possible to add conditions anywhere after the first <code>for</code> clause. This will filter which combinations are actually used to add a value to the resulting list.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[&nbsp;x&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;{1,2,3}&nbsp;<span class="keyword">if</span>&nbsp;x&nbsp;<&nbsp;3&nbsp;]<br/>[1,&nbsp;2]<br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;[&nbsp;x&nbsp;+&nbsp;y&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;{1,2,3}&nbsp;<span class="keyword">for</span>&nbsp;y&nbsp;<span class="keyword">in</span>&nbsp;(1,2,3)&nbsp;<span class="keyword">if</span>&nbsp;x&nbsp;>&nbsp;2&nbsp;<span class="keyword">and</span>&nbsp;y&nbsp;>&nbsp;1&nbsp;]<br/>[5,&nbsp;6]<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+>>> [ x for x in {1,2,3} if x < 3 ]
+[1, 2]
+>>> [ x + y for x in {1,2,3} for y in (1,2,3) if x > 2 and y > 1 ]
+[5, 6]
+          </code></pre></div></div></li><li>
 <span class="text"><b>Set comprehensions</b> make it possible to construct a set by iterating over one or more other data structure instances (such as a list, tuple, set, or dictionary) and performing some operation on each element or combination of elements. The resulting list will contain the result of evaluating the body for every combination. Notice that the result will contain no duplicates because the result is a set.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;{&nbsp;x&nbsp;<span class="keyword">for</span>&nbsp;x&nbsp;<span class="keyword">in</span>&nbsp;[1,2,3,1,2,3]&nbsp;}<br/>{1,&nbsp;2,&nbsp;3}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+>>> { x for x in [1,2,3,1,2,3] }
+{1, 2, 3}
+          </code></pre></div></div></li><li>
 <span class="text"><b>Dictionary comprehensions</b> make it possible to construct a dictionary by iterating over one or more other data structure instances (such as a list, tuple, set, or dictionary) and performing some operation on each element or combination of elements. The resulting dictionary will contain the result of evaluating the body for every combination.</span>
-<div class="code"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;{&nbsp;key&nbsp;:&nbsp;2&nbsp;<span class="keyword">for</span>&nbsp;key&nbsp;<span class="keyword">in</span>&nbsp;[<span class="literal">"A"</span>,<span class="literal">"B"</span>,<span class="literal">"C"</span>]&nbsp;}<br/>{<span class="literal">'A'</span>:&nbsp;2,&nbsp;<span class="literal">'C'</span>:&nbsp;2,&nbsp;<span class="literal">'B'</span>:&nbsp;2}<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ul></div>
+<div class="code"><div class="source"><pre><code class="py">
+>>> { key : 2 for key in ["A","B","C"] }
+{'A': 2, 'C': 2, 'B': 2}
+          </code></pre></div></div></li></ul></div>
   <a name="A.6"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#A.6">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">A.6.</span> Other useful built-in functions</h3>
 <span class="text top">The built-in function <code>type()</code> can be used to determine the type of a value. Below, we provide examples of how to check whether a given expression has one of the common Python types:</span>
-<div class="code top"><div class="source"><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">type</span>(<span class="builtin">True</span>)&nbsp;==&nbsp;@bool<br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">type</span>(123)&nbsp;==&nbsp;<span class="builtin">int</span><br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">type</span>(<span class="literal">"ABC"</span>)&nbsp;==&nbsp;<span class="builtin">str</span><br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">type</span>([1,2,3])&nbsp;==&nbsp;<span class="builtin">list</span><br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">type</span>((<span class="literal">"A"</span>,1,{1,2}))&nbsp;==&nbsp;<span class="builtin">tuple</span><br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">type</span>({1,2,3})&nbsp;==&nbsp;<span class="builtin">set</span><br/><span class="builtin">True</span><br/><span style="color:#ABABAB;">&gt;&gt;&gt;</span>&nbsp;<span class="builtin">type</span>({<span class="literal">"A"</span>:1,&nbsp;<span class="literal">"B"</span>:2})&nbsp;==&nbsp;<span class="builtin">dict</span><br/><span class="builtin">True</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></div>
+<div class="code top"><div class="source"><pre><code class="py">
+>>> type(True) == bool
+True
+>>> type(123) == int
+True
+>>> type("ABC") == str
+True
+>>> type([1,2,3]) == list
+True
+>>> type(("A",1,{1,2})) == tuple
+True
+>>> type({1,2,3}) == set
+True
+>>> type({"A":1, "B":2}) == dict
+True
+      </code></pre></div></div></div>
   <a name="A.7"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#A.7">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">A.7.</span> Common Python definition and control constructs (i.e., Python statements)</h3>
 <span class="text top">A Python program is a sequence of Python statements. Each statement is either a function definition, a variable assignment, a conditional statement (i.e., <code>if</code>, <code>else</code>, and/or <code>elif</code>), an iteration construct (i.e., a <code>for</code> or <code>while</code> loop), a <code>return</code> statement, or a <code>break</code> or <code>continue</code> statement.</span><ul class="top"><li>
 <span class="text"><b>Variable assignments</b> make it possible to assign a value or object to a variable.</span>
-<div class="code"><div class="source"><br/>x&nbsp;=&nbsp;10<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+<div class="code"><div class="source"><pre><code class="py">
+x = 10
+          </code></pre></div></div>
 <span class="text">It is also possible to assign a tuple (or any computation that produces a tuple) to another tuple:</span>
-<div class="code"><div class="source"><br/>(x,&nbsp;y)&nbsp;=&nbsp;(1,&nbsp;2)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+(x, y) = (1, 2)
+          </code></pre></div></div></li><li>
 <span class="text"><b>Function and procedure definitions</b> consist of the <code>def</code> keyword, followed by the name of the function or procedure, and then by one or more arguments (delimited by parentheses and separated by commas).</span>
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;example(a,&nbsp;b,&nbsp;c):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;a&nbsp;+&nbsp;b&nbsp;+&nbsp;c<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+def example(a, b, c):
+    return a + b + c
+          </code></pre></div></div></li><li>
 <span class="text"><b>Conditional statements</b> consist of one or more branches, each with its own boolean expression as the condition (with the exception of <code>else</code>). The body of each branch is an indented sequence of statements.</span>
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;fibonacci(n):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Computes&nbsp;the&nbsp;nth&nbsp;Fibonacci&nbsp;number.</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;n&nbsp;<=&nbsp;0:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;0<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">elif</span>&nbsp;n&nbsp;<=&nbsp;2:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;1<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">else</span>:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;fibonacci(n-1)&nbsp;+&nbsp;fibonacci(n-2)<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+def fibonacci(n):
+    # Computes the nth Fibonacci number.
+    if n <= 0:
+        return 0
+    elif n <= 2:
+        return 1
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+          </code></pre></div></div></li><li>
 <span class="text"><b>Iteration constructs</b> make it possible to repeat a sequence of statements over and over. The body of an iteration construct is an indented sequence of statements.</span><ul><li>
 <span class="text">The <b>while</b> construct has a boolean expression as its condition (much like <code>if</code>). The body is executed over and over until the expression in the condition evaluates to <code>False</code>, or a <code>break</code> statement is encountered.</span>
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;example1(n):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Takes&nbsp;an&nbsp;integer&nbsp;n&nbsp;and&nbsp;returns&nbsp;the&nbsp;sum&nbsp;of</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;the&nbsp;integers&nbsp;from&nbsp;1&nbsp;to&nbsp;n-1.</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;i&nbsp;=&nbsp;0<br/>&nbsp;&nbsp;&nbsp;&nbsp;sum&nbsp;=&nbsp;0<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span>&nbsp;i&nbsp;<&nbsp;n:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum&nbsp;=&nbsp;sum&nbsp;+&nbsp;i<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i&nbsp;=&nbsp;i&nbsp;+&nbsp;1<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;sum<br/><br/><span class="keyword">def</span>&nbsp;example2(n):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Takes&nbsp;an&nbsp;integer&nbsp;n&nbsp;and&nbsp;returns&nbsp;the&nbsp;sum&nbsp;of</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;the&nbsp;integers&nbsp;from&nbsp;1&nbsp;to&nbsp;n-1.</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;i&nbsp;=&nbsp;0<br/>&nbsp;&nbsp;&nbsp;&nbsp;sum&nbsp;=&nbsp;0<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span>&nbsp;True:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum&nbsp;=&nbsp;sum&nbsp;+&nbsp;i<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i&nbsp;=&nbsp;i&nbsp;+&nbsp;1<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;i&nbsp;==&nbsp;n:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">break</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;sum<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li><li>
+<div class="code"><div class="source"><pre><code class="py">
+def example1(n):
+    # Takes an integer n and returns the sum of
+    # the integers from 1 to n-1.
+    i = 0
+    sum = 0
+    while i < n:
+        sum = sum + i
+        i = i + 1
+    return sum
+
+def example2(n):
+    # Takes an integer n and returns the sum of
+    # the integers from 1 to n-1.
+    i = 0
+    sum = 0
+    while True:
+        sum = sum + i
+        i = i + 1
+        if i == n:
+            break
+    return sum
+              </code></pre></div></div></li><li>
 <span class="text">The <b>for</b> construct makes it possible to repeat a sequence of statements once for every object in a list, tuple, or set, or once for every key in a dictionary.</span>
-<div class="code"><div class="source"><br/><span class="keyword">def</span>&nbsp;example3(n):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Takes&nbsp;an&nbsp;integer&nbsp;n&nbsp;and&nbsp;returns&nbsp;the&nbsp;sum&nbsp;of</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;the&nbsp;integers&nbsp;from&nbsp;1&nbsp;to&nbsp;n-1.</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;sum&nbsp;=&nbsp;0<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span>&nbsp;i&nbsp;<span class="keyword">in</span>&nbsp;<span class="builtin">range</span>(0,n):<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum&nbsp;=&nbsp;sum&nbsp;+&nbsp;i<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;sum<br/><br/><span class="keyword">def</span>&nbsp;example4(d):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;Takes&nbsp;a&nbsp;dictionary&nbsp;d&nbsp;that&nbsp;maps&nbsp;keys&nbsp;to</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">#&nbsp;integers&nbsp;and&nbsp;returns&nbsp;the&nbsp;sum&nbsp;of&nbsp;the&nbsp;integers.</span><br/>&nbsp;&nbsp;&nbsp;&nbsp;sum&nbsp;=&nbsp;0<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span>&nbsp;key&nbsp;<span class="keyword">in</span>&nbsp;d:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum&nbsp;=&nbsp;sum&nbsp;+&nbsp;d[key]<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;sum<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></div></li></ul></li></ul></div></div>
+<div class="code"><div class="source"><pre><code class="py">
+def example3(n):
+    # Takes an integer n and returns the sum of
+    # the integers from 1 to n-1.
+    sum = 0
+    for i in range(0,n):
+        sum = sum + i
+    return sum
+
+def example4(d):
+    # Takes a dictionary d that maps keys to
+    # integers and returns the sum of the integers.
+    sum = 0
+    for key in d:
+        sum = sum + d[key]
+    return sum
+              </code></pre></div></div></li></ul></li></ul></div></div>
 </div><div class="footer"><div class="sheaflink">represented and rendered using <a href="http://sheaf.io">sheaf</a></div></div></body>
 </html>
 <!--eof-->
