@@ -2,7 +2,7 @@
 
 Lecture notes, assignments, and other materials for a one-semester introductory course on topics in number theory, modular arithmetic, abstract algebra, and computer science applications thereof.
 
-PHP 5.4 or later and [Sheaf](http://sheaf.io) are required. The latest version of Sheaf is already included in this repository. Install the notes on a Linux server in a directory `example` (e.g., under the web root directory) as follows:
+Git, PHP 5.4 or later, and the [Sheaf](http://sheaf.io) library are required to render the notes as HTML. The latest version of the Sheaf library is retrieved automatically by the `install.sh` script. You can install the notes on a Linux server in a directory such as `example` (e.g., under the web root directory) as follows:
 
     git clone https://github.com/lapets/course-abstract-algebra.git example
     cd example
