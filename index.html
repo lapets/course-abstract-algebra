@@ -3,10 +3,15 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Topics in Number Theory, Modular Arithmetic, Abstract Algebra, and Computer Science Applications</title>
+<title>Algebraic Algorithms</title>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Alex+Brush">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/vs.min.css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/languages/haskell.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/languages/javascript.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/languages/python.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/languages/sql.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="sheaf/protoql.js"></script>
 <link rel="stylesheet" href="sheaf/sheaf.css">
@@ -14,25 +19,25 @@
 <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <body>
-<div class="sheaf" id="sheaf"><h1>Topics in Abstract Algebra for Computer Science Applications</h1><div class="toc"><ul> <li>1. <a href="#1">Introduction, Background, and Motivation</a>
+<div id="sheaf"><h1>Algebraic Algorithms<span>Introductory Number Theory and Abstract Algebra for Computer Science Applications</span></h1><div id="toc"><ul> <li>1. <a href="#1">Introduction, Background, and Motivation</a>
   <ul>  <li>1.1. <a href="#1.1">Overview</a></li>  <li>1.2. <a href="#1.2">Informal motivating example: random number generation</a></li>
   </ul>
  </li> <li>2. <a href="#2">Review of Logic with Sets, Relations, and Operators</a>
-  <ul>  <li>2.1. <a href="#2.1">Formulas without quantifiers</a></li>  <li>2.2. <a href="#2.2">Terms: integers and term operators that take integer inputs</a></li>  <li>2.3. <a href="#2.3">Formulas: relational operators and predicates dealing with integers</a></li>  <li>2.4. <a href="#2.4">Terms: finite sets of integers, term operators that take set inputs, and set comprehensions</a></li>  <li>2.5. <a href="#2.5">Formulas: quantifiers over finite sets of integers</a></li>  <li>2.6. <a href="#2.6">Formulas: predicates dealing with finite sets of integers</a></li>  <li>2.7. <a href="#2.7">Terms: set products and binary relations</a></li>  <li>2.8. <a href="#2.8">Formulas: predicates dealing with relations</a></li>  <li>2.9. <a href="#2.9">Terms: set quotients and quotient maps</a></li>  <li>2.10. <a href="#2.10"><b>Assignment #1: Logic, Integers, Sets, and Relations</b></a></li>
+  <ul>  <li>2.1. <a href="#2.1">Formulas without quantifiers</a></li>  <li>2.2. <a href="#2.2">Terms: integers and term operators that take integer inputs</a></li>  <li>2.3. <a href="#2.3">Formulas: relational operators and predicates dealing with integers</a></li>  <li>2.4. <a href="#2.4">Terms: finite sets of integers, term operators that take set inputs, and set comprehensions</a></li>  <li>2.5. <a href="#2.5">Formulas: quantifiers over finite sets of integers</a></li>  <li>2.6. <a href="#2.6">Formulas: predicates dealing with finite sets of integers</a></li>  <li>2.7. <a href="#2.7">Terms: set products and binary relations</a></li>  <li>2.8. <a href="#2.8">Formulas: predicates dealing with relations</a></li>  <li>2.9. <a href="#2.9">Terms: set quotients and quotient maps</a></li>
   </ul>
  </li> <li>3. <a href="#3">Modular Arithmetic</a>
-  <ul>  <li>3.1. <a href="#3.1">Terms: congruence classes in ℤ/<i>m</i>ℤ, term operators, and relations</a></li>  <li>3.2. <a href="#3.2">Algebra of congruence classes</a></li>  <li>3.3. <a href="#3.3">Multiplication by a congruence class as a permutation</a></li>  <li>3.4. <a href="#3.4">Generating random numbers</a></li>  <li>3.5. <a href="#3.5">Greatest common divisor and related facts</a></li>  <li>3.6. <a href="#3.6">Generating prime numbers</a></li>  <li>3.7. <a href="#3.7">Detecting probable prime numbers</a></li>  <li>3.8. <a href="#3.8"><b>Assignment #2: Modular Arithmetic, Random Numbers, and Primes</b></a></li>  <li>3.9. <a href="#3.9">Multiplicative inverses</a></li>  <li>3.10. <a href="#3.10">Chinese remainder theorem (CRT) and applications</a></li>  <li>3.11. <a href="#3.11">Solving systems of equations with CRT solutions using multiplicative inverses</a></li>  <li>3.12. <a href="#3.12">More practice with CRT</a></li>  <li>3.13. <a href="#3.13">Euler's totient function, Euler's theorem, and applications</a></li>  <li>3.14. <a href="#3.14"><b>Assignment #3: Multiplicative Inverses, CRT, and Efficient Computation</b></a></li>
+  <ul>  <li>3.1. <a href="#3.1">Terms: congruence classes in ℤ/<i>m</i>ℤ, term operators, and relations</a></li>  <li>3.2. <a href="#3.2">Algebra of congruence classes</a></li>  <li>3.3. <a href="#3.3">Multiplication by a congruence class as a permutation</a></li>  <li>3.4. <a href="#3.4">Generating random numbers</a></li>  <li>3.5. <a href="#3.5">Greatest common divisor and related facts</a></li>  <li>3.6. <a href="#3.6">Generating prime numbers</a></li>  <li>3.7. <a href="#3.7">Detecting probable prime numbers</a></li>  <li>3.8. <a href="#3.8">Multiplicative inverses</a></li>  <li>3.9. <a href="#3.9">Chinese remainder theorem (CRT) and applications</a></li>  <li>3.10. <a href="#3.10">Solving systems of equations with CRT solutions using multiplicative inverses</a></li>  <li>3.11. <a href="#3.11">More practice with CRT</a></li>  <li>3.12. <a href="#3.12">Euler's totient function, Euler's theorem, and applications</a></li>
   </ul>
- </li> <li><a href="#R.1"><i>Review #1: Properties, Algorithms, and Applications of Modular Arithmetic</i></a>
+ </li> <li>Review 1. <a href="#R.1">Properties, Algorithms, and Applications of Modular Arithmetic</a>
   <ul>
   </ul>
  </li> <li>4. <a href="#4">Computational Complexity of Modular Arithmetic Algorithms</a>
-  <ul>  <li>4.1. <a href="#4.1">Definition of computational problems and their complexity</a></li>  <li>4.2. <a href="#4.2">Complexity of algorithms for solving tractable problems</a></li>  <li>4.3. <a href="#4.3">Complexity of (probably) intractable problems</a></li>  <li>4.4. <a href="#4.4">Applications of intractability</a></li>  <li>4.5. <a href="#4.5"><b>Assignment #4: Tractable and Intractable Problems in Modular Arithmetic</b></a></li>
+  <ul>  <li>4.1. <a href="#4.1">Definition of computational problems and their complexity</a></li>  <li>4.2. <a href="#4.2">Complexity of algorithms for solving tractable problems</a></li>  <li>4.3. <a href="#4.3">Complexity of (probably) intractable problems</a></li>  <li>4.4. <a href="#4.4">Applications of intractability</a></li>
   </ul>
  </li> <li>5. <a href="#5">Algebraic Structures</a>
-  <ul>  <li>5.1. <a href="#5.1">Permutations</a></li>  <li>5.2. <a href="#5.2">Isomorphisms: Equivalence of Algebraic Structures</a></li>  <li>5.3. <a href="#5.3">Generators of Algebraic Structures</a></li>  <li>5.4. <a href="#5.4"><b>Assignment #5: Algebraic Structures and Isomorphisms</b></a></li>  <li>5.5. <a href="#5.5">Isomorphisms and Linear Equations of Congruence Classes</a></li>  <li>5.6. <a href="#5.6">Isomorphisms and the Chinese Remainder Theorem</a></li>  <li>5.7. <a href="#5.7">Groups, Subgroups, and Direct Products</a></li>  <li>5.8. <a href="#5.8"><b>Assignment #6: Linear Congruence Theorem, Generalized CRT, and More Isomorphisms</b></a></li>
+  <ul>  <li>5.1. <a href="#5.1">Permutations</a></li>  <li>5.2. <a href="#5.2">Isomorphisms: Equivalence of Algebraic Structures</a></li>  <li>5.3. <a href="#5.3">Generators of Algebraic Structures</a></li>  <li>5.4. <a href="#5.4">Isomorphisms and Linear Equations of Congruence Classes</a></li>  <li>5.5. <a href="#5.5">Isomorphisms and the Chinese Remainder Theorem</a></li>  <li>5.6. <a href="#5.6">Groups, Subgroups, and Direct Products</a></li>
   </ul>
- </li> <li><a href="#R.2"><i>Review #2: Algebraic Structures and their Properties</i></a>
+ </li> <li>Review 2. <a href="#R.2">Algebraic Structures and their Properties</a>
   <ul>
   </ul>
  </li> <li>Appendix A. <a href="#A">Python Reference</a>
@@ -1034,147 +1039,10 @@ families = quotient({'Alice', 'Bob', 'Carl', 'Dan', 'Eve'}, R)
         
 <span class="text"><br/>
 <div class="pql" style="border:1px solid #7F7F7F; height:200px; display:inline-block; width:100%;">#graph({'Alice','Carl','Bob','Dan','Eve'}, {('Alice','Alice'),('Bob','Bob'),('Carl','Carl'),('Dan','Dan'),('Eve','Eve'),('Alice','Carl'),('Carl','Alice'),('Dan', 'Eve'), ('Eve', 'Dan')})</div></span>
-      </div></div></div></div><br/><hr class="work_separator"/><a name="2.10"></a><a name="assignment1"></a><a name="hw1"></a><div class="work assignment"><h3 class="work_header linked"><span class="link-title">[<a href="#2.10">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">2.10.</span> <span class="work_title">Assignment #1: Logic, Integers, Sets, and Relations</span></h3><div class="instructions">
-        
-<span class="text">In this assignment you will define Python functions that represent various constructs. You must submit a single Python source file named <code>hw1/hw1.py</code>. Please follow the <a href="#A">gsubmit</a> directions.</span>
-        <div class="paragraph">
-<b style="color:firebrick;">Your file may not import any modules or employ any external library functions associated with integers and sets (unless the problem statement explicitly permits this).</b>  You may include in your module any function that is defined in the lecture notes.
-        </div>
-        <div class="paragraph">
-Solutions to each of the programming problem parts below should fit on 1-3 lines. You will be graded on the correctness, concision, and mathematical legibility of your code. The different problems and problem parts rely on the lecture notes and on each other; carefully consider whether you can use functions from the lecture notes, or functions you define in one part within subsequent parts.
-        </div>
-      </div><ol class="problems"><li class="problem"><ol class="parts"><li class="part">
-<span class="text">Implement a Python function <code>perfectSquares(n)</code> that takes a single positive integer argument <code>n</code> and returns all positive perfect square integers less than or equal to <i>n</i>. <b  style="color:green;">You must use a set comprehension to receive credit.</b> Efficiency is not important.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> perfectSquares(16)
-{1, 4, 9, 16}
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a Python function <code>squareFree(n)</code> that takes a single positive integer argument <code>n</code> and returns <code>True</code> if and only if <code>n</code> has no square factors. This happens only when the following logical formula is true for all integers <code>k</code> greater than 1 but less than <code>n</code>:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>k</i> is a perfect square &nbsp;&nbsp;&nbsp;&nbsp; implies &nbsp;&nbsp;&nbsp;&nbsp; <i>k</i> does not divide <i>n</i>
-</td></tr></table></td></tr></table>
-<b style="color:green;">You cannot use loops, and you must use quantifiers to receive credit.</b> Efficiency is not important.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> squareFree(39)
-True
->>> squareFree(16)
-False
->>> squareFree(20)
-False
-              </code></pre></div></div>
-<span class="text">Curiously, the number of squarefree integers less than <i>n</i> <a href="https://en.wikipedia.org/wiki/Square-free_integer#Distribution">approaches</a> <i>n</i> &sdot; (6/&pi;<sup>2</sup>) as <i>n</i> grows.</span></li><li class="part">
-<span class="text">Implement a Python function <code>same(n, m)</code> that takes two positive integer arguments <code>n</code> and <code>m</code> and returns <code>True</code> if both are perfect squares <b>or</b> if both are not perfect squares, and <code>False</code> otherwise.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> same(9, 16)
-True
->>> same(7, 25)
-False
->>> same(7, 11)
-True
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a Python function <code>separate(S)</code> that takes any finite set of positive integers <code>S</code> and returns a relation over <code>S</code> in which any two numbers in <code>S</code> that <b>are both</b> perfect squares are related to each other, and in which any two numbers in <code>S</code> that <b>are both not</b> perfect squares are related to each other.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> separate({4,6,8,9})
-{(4,4), (9,9), (4,9), (9,4), (6,8), (8,6), (6,6), (8,8)}
->>> separate({7,11,16})
-{(16,16), (7,11), (11,7), (7,7), (11,11)}
-              </code></pre></div></div></li><li class="part">
-<span class="text">Determine which of the three properties of an equivalence relation (reflexivity, symmetry, and transitivity) <i>always</i> apply to any result of <code>separate()</code> (assuming its input is a finite set of positive integers). Define three veriables in your code; each will represent a counterexample input (if it exists) that leads to an output that does not have the corresponding property:</span>
-<div class="code"><div class="source"><pre><code class="py">
-notReflexiveOn = ?
-notSymmetricOn = ?
-notTransitiveOn = ?
-              </code></pre></div></div>
-<span class="text">If a property <i>always</i> applies to any output of <code>separate()</code>, simply assign <code>None</code> to the corresponding variable. If a property <i>does not</i> apply to all outputs of <code>separate()</code>, assign an input set to the corresponding variable that returns an output relation that does <b>not</b> satisfy that property. For example, if we were doing the same thing for the property of <a href="#79e0f3993b2e409f95882713c4ad5f5b">asymmetry</a>, we would choose a value for <code>asymmetric</code> such that:</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> isAsymmetric(notAsymmetricOn, separate(notAsymmetricOn))
-False
-              </code></pre></div></div></li></ol></li><li class="problem">
-<span class="text">Solve the following problems involving relations. Recall that using Python, we are representing relations as sets of tuples (i.e., pairs such as <code>(1,2)</code>). <b style="color:green;">You cannot use loops, and you must use quantifiers to receive credit; see <a href="#79e0f3993b2e409f95882713c4ad5f5b">this example</a>.</b></span><ol class="parts"><li class="part">
-<span class="text">Implement a function <code>isReflexive()</code> that takes as its input two arguments: a set <code>X</code> and a relation <code>R</code>. The function should return <code>True</code> if the relation <code>R</code> is a reflexive relation on <code>X</code>, and it should return <code>False</code> otherwise.</span>
-<div class="code"><div class="source"><pre><code class="py">
-isReflexive({1,2,3,4}, {(1,1), (2,2)}) == False
-isReflexive({1,2}, {(1,1), (2,2), (2,1), (1,2)}) == True
-isReflexive({1,2,3}, {(1,2), (2,1), (3,3)}) == False
-isReflexive({'a','b','c'}, {('a','a'), ('b','b'), ('a','c')}) == False
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a function <code>isSymmetric()</code> that takes as its input two arguments: a set <code>X</code> and a relation <code>R</code>. The function should return <code>True</code> if the relation <code>R</code> is a symmetric relation on <code>X</code>, and it should return <code>False</code> otherwise.</span>
-<div class="code"><div class="source"><pre><code class="py">
-isSymmetric({1,2}, set()) == True
-isSymmetric({1,2}, {(1,1), (2,2), (2,1), (1,2)}) == True
-isSymmetric({1,2,3}, {(1,2), (2,1), (3,3)}) == True
-isSymmetric({'a','b','c'}, {('a','a'), ('b','b'), ('a','c')}) == False
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a function <code>isTransitive()</code> that takes as its input two arguments: a set <code>X</code> and a relation <code>R</code>. The function should return <code>True</code> if the relation <code>R</code> is a transitive relation on <code>X</code>, and it should return <code>False</code> otherwise.</span></li><li class="part">
-<span class="text">Implement a function <code>isEquivalence()</code> that takes as its input two arguments: a set <code>X</code> and a relation <code>R</code>. The function should return <code>True</code> if the relation <code>R</code> is an equivalence relation on <code>X</code>, and it should return <code>False</code> otherwise. <b>Hint:</b> read the notes in this section carefully and reuse functions that have already been defined.</span>
-<div class="code"><div class="source"><pre><code class="py">
-isEquivalence({1,2,3}, {(1,1), (2,2), (3,3)}) == True
-isEquivalence({1,2,3}, {(1,2), (2,1), (3,3)}) == False
-isEquivalence({1,2}, {(1,1), (2,2), (1,2), (2,1)}) == True
-isEquivalence({0,3,6}, {(0,3), (3,6), (0,6), (3,0), (6,3), (6,0)}) == False
-              </code></pre></div></div></li></ol></li><li class="problem">
-<span class="text">You should include the following definition in your module:</span>
-<div class="code"><div class="source"><pre><code class="py">
-def quotient(X, R):
-    return {frozenset({y for y in X if (x,y) in R}) for x in X}
-          </code></pre></div></div>
-<span class="text">Solve the following problems by defining appropriate relations.</span><ol class="parts"><li class="part">
-<span class="text">Include the following definitions in your code:</span>
-<div class="code"><div class="source"><pre><code class="py">
-X1 = {"a","b","c","d","e","f"}
-R1 = ?
-              </code></pre></div></div>
-<span class="text">Define the variable <code>R1</code> above so that <code>R1</code> is an equivalence relation over <code>X1</code>, and so that the following formulas are satisfied:</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> isEquivalence(X1,R1)
-True
->>> quotient(X1,R1) == {frozenset({"a","c"}), frozenset({"b","d"}), frozenset({"e", "f"})}
-True
-              </code></pre></div></div></li><li class="part">
-<span class="text">Include the following definitions in your code:</span>
-<div class="code"><div class="source"><pre><code class="py">
-X2 = {0,1,2,3,4,5,6,7,8,9,10,11}
-R2 = ?
-              </code></pre></div></div>
-<span class="text">Define the variable <code>R2</code> above so that <code>R2</code> is an equivalence relation over <code>X2</code>, and so that the following formulas are satisfied:</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> isEquivalence(X2,R2)
-True
->>> quotient(X2,R2) == {frozenset({0,2,4,6,8,10}), frozenset({1,3,5,7,9,11})}
-True
-              </code></pre></div></div></li><li class="part">
-<span class="text">Include the following definitions in your code:</span>
-<div class="code"><div class="source"><pre><code class="py">
-X3 = set(range(0,90))
-R3 = ?
-              </code></pre></div></div>
-<span class="text">Define the variable <code>R3</code> above so that <code>R3</code> is an equivalence relation over <code>X3</code>, and so that the following formulas satisfied:</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> isEquivalence(X3,R3)
-True
->>> quotient(X3,R3) == {frozenset(range(0,30)), frozenset(range(30,60)), frozenset(range(60,90))}
-True
-              </code></pre></div></div>
-<span class="text"><b style="color:green;">You must use a set comprehension to define <code>R3</code>.</b> Solutions that use an explicitly defined set will receive no credit.</span></li></ol></li><li class="problem">
-<span class="text">Suppose we build a relation <i>D</i> on the set of all countries <i>C</i> that encodes whether it is possible to drive from one country to another (even if it requires crossing into other countries on the way):
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;"> <i>D</i> <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> { (<i>a</i>, <i>b</i>) | <i>a</i> <span style="font-size:12px;">&#8712;</span> <i>C</i>, <i>b</i> <span style="font-size:12px;">&#8712;</span> <i>C</i>, it is possible to drive from <i>a</i> to <i>b</i> by car }
-</td></tr></table></td></tr></table>
-Assume that you can fly from any country to any other country by plane.</span><ol class="parts"><li class="part">
-<span class="text">What if you want to visit every country in the input set <i>C</i> (starting your trip on land in one specific country), but you want to take <b>as few plane flights as possible</b>? Write a one-line function <code>minimumFlights()</code> that takes a set of countries <i>C</i> and a relation on that set <i>D</i> representing reachability by driving, and returns an integer representing the minimum number of flights you will need to take to visit every country.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> C = {'Iceland', 'Vietnam', 'Kazakhstan', 'Australia'}
->>> D = {('Vietnam', 'Kazakhstan'), ('Kazakhstan', 'Vietnam')}
->>> minimumFlights(C, D)
-2
-              </code></pre></div></div></li><li class="part">
-<span class="text">Write a one-line function <code>longestDrive()</code> that takes a set of countries <i>C</i> and a relation on that set <i>D</i> representing reachability by driving, and returns an integer representing the maximum number of countries you can visit on a single, uninterrupted drive.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> longestDrive(C, D)
-2
-              </code></pre></div></div></li></ol></li></ol>
-</div><hr class="work_separator"/><br/>
+      </div></div></div></div>
 </div>
 <a name="3"></a>
-<div class="section"><hr class="last_subsection_was_work"/><h2 class="linked"><span class="link-title">[<a href="#3">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.</span> Modular Arithmetic</h2>
+<div class="section"><hr /><h2 class="linked"><span class="link-title">[<a href="#3">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.</span> Modular Arithmetic</h2>
 <span class="text top">Modular arithmetic can be viewed as a variant of integer arithmetic in which we introduce a congruence (or equivalence) relation on the integers and redefine the integer term operators so that they are defined on these congruence (or equivalence) classes.</span>
   <a name="3.1"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#3.1">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.1.</span> Terms: congruence classes in ℤ/<i>m</i>ℤ, term operators, and relations</h3>
 <a name="8854da3617884771b82ceb3064037466"></a><div class="linked block"><div class="link-block">[<a href="#8854da3617884771b82ceb3064037466">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="definition true_required"><span class="block_label">Definition:</span> 
@@ -2479,97 +2347,8 @@ Since there is a witness for every liar, there are at least as many witness as l
     <td></td>
   </tr>
 </table>
-      </div></div></div></div><br/><hr class="work_separator"/><a name="3.8"></a><a name="assignment2"></a><a name="hw2"></a><div class="work assignment"><h3 class="work_header linked"><span class="link-title">[<a href="#3.8">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.8.</span> <span class="work_title">Assignment #2: Modular Arithmetic, Random Numbers, and Primes</span></h3><div class="instructions">
-        
-<span class="text">In this assignment you will solve several equations, and you will define a collection of Python functions that will allow you to generate probable prime numbers of any size. You must submit a single Python source file named <code>hw2/hw2.py</code>. Please follow the <a href="#A">gsubmit</a> directions.</span>
-        <div class="paragraph">
-You may import the following library functions in your module:
-        </div>
-        
-<div class="code"><div class="source"><pre><code class="py">
-from fractions import gcd
-from math import log
-        </code></pre></div></div>
-        
-<span class="text">You may also use:
-<ul>
-  <li>the <code>.bit_length()</code> method to efficiently obtain the bit length of an integer,</li>
-  <li>the built-in <code>pow()</code> function to compute modular exponents efficiently (i.e., a<sup><i>k</i></sup> mod <i>n</i> can be written in Python as <code>pow(a,k,n)</code>),</li>
-  <li>the <code>abs()</code> function for computing the absolute value of an integer,</li>
-  <li>and the <code>//</code> operator for integer division (you should avoid using <code>/</code> because it does not work for very large integers).</li>
-</ul>
-<b style="color:firebrick;">Your file may not import any other modules or employ any external library functions associated with integers and sets unless explicitly permitted to do so in a particular problem.</b></span>
-        <div class="paragraph">
-Solutions to each of the programming problem parts below should be fairly concise. You will be graded on the correctness, concision, and mathematical legibility of your code. The different problems and problem parts rely on the lecture notes and on each other; carefully consider whether you can use functions from the lecture notes, or functions you define in one part within subsequent parts.
-        </div>
-      </div><ol class="problems"><li class="problem">
-<span class="text">Solve the following equations using step-by-step equational reasoning, and list each step. You must list all solutions (zero or more) for <i>x</i>. You may need to use some automation to perform some of the steps (e.g., to check whether a number is prime or whether two numbers are coprime). Your solutions for this problem should appear as comments, delimited using <code>'''</code>...<code>'''</code>, in <code>hw2.py</code>. You may use the <code>=</code> ASCII character to represent the &equiv; relational operator on congruence classes.</span><ol class="parts"><li class="part">
-<span class="text">4 &sdot; <i>x</i> + 1 &equiv; 9 (mod 17)</span></li><li class="part">
-<span class="text">5 &sdot; <i>x</i> + 2 &equiv; &#8722; 6 (mod 11)</span></li><li class="part">
-<span class="text">10 &sdot; <i>x</i> &#8722; 2 &equiv; 3 (mod 5)</span></li><li class="part">
-<span class="text">17 &sdot; <i>x</i> + 44 &equiv; 333 (mod 389)</span></li><li class="part">
-<span class="text">16 &sdot; <i>x</i> + 1 &equiv; 3 (mod 8)</span></li><li class="part">
-<span class="text">5 &sdot; <i>x</i> + 7 &equiv; 13 (mod 29)</span></li><li class="part">
-<span class="text">11 &sdot; <i>x</i> + 5 &sdot; <i>x</i> &equiv; 64 (mod 587)</span></li><li class="part">
-<span class="text">146467848 &sdot; <i>x</i> &equiv; 43698243047256 (mod 7777777777777777777777777)</span></li><li class="part">
-<span class="text">650472472230302 &sdot; <i>x</i> &equiv; 1 (mod 8910581811374)</span></li></ol></li><li class="problem">
-<span class="text">Implement the following Python functions. These functions take advantage of the <a href="#c32b1fae4f5d4abb997c85429ae85976">generalized Euclid's lemma</a> to make it possible to generate a random number within a specified range. <b style="color:firebrick;">Your implementations must be extremely efficient, and must handle very large inputs, as shown in the examples below. Implementations that perform exhaustive, exponential-time searches will receive no credit.</b></span><ol class="parts"><li class="part">
-<span class="text">Implement a function <code>closest(t, ks)</code> that takes two arguments: a target integer <code>t</code> and a list of integers <code>ks</code>. The function should return the integer <code>k</code> in <code>ks</code> that is <i>closest</i> to <code>t</code> (i.e., the integer <code>k</code> in <code>ks</code> that minimizes the absolute value of the difference |<code>t</code> &#8722; <code>k</code>| between the two numbers). This will serve as a helper function for subsequent problems in this assignment.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> closest(5, [1,3,4,9,10])
-4
->>> closest(8, [1,3,4,9,10])
-9
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a function <code>findCoprime(m)</code> that takes a single positive integer argument <code>m</code> and returns an integer <code>b</code> where <code>b</code> &gt; 1 and <code>b</code> is coprime with <code>m</code>. Your implementation does not need to return exactly the same answers as you see in the example outputs. However, the output generated by your implementation must be coprime with the input. <b>Hint:</b> <b style="color:green;">use facts about coprime numbers (e.g., <a href="#135ad791f7d2406db11b709d04f03f63">this</a>, <a href="#6e9970794ae24fc6860368be7afe8154">this</a>, <a href="#d748c2e939724ce4a08db35933e7af69">this</a>, <a href="#9e7a019d05154ba0b8e71ad59d57ad0a">this</a>, and/or <a href="#3a48cfd102124a17a72c0eb3e81c8724">this</a>)</b>.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> findCoprime(10)
-7
->>> findCoprime(100)
-63
->>> findCoprime(872637825353262)
-545398640845789
->>> findCoprime(2**200)
-1004336277661868922213726307713226626576376871114245522063361
->>> gcd(findCoprime(2**100000), 2**100000)
-1
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a function <code>randByIndex(m, i)</code> that takes two positive integer arguments: <code>m</code> represents the upper bound of random numbers to be generated, and <code>i</code> represents an index specifying which random number in a the sequence should be generated. You may assume <code>m</code> &ge; 4 and that 1 &le; <code>i</code> &le; <code>m</code> &#8722; 1. The function must return the <code>i</code>th "random" number in a permutation of the numbers {0, ..., <code>m</code> &#8722; 1} by implementing the <a href="#9e7a019d05154ba0b8e71ad59d57ad0c">simplified linear congruential generator</a> with a well-chosen coprime.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> [randByIndex(10, i) for i in {0,1,2,3,4,5,6,7,8,9}]
-[0, 7, 4, 1, 8, 5, 2, 9, 6, 3]
->>> [randByIndex(77, i) for i in range(0,76)]
-[ 0, 48, 19, 67, 38,  9, 57, 28, 76, 47, 18, 66, 
- 37,  8, 56, 27, 75, 46, 17, 65, 36,  7, 55, 26,
- 74, 45, 16, 64, 35,  6, 54, 25, 73, 44, 15, 63, 
- 34,  5, 53, 24, 72, 43, 14, 62, 33,  4, 52, 23, 
- 71, 42, 13, 61, 32,  3, 51, 22, 70, 41, 12, 60, 
- 31,  2, 50, 21, 69, 40, 11, 59, 30,  1, 49, 20, 
- 68, 39, 10, 58]
->>> randByIndex(2**200, 2**99+1)
-1004336277661868922213726307713860451876490985814993873666049
-              </code></pre></div></div>
-<span class="text">Your implementation does not need to return exactly the same answers as you see in the example outputs. However, the output generated by your implementation must produce a permutation when used in a comprehension, as in the examples, and must work on very large upper bounds and indices.</span></li></ol></li><li class="problem">
-<span class="text">Implement a function <code>probablePrime(m)</code> that takes a single integer argument <code>m</code> where <code>m</code> >= 1. The function should return <code>True</code> if <code>m</code> is probably prime, and <code>False</code> otherwise. Your code should employ the <a href="#458a8c0d2a934388ade43c11e27bb3e5">Fermat primality test</a> by generating some number of random witnesses in the appropriate range and using them to test the primality of <code>m</code>. You will need to determine what is a reasonable number of potential witnesses to test. <b style="color:firebrick;">Implementations that perform an exponentially large exhaustive search, even if the algorithm is <i>mathematically</i> correct, will not earn full credit.</b></span>
-<div class="code"><div class="source"><pre><code class="py">
->>> probablePrime(31)
-True
->>> probablePrime(107)
-True
->>> probablePrime(230204771)
-True
->>> probablePrime(10738019798475862873464857984759825354679201872)
-False
-          </code></pre></div></div></li><li class="problem">
-<span class="text">Implement a function <code>makePrime(d)</code> that takes a single integer argument <code>d</code> where <code>d</code> >= 1 and returns a probably prime number that has <b>exactly <code>d</code> digits</b>. Your implementation should be sufficiently efficient to produce an output for <code>d</code> = <code>100</code> in a reasonably short amount of time. <b style="color:firebrick;">Implementations that perform an exponentially large exhaustive search, even if the algorithm is <i>mathematically</i> correct, will not earn full credit.</b></span>
-<div class="code"><div class="source"><pre><code class="py">
->>> makePrime(2)
-47
->>> makePrime(100)
-3908330587430939367983163094172482420761782436265274101479718696329311615357177668931627057438461519
-          </code></pre></div></div></li></ol>
-</div><hr class="work_separator"/><br/>
-  <a name="3.9"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#3.9">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.9.</span> Multiplicative inverses</h3>
+      </div></div></div></div>
+  <a name="3.8"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#3.8">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.8.</span> Multiplicative inverses</h3>
 <span class="text top">To better understand multiplicative inverses, we first review the definition of an additive inverse.</span>
 <a name="cfe9b32e947144098fec7d26a6b2ce8f"></a><div class="linked block"><div class="link-block">[<a href="#cfe9b32e947144098fec7d26a6b2ce8f">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="fact true_required"><span class="block_label">Fact:</span> 
 For any <i>m</i> <span style="font-size:12px;">&#8712;</span> &#8469;, every element in the set &#8484;/<i>m</i>&#8484; has an inverse with respect to addition defined over &#8484;/<i>m</i>&#8484; (i.e., an <i>additive inverse</i>).
@@ -2622,7 +2401,7 @@ We can check to confirm that this is true:
          <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 1
 </td></tr></table></td></tr></table>
       </div></div></div></div>
-  <a name="3.10"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#3.10">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.10.</span> Chinese remainder theorem (CRT) and applications</h3>
+  <a name="3.9"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#3.9">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.9.</span> Chinese remainder theorem (CRT) and applications</h3>
 <span class="text top">In previous sections we presented facts that allowed us to solve certain individual equations with solution spaces corresponding to sets of congruence classes such as &#8484;/<i>m</i>&#8484;. It is also possible to solve <i>systems of equations</i> over sets of congruence classes.</span>
 <a name="df42e88c1fcd11e3831ff55c91aec05e"></a><div class="linked block"><div class="link-block">[<a href="#df42e88c1fcd11e3831ff55c91aec05e">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="theorem true_required"><span class="block_label">Theorem (Chinese remainder theorem):</span> 
 The <i>Chinese remainder theorem</i> (CRT) states that given primes <i>p</i><sub>1</sub>,...,<i>p</i><sub><i>k</i></sub> <span style="font-size:12px;">&#8712;</span> &#8469;, for any <i>a</i><sub>1</sub>,...,<i>a</i><sub><i>k</i></sub> <span style="font-size:12px;">&#8712;</span> &#8484; there exists a solution <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484; to the system of equations:
@@ -2772,7 +2551,7 @@ Give each participant <i>i</i> <span style="font-size:12px;">&#8712;</span> {1,.
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>f</i>(<i>x</i>) <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <i>s</i> + <i>c</i><sub>1</sub> <i>x</i> + <i>c</i><sub>2</sub> <i>x</i><sup>2</sup> + ... + <i>c</i><sub><i>k</i></sub> <i>x</i><sup><i>k</i></sup>
 </td></tr></table></td></tr></table>
 Each participant <i>i</i> <span style="font-size:12px;">&#8712;</span> {1,...,<i>N</i>} is given <i>f</i>(<i>i</i>). Any <i>k</i> participants can now use curve-fitting techniques or techniques for solving collections of equations (e.g., computing the reduced row echelon form of a matrix) to determine all the coefficients of <i>f</i> and, thus, solve for <i>s</i>.</span></div>
-  <a name="3.11"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#3.11">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.11.</span> Solving systems of equations with CRT solutions using multiplicative inverses</h3>
+  <a name="3.10"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#3.10">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.10.</span> Solving systems of equations with CRT solutions using multiplicative inverses</h3>
 <span class="text top">The Chinese remainder theorem guarantees that a unique solution exists to particular systems of equations involving congruence classes. But can these solutions be computed automatically and efficiently? In fact, they can. However, computing such solutions requires the ability to compute multiplicative inverses in &#8484;/<i>m</i>&#8484;.</span>
 <a name="c5f0b09e028040c7af8365fdc25c711a"></a><div class="linked block"><div class="link-block">[<a href="#c5f0b09e028040c7af8365fdc25c711a">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="diagram other">
 <table class="container">
@@ -3176,7 +2955,7 @@ system of equations.
  </li>
 </ol>
       </div></div></div></div>
-  <a name="3.12"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#3.12">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.12.</span> More practice with CRT</h3>
+  <a name="3.11"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#3.11">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.11.</span> More practice with CRT</h3>
 <a name="d777986d0d1e448eb2e9b10d8e3d6395"></a><div class="linked block"><div class="link-block">[<a href="#d777986d0d1e448eb2e9b10d8e3d6395">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="example task_required"><span class="block_label">Example:</span> 
         
 <span class="text">Solve the following equation for <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/5&#8484; by multiplying both sides by the appropriate multiplicative inverse:
@@ -3324,7 +3103,7 @@ At this time, there is no alignment. However,
 Jupiter aligned with earth on June 21st two years ago, and Ceres
 aligned with Earth on June 21st three year ago. What year is it?
       </div></div></div></div>
-  <a name="3.13"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#3.13">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.13.</span> Euler's totient function, Euler's theorem, and applications</h3>
+  <a name="3.12"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#3.12">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.12.</span> Euler's totient function, Euler's theorem, and applications</h3>
 <a name="363015589b5c4b168afdf08dc2b2e609"></a><div class="linked block"><div class="link-block">[<a href="#363015589b5c4b168afdf08dc2b2e609">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="definition true_required"><span class="block_label">Definition:</span> 
 For any input <i>m</i> <span style="font-size:12px;">&#8712;</span> &#8469;, define <i>Euler's totient function</i> &phi; by:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  &phi;(<i>m</i>) <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> |{<i>k</i> | <i>k</i> <span style="font-size:12px;">&#8712;</span> {1,...,<i>m</i>}, gcd(<i>k</i>,<i>m</i>) = 1}|</td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
@@ -3533,176 +3312,8 @@ then (<i>a</i> &sdot; <i>b</i>) has an inverse (<i>a</i><sup>-1</sup> &sdot; <i>
                                              <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 1 &sdot; 1 </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
                                              <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 1
 </td></tr></table></td></tr></table>
-      </div></div></div></div><br/><hr class="work_separator"/><a name="3.14"></a><a name="assignment3"></a><a name="hw3"></a><div class="work assignment"><h3 class="work_header linked"><span class="link-title">[<a href="#3.14">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.14.</span> <span class="work_title">Assignment #3: Multiplicative Inverses, CRT, and Efficient Computation</span></h3><div class="instructions">
-        
-<span class="text">In this assignment you will solve several equations, and you will define a collection of Python functions for finding inverses of congruence classes, for solving systems of equations using the Chinese remainder theorem, and for employing CRT solutions. You must submit a single Python source file named <code>hw3/hw3.py</code>. Please follow the <a href="#A">gsubmit</a> directions.</span>
-        <div class="paragraph">
-You may import the following library functions in your module (you may not need all these functions for this assignment depending on how you approach the problems, but they may be used):
-        </div>
-        
-<div class="code"><div class="source"><pre><code class="py">
-from math import floor
-from fractions import gcd
-        </code></pre></div></div>
-        
-<span class="text">You may also use:
-  <li>the built-in <code>pow()</code> function to compute modular exponents efficiently (i.e., a<sup><i>k</i></sup> mod <i>n</i> can be written in Python as <code>pow(a,k,n)</code>), and</li>
-  <li>the built-in <code>sum()</code> function that returns the sum of a list of integers (e.g., <code>sum(1,2,3,4)</code> returns <code>10</code>).</li>
-</ul>
-<b style="color:firebrick;">Your file may not import any other modules or employ any external library functions associated with integers and sets unless explicitly permitted to do so in a particular problem.</b></span>
-        <div class="paragraph">
-Solutions to each of the programming problem parts below should be fairly concise. You will be graded on the correctness, concision, and mathematical legibility of your code. The different problems and problem parts rely on the lecture notes and on each other; carefully consider whether you can use functions from the lecture notes, or functions you define in one part within subsequent parts.
-        </div>
-      </div><ol class="problems"><li class="problem">
-<span class="text">Solve the following equations using step-by-step equational reasoning, and list each step. For this problem, you must use <a href="#71a8e073b8f244809d2c321d5b5d2987">Fermat's little theorem</a> and/or <a href="#aae0b3af632b4da99cd398d887c5f764">Euler's theorem</a> to compute inverses of congruence classes. Your solutions for this problem should appear as comments, delimited using <code>'''</code>...<code>'''</code>, in <code>hw3.py</code>. You may use the <code>=</code> ASCII character to represent the &equiv; relational operator on congruence classes.</span><ol class="parts"><li class="part">
-<span class="text">Solve the following equation for <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/11&#8484;:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  5 &sdot; <i>x</i> &equiv; 3 (mod 11)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Solve the following equation for <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/5&#8484;:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  8 &sdot; <i>x</i> &#8722; 1 &equiv; 1 (mod 5)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Solve the following system of equations for <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/35&#8484;:    
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 4 (mod 7)</td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 3 (mod 5)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Solve the following system of equations for a unique congruence class <i>x</i>, and specify the range of congruence classes in which this system of equations has a unique solution:    
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 3 (mod 5) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 6 (mod 14)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Solve the following system of equations for a unique congruence class <i>x</i>, and specify the range of congruence classes in which this system of equations has a unique solution:    
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">          <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 10 (mod 11) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-  3 &sdot; <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 1 (mod 4)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Let <i>p</i> and <i>q</i> be unequal prime numbers. If <i>p</i><sup>-1</sup> &equiv; 5 (mod <i>q</i>) and <i>q</i><sup>-1</sup> &equiv; 4 (mod <i>p</i>), find the solution <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/(<i>p</i> &sdot; <i>q</i>)&#8484; to the following system of equations (your solution should be in terms of <i>p</i> and <i>q</i>):
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>q</i> &sdot; <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 3 (mod <i>p</i>) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-           <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 2 (mod <i>q</i>)
-</td></tr></table></td></tr></table></span></li></ol></li><li class="problem">
-<span class="text">Implement the following Python functions for computing multiplicative inverses of congruence classes.</span><ol class="parts"><li class="part">
-<span class="text">Implement a function <code>invPrime(a, p)</code> that takes two integers <code>a</code> and <code>p</code> > 1 where <code>p</code> is prime. The function should return the multiplicative inverse of <code>a</code> <span style="font-size:12px;">&#8712;</span> &#8484;/<code>p</code>&#8484; (if <code>a</code> &equiv; 0, it should return <code>None</code>). Your solution must <a href="#71a8e073b8f244809d2c321d5b5d2987">use Fermat's little theorem</a>.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> [invPrime(i, 7) for i in range(0,7)]
-[None, 1, 4, 5, 2, 3, 6]
->>> [invPrime(i, 13) for i in range(1,13)]
-[1, 7, 9, 10, 8, 11, 2, 5, 3, 4, 6, 12]
-              </code></pre></div></div></li><li class="part">
-<span class="text">Include the following definition in your code. This non-recursive implementation of the <a href="#4b73a6de740d492d9bf4d536da9f15ce">extended Euclidean algorithm</a> avoids a stack overflow error on large inputs.</span>
-<div class="code"><div class="source"><pre><code class="py">
-def egcd(a, b):
-    (x, s, y, t) = (0, 1, 1, 0)
-    while b != 0:
-        k = a // b
-        (a, b) = (b, a % b)
-        (x, s, y, t) = (s - k*x, x, t - k*y, y)
-return (s, t)
-              </code></pre></div></div>
-<span class="text">Given two inputs <code>a</code> and <code>b</code>, <code>egcd(a, b)</code> returns a solution <code>(s, t)</code> to the following instance of <a href="#4353592f86d4482c93cebb6da6d749b9">B&eacute;zout's identity</a>:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>a</code> &sdot; <code>s</code> + <code>b</code> &sdot; <code>t</code><td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>gcd(a, b)</code>
-</td></tr></table></td></tr></table> 
-Using <code>egcd()</code>, implement a function <code>inv(a, m)</code> that takes two integers <code>a</code> and <code>m</code> > 1. If <code>a</code> and <code>m</code> are coprime, it should return the multiplicative inverse of <code>a</code> <span style="font-size:12px;">&#8712;</span> &#8484;/<code>m</code>&#8484;. If <code>a</code> and <code>m</code> are not coprime, it should return <code>None</code>.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> [inv(i, 13) for i in range(1,13)]
-[1, 7, 9, 10, 8, 11, 2, 5, 3, 4, 6, 12]
->>> [inv(i, 8) for i in range(1,8)]
-[1, None, 3, None, 5, None, 7]
-              </code></pre></div></div></li></ol></li><li class="problem">
-<span class="text">Implement the following Python functions for solving certain (linear) systems of equations involving congruence classes.</span><ol class="parts"><li class="part">
-<span class="text">Implement a function <code>solveOne(c, b, a, m)</code> that takes four integers <code>c</code>, <code>b</code>, <code>a</code>, and <code>m</code> &ge; 1. If <code>c</code> and <code>m</code> are coprime, the function should return the solution <i>x</i> <span style="font-size:12px;">&#8712;</span> {0, ..., <code>m</code>-1} to the following equation:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>c</code> &sdot; <i>x</i> + <i>b</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>m</code>)
-</td></tr></table></td></tr></table>
-If <code>c</code> and <code>m</code> are not coprime, the function should return <code>None</code>.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> solveOne(3, 0, 4, 7)
-6
->>> solveOne(1, 2, 7, 11)
-5
->>> solveOne(2, 0, 3, 8)
-None
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a function <code>solveTwo(e1, e2)</code> that takes two tuples <code>e1</code> and <code>e2</code> as inputs, each of the form <code>(c, b, a, m)</code> (i.e., containing four integer elements). Thus, the two tuples, if we call them <code>(c, b, a, m)</code> and <code>(t, s, r, n)</code>, correspond to a system of equations of the form:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>c</code> &sdot; <i>x</i> + <code>b</code> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>m</code>) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-  <code>t</code> &sdot; <i>x</i> + <code>s</code> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>r</code> (mod <code>n</code>)
-</td></tr></table></td></tr></table>
-The function <code>solveTwo()</code> should return the unique solution <i>x</i> to the above system of equations. If either equation cannot be solved using <code>solveOne()</code>, or <code>n</code> and <code>m</code> are not coprime, the function should return <code>None</code>.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> solveTwo((3, 0, 4, 7), (1, 2, 7, 11))
-27
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a function <code>solveAll(es)</code> that takes a list of one or more equations, each of the form <code>(c, b, a, m)</code>. The list corresponds to the system of equations (assume all the <i>m</i><sub><i>i</i></sub> are mutually coprime):
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>c</i><sub>1</sub> &sdot; <i>x</i> + <i>b</i><sub>1</sub> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <i>a</i><sub>1</sub> (mod <i>m</i><sub>1</sub>) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-                          <td></tr></table></td><td style="text-align:center;"> &#8942; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;">  </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-  <i>c</i><sub><i>k</i></sub> &sdot; <i>x</i> + <i>b</i><sub><i>k</i></sub> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <i>a</i><sub><i>k</i></sub> (mod <i>m</i><sub><i>k</i></sub>)
-</td></tr></table></td></tr></table>
-The function <code>solveAll()</code> should return the unique congruence class solution <i>x</i> to the above system of equations. If any individual equation cannot be solved using <code>solveOne()</code>, or if the moduli are not all mutually coprime, the function should return <code>None</code>.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> solveAll([(3,0,4,7), (1,0,5,11)])
-27
->>> solveAll([(5,0,3,7), (3,0,5,11), (11,0,4,13)])
-856
->>> solveAll([(1,0,2,3), (7,0,8,31), (3,0,5,7), (11,0,4,13)])
-7109
->>> solveAll([(3,0,2,4), (7,0,8,9), (2,0,8,25), (4,0,4,7)])
-554
-              </code></pre></div></div></li></ol></li><li class="problem">
-<span class="text">In this problem we will exploit the Chinese Remainder Theorem (in the same way we did in <a href="#df42e88c1fcd11e3831ff55c91aec05Z">this example</a>, <a href="#ed75855fa50c4005a8e2f284bdcb23cf">this example</a>, and <a href="#e44bcc8621a0449690fc9f708c74ec65">this example</a>) to create an algorithm that can efficiently compute sums of terms that have extremely large exponents. Throughout this problem we represent the sum of a collection of exponentiation operations as a list of tuples in which each tuple contains two integers: the base and the exponent. For example, the list <code>[(2,4),(3,5),(-6,3)]</code> represents the sum of powers 2<sup>4</sup> + 3<sup>5</sup> + (&#8722;6)<sup>3</sup>.</span><ol class="parts"><li class="part">
-<span class="text">Implement a function <code>sumPowsModPrime(nes, p)</code> that takes a list <code>nes</code> representing a sum of powers and, as efficiently as possible, computes the sum modulo a prime <code>p</code>. You may <b>not</b> assume that any particular patterns will exist in the bases or exponents (e.g., make sure that your function behaves correctly if a base is a multiple of the prime modulus <code>p</code>).</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> (2**4 + 3**5 + (-6)**3) % 59
-43
->>> sumPowsModPrime([(2,4), (3,5), (-6,3)], 59)
-43
->>> sumPowsModPrime([(2,10**1000000 + 1), (-2,10**1000000 + 1), (3,3)], 103)
-27
-              </code></pre></div></div>
-<span class="text"><b>Hint:</b> keep <a href="#fa37b1eca05d47e3ae9fc97803551667">this fact</a> and <a href="#360652037d3e48069d182158129d21af">Euler's theorem</a> in mind and use comprehensions and <code>pow()</code> to write a one-line body for this function.</span></li><li class="part">
-<span class="text">Implement a function <code>sumPowsModPrimes(nes, ps)</code> that takes a list of one or more tuples <code>nes</code> (i.e., <code>nes</code> is of the form <code>[(a1,n1),...,(ak,nk)]</code>) as its first argument, and a list of one or more primes <code>ps</code> (i.e., of the form <code>[p1,...,pm]</code>) as its second argument. The function should return the correct result of the sum of powers as long as the following is true (e.g., on a computer with unlimited memory and time):
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  0 <td></tr></table></td><td style="text-align:center;"> &le; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a1</code><sup><code>n1</code></sup> + ... + <code>ak</code><sup><code>nk</code></sup> <td></tr></table></td><td style="text-align:center;"> &lt; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>p1</code> &sdot; ... &sdot; <code>pm</code>
-</td></tr></table></td></tr></table>
-<b style="color:green;">Do not check the above condition; it is an <i>assumption</i> that you can make and a <i>requirement</i> that users of your function must fulfill if they want to use it.</b> You may assume the second list contains distinct prime numbers. You may <b>not</b> assume that the numbers in the first input list have any particular patterns or relationships; they can be in any order, they can be of any size, and they may or may not share factors. Your implementation must work efficiently on very large inputs (e.g., with computations like 2<sup>29999999999999999999999999999999996</sup>, as presented in the examples below). <b style="color:green;">Solutions that call a CRT solver more than once will receive no credit.</b></span>
-<div class="code"><div class="source"><pre><code class="py">
->>> sumPowsModPrimes([(2,3), (5,6)], [3,5,7,11,13,17,19,23,29]) == 2**3 + 5**6
-True
->>> primes =[\
-         15481619,15481633,15481657,15481663,15481727,15481733,15481769,15481787 
-        ,15481793,15481801,15481819,15481859,15481871,15481897,15481901,15481933 
-        ,15481981,15481993,15481997,15482011,15482023,15482029,15482119,15482123 
-        ,15482149,15482153,15482161,15482167,15482177,15482219,15482231,15482263 
-        ,15482309,15482323,15482329,15482333,15482347,15482371,15482377,15482387 
-        ,15482419,15482431,15482437,15482447,15482449,15482459,15482477,15482479 
-        ,15482531,15482567,15482569,15482573,15482581,15482627,15482633,15482639 
-        ,15482669,15482681,15482683,15482711,15482729,15482743,15482771,15482773 
-        ,15482783,15482807,15482809,15482827,15482851,15482861,15482893,15482911 
-        ,15482917,15482923,15482941,15482947,15482977,15482993,15483023,15483029 
-        ,15483067,15483077,15483079,15483089,15483101,15483103,15483121,15483151 
-        ,15483161,15483211,15483253,15483317,15483331,15483337,15483343,15483359 
-        ,15483383,15483409,15483449,15483491,15483493,15483511,15483521,15483553 
-        ,15483557,15483571,15483581,15483619,15483631,15483641,15483653,15483659 
-        ,15483683,15483697,15483701,15483703,15483707,15483731,15483737,15483749 
-        ,15483799,15483817,15483829,15483833,15483857,15483869,15483907,15483971 
-        ,15483977,15483983,15483989,15483997,15484033,15484039,15484061,15484087 
-        ,15484099,15484123,15484141,15484153,15484187,15484199,15484201,15484211 
-        ,15484219,15484223,15484243,15484247,15484279,15484333,15484363,15484387 
-        ,15484393,15484409,15484421,15484453,15484457,15484459,15484471,15484489 
-        ,15484517,15484519,15484549,15484559,15484591,15484627,15484631,15484643 
-        ,15484661,15484697,15484709,15484723,15484769,15484771,15484783,15484817 
-        ,15484823,15484873,15484877,15484879,15484901,15484919,15484939,15484951 
-        ,15484961,15484999,15485039,15485053,15485059,15485077,15485083,15485143 
-        ,15485161,15485179,15485191,15485221,15485243,15485251,15485257,15485273 
-        ,15485287,15485291,15485293,15485299,15485311,15485321,15485339,15485341 
-        ,15485357,15485363,15485383,15485389,15485401,15485411,15485429,15485441 
-        ,15485447,15485471,15485473,15485497,15485537,15485539,15485543,15485549 
-        ,15485557,15485567,15485581,15485609,15485611,15485621,15485651,15485653 
-        ,15485669,15485677,15485689,15485711,15485737,15485747,15485761,15485773 
-        ,15485783,15485801,15485807,15485837,15485843,15485849,15485857,15485863]
->>> sumPowsModPrimes(\
-       [(2,29999999999999999999999999999999996)\
-       ,(-8,9999999999999999999999999999999999)\
-       ,(2,29999999999999999999999999999999996)\
-       ,(7,7),(-13,3)], primes)
-821346
-              </code></pre></div></div></li><li class="part">
-<span class="text"><b>Extra credit:</b> Reimplement the <code>makePrime(d, k)</code> function from <b>Assignment #2</b> so that it uses Python's own <a href="https://docs.python.org/3/library/random.html#random.randint"><code>random.randint()</code></a> function and returns a list of <code>k</code> distinct primes, each of which is <code>d</code> digits long.</span></li></ol></li></ol>
-</div><hr class="work_separator"/><br/>
-</div><a name="R.1"></a><div class="review"><hr class="last_subsection_was_work"/><h2 class="linked"><span class="link-title">[<a href="#R.1">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">Review #1.</span> Properties, Algorithms, and Applications of Modular Arithmetic</h2>
+      </div></div></div></div>
+</div><a name="R.1"></a><div class="review"><hr /><h2 class="linked"><span class="link-title">[<a href="#R.1">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">Review 1.</span> Properties, Algorithms, and Applications of Modular Arithmetic</h2>
 <span class="text top">This section contains a comprehensive collection of review problems going over the course material covered until this point. Many of these problems are an accurate representation of the kinds of problems you may see on an exam.</span>
 <a name="7f89ddc6035e40679e68e1c67eeefe16"></a><div class="linked block"><div class="link-block">[<a href="#7f89ddc6035e40679e68e1c67eeefe16">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="exercise task_required"><span class="block_label">Exercise:</span> 
       
@@ -5137,140 +4748,10 @@ Since it takes a 365 days to try all possible <i>k</i> factors of a 100-digit nu
 <div class="button"><button class="solution_toggle">show solution</button></div><div class="solution_container" style="display:none;"><div class="solution">
 Bob can use Shamir secret sharing to accomplish this. Bob can take one of the factors <i>f</i> of <i>n</i> when he generates <i>n</i>, and choose 100 distinct primes such that the product of any 20 of the primes is greater than <i>f</i> while the product of any 19 of these primes is less than <i>f</i>. Bob can then distribute <i>f</i> mod <i>m</i> for each prime modulus <i>m</i> to each of the 100 people. If any 20 (or greater) of these 100 people agree to redeem the coupon, then can use CRT to reconstruct <i>f</i> and submit it to Bob for redemption.
             </div></div><div class="solution_spacer"></div></li></ol>
-      </div></div></div></div><br/><hr class="work_separator"/><a name="4.5"></a><a name="assignment4"></a><a name="hw4"></a><div class="work assignment"><h3 class="work_header linked"><span class="link-title">[<a href="#4.5">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">4.5.</span> <span class="work_title">Assignment #4: Tractable and Intractable Problems in Modular Arithmetic</span></h3><div class="instructions">
-        
-<span class="text">In this assignment you will solve several equations, and you will define a collection of Python functions that demonstrate the relationships between intractable problems in modular arithmetic. You must submit a single Python source file named <code>hw4.py</code> (submitted to the location <code>hw4/hw4.py</code>). Please follow the <a href="#A">gsubmit</a> directions.</span>
-        <div class="paragraph">
-<b style="color:firebrick;">You may import the following library functions in your module (you may not need all these functions for this assignment depending on how you approach the problems, but they may be used):</b>
-        </div>
-        
-<div class="code"><div class="source"><pre><code class="py">
-from math import floor
-from fractions import gcd
-        </code></pre></div></div>
-        
-<span class="text"><b style="color:firebrick;">Your file may not import any other modules or employ any external library functions associated with
-integers and sets unless explicitly permitted to do so in a particular problem.</b> Solutions to each of the programming problem parts below should be fairly concise. You will be graded on the correctness, concision, and mathematical legibility of your code. The different problems and problem parts rely on the lecture notes and on each other; carefully consider whether you can use functions from the lecture notes, or functions you define in one part within subsequent parts.</span>
-      </div><ol class="problems"><li class="problem">
-<span class="text">In this problem, we make the following simplifying assumptions about the efficiency of modular arithmetic algorithms when they are applied to one or more integers <i>x</i>, <i>y</i>, <i>n</i>, <i>m</i> that are all at most <i>k</i> bits in length:
-<ul>
-  <li>computing <i>x</i><sup><i>y</i></sup> mod <i>m</i> takes exactly <i>k</i><sup>3</sup> time steps;</li>
-  <li>solving a two-equation system (e.g., <i>x</i> &equiv; <i>a</i> mod <i>m</i> and <i>x</i> &equiv; <i>b</i> mod <i>n</i>) using CRT takes exactly 16 &sdot; <i>k</i><sup>3</sup> time steps because the intermediate values and the final answer can have as many bits as <i>n</i> &sdot; <i>m</i>, which is <i>k</i> + <i>k</i> = 2 &sdot; <i>k</i> bits, and solving CRT requires two inversion operations that take time (2 &sdot; <i>k</i>)<sup>3</sup>, so 2 &sdot; (2 &sdot; <i>k</i>)<sup>3</sup> = 16 &sdot; <i>k</i><sup>3</sup>.</li>
-</ul>
-Be very careful when applying the above facts. For example, if we multiply two <i>k</i>-bit integers <i>n</i> and <i>m</i>, we get a 2 &sdot; <i>k</i>-bit integer <i>n</i> &sdot; <i>m</i>. That means the running time for computing an exponentiation modulo <i>n</i> might take <i>k</i><sup>3</sup> time steps, but computing an exponentiation modulo <i>n</i> &sdot; <i>n</i> can take (2 &sdot; <i>k</i>)<sup>3</sup> = 8 &sdot; <i>k</i><sup>3</sup> time steps.</span><ol class="parts"><li class="part">
-<span class="text">Let <i>p</i> and <i>q</i> be 10-bit primes, where <i>p</i> &sdot; <i>q</i> is a 20-bit integer. Suppose we want to compute a sequence of <i>u</i> exponentiation operations modulo <i>p</i> &sdot; <i>q</i>. In order words, for 10-bit integers <i>c</i>, <i>e</i><sub>1</sub>, <i>e</i><sub>2</sub>, and so on, we want to compute:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> ( ... ((<i>c</i><sup><i>e</i><sub>1</sub></sup>)<sup><i>e</i><sub>2</sub></sup>)<sup><i>e</i><sub>3</sub></sup> ... )<sup><i>e</i><sub><i>u</i></sub></sup> (mod (<i>p</i> &sdot; <i>q</i>))
-</td></tr></table></td></tr></table>
-Define an explicit polynomial <i>f</i>(<i>u</i>) in terms of the quantity <i>u</i> that computes the number of time steps necessary to perform these <i>u</i> operations to obtain the final result <i>x</i> modulo <i>p</i> &sdot; <i>q</i>.</span></li><li class="part">
-<span class="text">Suppose that instead of doing what we describe in part (a), we first compute <i>a</i> &equiv; ( ... ((<i>c</i><sup><i>e</i><sub>1</sub></sup>)<sup><i>e</i><sub>2</sub></sup>)<sup><i>e</i><sub>3</sub></sup> ... )<sup><i>e</i><sub><i>u</i></sub></sup> (mod <i>p</i>) and then <i>b</i> &equiv; ( ... ((<i>c</i><sup><i>e</i><sub>1</sub></sup>)<sup><i>e</i><sub>2</sub></sup>)<sup><i>e</i><sub>3</sub></sup> ... )<sup><i>e</i><sub><i>u</i></sub></sup> (mod <i>q</i>) first. Finally, we use the Chinese remainder theorem to solve the following system of equations for the final result <i>x</i> modulo <i>p</i> &sdot; <i>q</i>:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <i>a</i> (mod <i>p</i>) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <i>b</i> (mod <i>q</i>)
-</td></tr></table></td></tr></table>
-Define an explicit polynomial <i>g</i>(<i>u</i>) that computes the number of time steps necessary to compute <i>x</i> using this technique. Your definition of <i>g</i>(<i>u</i>) should assume that the computation modulo <i>p</i> and the computation modulo <i>q</i> take place one after the other, and that the CRT algorithm is run once at the end.</span></li><li class="part">
-<span class="text">Using basic linear algebra, determine the smallest integer number of operations <i>u</i> for which using the approach from part (b) requiring CRT is more efficient than using the approach from part (a).</span></li></ol></li><li class="problem">
-<span class="text">Solve the following equations using step-by-step equational reasoning, and list each step. Your solutions for this problem should appear as comments, delimited using <code>'''</code>...<code>'''</code>, in <code>hw4.py</code>. You may use the <code>=</code> ASCII character to represent the &equiv; relational operator on congruence classes.</span><ol class="parts"><li class="part">
-<span class="text">Solve the following equation for all solutions <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/43&#8484;:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 25 (mod 43)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Solve the following equation for all solutions <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/19&#8484;:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 5 (mod 19)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Solve the following equation for all solutions <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/55&#8484;:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 1 (mod 55)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Solve the following equation for all solutions <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/41&#8484; (note that you cannot use the <a href="#3d06a3b21e4846728ea3569d9d1d7c6f">explicit formula</a> for square roots in this case):
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  3 &sdot; <i>x</i><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 7 (mod 41)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Solve the following equation for all solutions <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/49&#8484;:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 8 (mod 49)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Solve the following equation for all solutions <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/21&#8484;:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  (8 &sdot; <i>x</i><sup>2</sup>) + 4 <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 6 (mod 21)
-</td></tr></table></td></tr></table></span></li></ol></li><li class="problem">
-<span class="text">In this problem you will implement an algorithm for computing all the square roots of a congruence class in &#8484;/<i>n</i>&#8484;, given a complete factorization of <i>n</i> into its distinct prime factor powers (assuming all the prime factors are in 3 + 4&#8484;).</span><ol class="parts"><li class="part">
-<span class="text">Implement a Python function <code>sqrtsPrime(a, p)</code> that takes two arguments: an integer <code>a</code> and a prime number <code>p</code>. You may assume that <code>a</code> and <code>p</code> are coprime. If <code>p</code> is not in 3 + 4&#8484; or <code>a</code> has no square roots in &#8484;/<code>p</code>&#8484;, the function should return <code>None</code>. Otherwise, it should return the two congruence classes in &#8484;/<code>p</code>&#8484; that solve the following equation:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>p</code>)
-</td></tr></table></td></tr></table></span>
-<div class="code"><div class="source"><pre><code class="py">
->>> sqrtsPrime(2, 7)
-(3, 4)
->>> sqrtsPrime(5, 7) # 5 has no square roots
-None
->>> sqrtsPrime(5, 17) # 17 mod 4 =/= 3
-None
->>> sqrtsPrime(763472161, 5754853343)
-(27631, 5754825712)
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a Python function <code>sqrtsPrimePower(a, p, k)</code> that takes three arguments: an integer <code>a</code>, a prime number <code>p</code>, and a positive integer <code>k</code>. You may assume that <code>a</code> and <code>p</code> are coprime. If <code>p</code> is not in 3 + 4&#8484; or <code>a</code> has no square roots in &#8484;/<code>p</code><sup><code>k</code></sup>&#8484;, the function should return <code>None</code>. Otherwise, it should return the congruence classes in &#8484;/<code>p</code><sup><code>k</code></sup>&#8484; that solve the following equation:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>p</code><sup><code>k</code></sup>)
-</td></tr></table></td></tr></table></span>
-<div class="code"><div class="source"><pre><code class="py">
->>> sqrtsPrimePower(2, 7, 2)
-(10, 39)
->>> sqrtsPrimePower(763472161, 5754853343, 4)
-(27631, 1096824245608362247285266960246506343570)
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a Python function <code>sqrts(a, pks)</code> that takes two arguments: an integer <code>a</code> and a list of tuples <code>pks</code> in which each tuple is a distinct positive prime number paired with a positive integer power. You may assume that <code>a</code> and <code>n</code> are coprime. You may assume that all the primes in <code>pks</code> are in 3 + &#8484;/4&#8484; (if any are not, the function should return <code>None</code>). Let <code>n</code> be the product of all the prime powers in the list <code>pks</code>. Then the function should return a set of all the distinct square roots of <code>a</code> in &#8484;/<code>n</code>&#8484; that are solutions to the following equation:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>n</code></sup>)
-</td></tr></table></td></tr></table>
-Your implementation must be efficient (i.e., it may not iterate over all possible values in &#8484;/<code>n</code>&#8484; to look for square roots), <span style="color:green;">and it must work for any positive number of entries in <code>pks</code></span>.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> sqrts(2, [(7,4)])
-{235, 2166}
->>> sqrts(1, [(7,1), (11,1)])
-{1, 76, 43, 34}
->>> sqrts(1, [(7,1), (11,1), (3,1)])
-{1, 76, 43, 34, 155, 188, 197, 230}
->>> sqrts(1, [(7,2), (11,1), (3,2)])
-{1, 197, 881, 1079, 3772, 3970, 4654, 4850}
->>> sqrts(1, [(7,1), (11,1), (3,1), (19,1)])
-{1, 265, 419, 1198, 1310, 1462, 1616, 1882, 2507, 2773, 2927, 3079, 3191, 3970, 4124, 4388}
->>> sqrts(76349714515459441, [(1500450271,3), (5754853343,2)])
-{276314521,
- 111875075121925861006908948065990250824231090118,
- 50900491283175338098734392241768315796265192809,
- 60974583838750522908174555824221935028242211830}
-              </code></pre></div></div>
-<span class="text">You may find the following helper function useful in implementing your solution.</span>
-<div class="code"><div class="source"><pre><code class="py">
-def combinations(ls):
-    if len(ls) == 0:
-        return [[]]
-    else:
-        return [ [x]+l for x in ls[0] for l in combinations(ls[1:]) ]
-              </code></pre></div></div>
-<span class="text">This function takes a list of lists as its input and returns a list of all possible combinations of one element from each list.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> combinations([[1,2], ['a','b'], ['X','Y']])
-[[1, 'a', 'X'], [1, 'a', 'Y'], [1, 'b', 'X'], [1, 'b', 'Y'], [2, 'a', 'X'], [2, 'a', 'Y'], [2, 'b', 'X'], [2, 'b', 'Y']]
-              </code></pre></div></div></li></ol></li><li class="problem">
-<span class="text">Implement the following Python functions for factoring a positive integer. These algorithms must be efficient (i.e., they must run in polynomial time).</span><ol class="parts"><li class="part">
-<span class="text">Implement a function <code>factorsFromPhi(n, phi_n)</code> that takes two integers <code>n</code> and <code>phi_n</code>. You may assume (i.e., you do <i>not</i> need to verify in your code) that <code>n</code> is a product of two distinct positive prime numbers and that <code>phi_n</code> = &phi;(<code>n</code>). The function should return both prime factors of <code>n</code> as a tuple.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> factorsFromPhi(77, 60)
-(7, 11)
->>> factorsFromPhi(14369648346682547857, 14369648335605206820)
-(9576890767, 1500450271)
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a function <code>factorsFromRoots(n, x, y)</code> that takes three integers <code>n</code>, <code>x</code>, and <code>y</code>. You may assume that <code>n</code> is a product of two distinct positive prime numbers, and that the following is true:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>x</code><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>y</code><sup>2</sup> (mod <code>n</code>) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-  <code>x</code> <td></tr></table></td><td style="text-align:center;"> &#8802; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> &plusmn; <code>y</code> (mod <code>n</code>) 
-</td></tr></table></td></tr></table>
-The function should return both prime factors of <code>n</code> as a tuple.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> factorsFromRoots(35, 1, 6)
-(5, 7)
->>> factorsFromRoots(14369648346682547857, 12244055913891446225, 1389727304093947647)
-(1500450271, 9576890767)
-              </code></pre></div></div></li></ol></li><li class="problem">
-<span class="text">In this problem you will implement the three component algorithms of the RSA cryptographic protocol described in lecture.</span><ol class="parts"><li class="part">
-<span class="text">Define a Python function <code>generate(k)</code> that takes a single integer input <code>k</code> and returns a tuple <code>(n,e,d)</code> corresponding to the public values <code>n</code> and <code>e</code> and private key <code>d</code> in the RSA cryptographic protocol. The output <code>n</code> must be the product of two distinct, randomly chosen <code>k</code>-digit primes. You may import and use the Python random number generator (<code>from random import random</code> or <code>from random import randint</code>), and you may want to reuse the extended Euclidean algorithm implementation provided in the <a href="#assignment3">previous homework assignment</a>.</span></li><li class="part">
-<span class="text">Define a Python function <code>encrypt(m, t)</code> that takes two inputs: an integer <code>m</code> and a tuple <code>(n,e)</code> representing an RSA public key. It should return a single integer: the RSA ciphertext <code>c</code>.</span></li><li class="part">
-<span class="text">Define a Python function <code>decrypt(c, t)</code> that takes two inputs: an integer <code>c</code> representing the ciphertext and a tuple of two integers <code>(n,d)</code> representing an RSA private key. It should decrypt <code>c</code> and return the original message <code>m</code>.</span></li></ol></li></ol>
-</div><hr class="work_separator"/><br/>
+      </div></div></div></div>
 </div>
 <a name="5"></a>
-<div class="section"><hr class="last_subsection_was_work"/><h2 class="linked"><span class="link-title">[<a href="#5">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">5.</span> Algebraic Structures</h2>
+<div class="section"><hr /><h2 class="linked"><span class="link-title">[<a href="#5">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">5.</span> Algebraic Structures</h2>
 <span class="text top">In the previous sections, we studied a specific algebraic structure, &#8484;/<i>n</i>&#8484;, as well as its operations (e.g., addition, multiplication), and its properties (commutativity, associativity, and so on). There exist many other algebraic structures that share some of the properties of &#8484;/<i>n</i>&#8484;. In fact, we can create a hierarchy, or even a web, of algebraic structures by picking which properties of &#8484;/<i>n</i>&#8484; we keep and which we throw away.</span><div class="paragraph">
 Showing that some new algebraic structure is similar or equivalent to another, more familiar structure allows us to make inferences about that new structure based on everything we already know about the familiar structure. In computer science, the ability to compare algebraic structures using their properties is especially relevant because every time a programmer defines a new data structure and operations on that data structure, they are defining an <i>algebraic</i> structure. Which properties that algebraic structure possesses determines what operations can be performed on it, in what order they can be performed, how efficiently they can be performed, and how they can be broken down and reassembled.
     </div>
@@ -5679,113 +5160,8 @@ Furthermore, if in addition to the above, the generator <i>b</i> can be expresse
 This would then imply (by basic set theory):
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>A</i> <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <i>B</i></td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
 </td></tr></table></td></tr></table>
-      </div></div></div></div><br/><hr class="work_separator"/><a name="5.4"></a><a name="assignment5"></a><a name="hw5"></a><div class="work assignment"><h3 class="work_header linked"><span class="link-title">[<a href="#5.4">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">5.4.</span> <span class="work_title">Assignment #5: Algebraic Structures and Isomorphisms</span></h3><div class="instructions">
-        
-<span class="text">In this assignment you will solve several problems involving algebraic structures and isomorphisms, and you will define a collection of Python functions that exploit isomorphisms between algebraic structures. You must submit a single Python source file named <code>hw5.py</code> (submitted to the location <code>hw5/hw5.py</code>). Please follow the <a href="#A">gsubmit</a> directions.</span>
-        <div class="paragraph">
-<b style="color:firebrick;">You may import the following library functions in your module (you may not need all these functions for this assignment depending on how you approach the problems, but they may be used):</b>
-        </div>
-        
-<div class="code"><div class="source"><pre><code class="py">
-from math import floor
-from fractions import gcd
-from random import randint
-from urllib.request import urlopen
-        </code></pre></div></div>
-        
-<span class="text"><b style="color:firebrick;">Your file may not import any other modules or employ any external library functions associated with integers and sets unless explicitly permitted to do so in a particular problem.</b> Solutions to each of the programming problem parts below should be fairly concise. You will be graded on the correctness, concision, and mathematical legibility of your code. The different problems and problem parts rely on the lecture notes and on each other; carefully consider whether you can use functions from the lecture notes, or functions you define in one part within subsequent parts.</span>
-      </div><ol class="problems"><li class="problem">
-<span class="text">Solve the following equations using step-by-step equational reasoning, and list each step. Your solutions for this problem should appear as comments, delimited using <code>'''</code>...<code>'''</code>, in <code>hw5.py</code>.</span><ol class="parts"><li class="part">
-<span class="text">Compute the following composition of permutations (the result should be a permutation):
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  [3,5,4,0,1,2] <span style="font-size:10px;">o</span> [4,5,3,1,2,0] <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> ?
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Compute the following composition of two permutations on 1000 elements (the result should be a permutation):
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  [441,442,...,999,0,1,2,3,4,...,440] <span style="font-size:10px;">o</span> [176,177,...,999,0,1,2,3,4,...,175] = ?
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Let <i>p</i> <span style="font-size:12px;">&#8712;</span> <i>S</i><sub>7</sub> be a <i>swap</i> permutation on 7 elements. Compute the following (your result should be an explicit permutation):
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>p</i> <span style="font-size:10px;">o</span> <i>p</i> <span style="font-size:10px;">o</span> [4,5,6,0,1,2,3] <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;">  ?
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Let <i>p</i>, <i>q</i> <span style="font-size:12px;">&#8712;</span> <i>C</i><sub>5</sub> be two distinct <i>cyclic</i> permutation on 5 elements. Compute the following (your result should be an explicit permutation):
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>q</i><sup>-1</sup> <span style="font-size:10px;">o</span> <i>p</i><sup>-1</sup> <span style="font-size:10px;">o</span> <i>q</i><sup>-1</sup> <span style="font-size:10px;">o</span> <i>q</i> <span style="font-size:10px;">o</span> <i>p</i> <span style="font-size:10px;">o</span> <i>q</i>  <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> ?
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Define the isomorphism between the two algebraic structures (<i>C</i><sub>2</sub>, <span style="font-size:10px;">o</span>) and ((&#8484;/4&#8484;)*, &sdot;). You must write down a bijection that specifies how each element in <i>C</i><sub>2</sub> corresponds to an element of (&#8484;/4&#8484;)*, and you must write down four pairs of corresponding equation that show that the behavior of <span style="font-size:10px;">o</span> on elements of <i>C</i><sub>2</sub> is the same as the behavior of &sdot; on corresponding elements of (&#8484;/4&#8484;)*.</span></li><li class="part">
-<span class="text">Define the isomorphism between the two algebraic structures (closure({3 + 80&#8484;}, &sdot;), &sdot;) and (&#8484;/4&#8484;, +) (where &sdot; in the first case refers to multiplication modulo 80). You must write down a bijection that specifies how each element in closure({3 + 80&#8484;}, &sdot;) corresponds to an element of &#8484;/4&#8484;, but you do not need to write out all the equations.</span></li><li class="part">
-<span class="text">Explain why there can be no isomorphism between the two algebraic structures (<i>S</i><sub>4</sub>, <span style="font-size:10px;">o</span>) and (&#8484;/4&#8484;, +).</span></li></ol></li><li class="problem">
-<span class="text">Implement the following Python functions for working with permutations. Any code that does not conform exactly to the specified requirements will receive <b>no credit</b>.</span><ol class="parts"><li class="part">
-<span class="text">Implement a function <code>permute(p, l)</code> that takes two arguments: a permutation <code>p</code> (represented as a Python list of integers) and a list <code>l</code> of the same length as the permutation. It should return the list after it has been permuted according to the permutation.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> permute([2,1,0], ['a','b','c'])
-['c','b','a']
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a function <code>C(k, m)</code> that takes two integers <code>k</code> and <code>m</code> where <code>k</code> &lt; <code>m</code> and returns the cyclic permutation in <i>C</i><sub><i>m</i></sub> that shifts all elements up by <i>k</i>.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> C(1, 4)
-[1, 2, 3, 0]
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a function <code>M(a, m)</code> that takes two coprime integers <code>a</code> and <code>m</code> where <code>0</code> &lt; <code>a</code> &lt; <code>m</code> and returns the multiplication-induced permutation in <i>M</i><sub><i>m</i></sub> that corresponds to multiplication by <i>a</i> modulo <i>m</i>:</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> M(2, 5)
-[0, 2, 4, 1, 3]
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a function <code>sort(l)</code> that takes a list of integers of some length <i>n</i> and returns:
-<ul>
-  <li>a cyclic permutation <i>p</i> <span style="font-size:12px;">&#8712;</span> <i>C</i><sub><i>n</i></sub> that will sort the list into ascending order, if it exists;</li>
-  <li>a multiplication-induced permutation <i>p</i> <span style="font-size:12px;">&#8712;</span> <i>M</i><sub><i>n</i></sub> that will sort the list into ascending order, if it exists;</li>
-  <li><code>None</code> otherwise.</li>
-</ul></span>
-<div class="code"><div class="source"><pre><code class="py">
->>> sort([38,16,27])
-[1,2,0]
->>> permute(sort([38,49,16,27]), [38,49,16,27])
-[16,27,38,49]
->>> sort([1, 13, 4, 17, 6, 23, 9])
-[0, 2, 4, 6, 1, 3, 5]
->>> sort([0, 17, 4, 21, 8, 25, 12, 29, 16, 3, 20, 7, 24, 11, 28,\
-          15, 2, 19, 6, 23, 10, 27, 14, 1, 18, 5, 22, 9, 26, 13])
-[0, 23, 16, 9, 2, 25,18, 11, 4, 27, 20, 13, 6, 29, 22,
- 15, 8, 1, 24, 17, 10, 3, 26, 19, 12, 5, 28, 21, 14, 7]
-              </code></pre></div></div></li></ol></li><li class="problem">
-<span class="text">In this problem you will implement a secure and correct multiplication algorithm by using an untrusted, unreliable third-party web service to perform the actual multiplication. The web service consists of a PHP script at <code><a href="http://cs-people.bu.edu/lapets/235/unreliable.php">http://cs-people.bu.edu/lapets/235/unreliable.php</a></code> (e.g., the result of ((2 &sdot; 3 &sdot; 4) mod 7) can be obtained at <code><a href="http://cs-people.bu.edu/lapets/235/unreliable.php?n=7&data=2,3,4">http://cs-people.bu.edu/lapets/235/unreliable.php?n=7&data=2,3,4</a></code>). You can use the Python function below to invoke this script (this Python code needs to run on a computer connected to the internet).</span>
-<div class="code"><div class="source"><pre><code class="py">
-def unreliableUntrustedProduct(xs, n):
-    url = 'http://cs-people.bu.edu/lapets/235/unreliable.php'
-    return int(urlopen(url+"?n="+str(n)+"&data="+",".join([str(x) for x in xs])).read().decode())
-          </code></pre></div></div>
-<span class="text">To test your code on a service that does not sometimes return incorrect answers, you can also use the URL <code>http://cs-people.bu.edu/lapets/235/reliable.php</code>.</span><ol class="parts"><li class="part">
-<span class="text">Implement a function <code>privateProduct(xs, p, q)</code> that takes three inputs: a non-empty list of integers <code>xs</code>, a prime <code>p</code>, and another distinct prime <code>q</code>. The function must compute the product modulo <code>p</code> of all the integers in the list <code>xs</code> (assuming the web service performs its job correctly, which it may sometimes not do):
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>privateProduct(xs, p, q)</code> <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>(xs[0] * xs[1] * ... * xs[len(xs)-1]) % p</code>
-</td></tr></table></td></tr></table>
-However, <b style="color:firebrick">your implementation may not multiply any of the integers in <code>xs</code> on its own; it must use <code>unreliableUntrustedProduct()</code> to do so</b>, and at the same time <b style="color:firebrick">it must not send the actual integers in <code>xs</code> over the web or reveal them to the web service</b>. Your implementation should leak no information about the entries in <code>xs</code> or the product obtained by multiplying them to anyone (unless they can solve an <a href="#4.3">intractable problem</a> in modular arithmetic).</span><div class="paragraph">
-To solve this problem, use the extra prime <code>q</code> to create public and private RSA keys, and then encrypt all the integers in <code>xs</code> (you will need to encrypt them modulo <code>n</code> instead of modulo <code>p</code> because RSA needs a composite modulus). Next, use <code>unreliableUntrustedProduct()</code> to compute the product of the RSA-encrypted integers modulo <code>n</code> (i.e., take advantage of <a href="#68cb7199f61240cfa1e8b6f22bafd583">this isomorphism</a> as in this <a href="#46785e266a2742329077115d68dc1190">homomorphic encryption example</a>). Finally, your <code>privateProduct()</code> implementation should decrypt the result and return the product modulo <code>p</code>.
-              </div></li><li class="part">
-<span class="text">Implement a function <code>validPrivateProduct(xs, p, q)</code> that takes three inputs: a non-empty list of integers <code>xs</code>, a prime <code>p</code>, and another distinct prime <code>q</code>. The function must <i>always correctly</i> compute the product modulo <code>p</code> of all the integers in the list <code>xs</code>:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>validPrivateProduct(xs, p, q)</code> <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>(xs[0] * xs[1] * ... * xs[len(xs)-1]) % p</code>
-</td></tr></table></td></tr></table>
-As before, <b style="color:firebrick">your implementation may not multiply any of the integers in <code>xs</code> on its own; it must use <code>unreliableUntrustedProduct()</code> to do so</b>, and at the same time <b style="color:firebrick">it must not send the actual integers in <code>xs</code> over the web or reveal them to the web service</b>.</span><div class="paragraph">
-Start with your solution to part (a) and extend it by choosing a random value <code>r</code> in &#8484;/<code>q</code>&#8484;. For each integer <code>xs[i]</code> in the list, convert the pair <code>(xs[i], r)</code> into a value in &#8484;/<code>n</code>&#8484; via the <a href="#7eb018ba49d53b9183b62eb01d35b19a">CRT isomorphism</a>. Then encrypt all these &#8484;/<code>n</code>&#8484; values using RSA and use <code>unreliableUntrustedProduct()</code> to compute their product. Finally, your <code>validPrivateProduct()</code> implementation should decrypt the result and convert it back to an answer modulo <code>p</code> via the opposite direction of the <a href="#7eb018ba49d53b9183b62eb01d35b19a">CRT isomorphism</a>.
-              </div><div class="paragraph">
-To check if the answer you obtained from <code>unreliableUntrustedProduct()</code> is actually correct, determine whether the decrypted value modulo <code>q</code> has the expected value (i.e., is it really <code>r</code><sup><code>len(xs)</code></sup> modulo <code>q</code>). If this check fails, keep repeating the entire process from the beginning until it succeeds.
-              </div></li></ol></li><li class="problem">
-<span class="text">Implement a function <code>isomorphism(A, B)</code> that takes two tuples <code>A</code> and <code>B</code> as inputs. Each tuple consists of two entries: the first is an ordered list of elements from an algebraic structure, and the second is a function on elements of that binary structure. Thus, the tuple <code>A</code> represents an algebraic structure (<i>A</i>, &oplus;), and the tuple <code>B</code> represents an algebraic structure (<i>B</i>, &otimes;). You may assume that the list of elements is closed under the operation represented by the function. You may also assume that the bijection between the sets <i>A</i> and <i>B</i> is already provided by the order of the elements in each list (i.e., the <i>i</i>th entry in the first list corresponds to the <i>i</i>th entry in the second). The <code>isomorphism()</code> function should return <code>True</code> if there is indeed an isomorphism between (<i>A</i>, &oplus;) and (<i>B</i>, &otimes;), and <code>False</code> otherwise.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> plusMod2 = lambda x,y: (x + y) % 2
->>> A = ([0,1], plusMod2)
->>> B = ([C(0,2), C(1,2)], permute)
->>> isomorphism(A, B)
-True
-
->>> plusMod4 = lambda x,y: (x + y) % 4
->>> multMod8 = lambda x,y: (x * y) % 8
->>> A = ([0,1,2,3], plusMod4)
->>> B = ([1,3,5,7], multMod8)
->>> isomorphism(A, B)
-False
-          </code></pre></div></div></li><li class="problem">
-<span class="text"><b>Extra credit:</b> In a comment, solve and explain each of the following.</span><ol class="parts"><li class="part">
-<span class="text">Either find an isomorphism between ((&#8484;/8&#8484;)*, &sdot;) and ((&#8484;/10&#8484;)*, &sdot;) or explain why one cannot exist despite the fact that |(&#8484;/8&#8484;)*| = &phi;(8) = &phi;(10) = |(&#8484;/10&#8484;)*|.</span></li><li class="part">
-<span class="text">Either find an isomorphism between (&#8484;/4&#8484;, +) and ((&#8484;/8&#8484;)*, &sdot;) or explain why one cannot exist despite the fact that |Z/4&#8484;| = 4 = &phi;(8) = |(&#8484;/8&#8484;)*|.</span></li></ol></li></ol>
-</div><hr class="work_separator"/><br/>
-  <a name="5.5"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#5.5">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">5.5.</span> Isomorphisms and Linear Equations of Congruence Classes</h3>
+      </div></div></div></div>
+  <a name="5.4"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#5.4">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">5.4.</span> Isomorphisms and Linear Equations of Congruence Classes</h3>
 <a name="2ea3deb4f4914b3983cec15fae6e1844"></a><div class="linked block"><div class="link-block">[<a href="#2ea3deb4f4914b3983cec15fae6e1844">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="fact true_required"><span class="block_label">Fact:</span> 
 Let <i>n</i> be a positive integer. Then if + represents addition modulo <i>n</i>, we have:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  &#8484;/<i>n</i>&#8484; <td></tr></table></td><td style="text-align:center;"> &cong; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> closure({1}, +)
@@ -5889,7 +5265,7 @@ The solutions modulo 6 will be those congruence classes in &#8484;/6&#8484; whos
   {..., 2, 5, 8, 11, 14, 17, 20, ...} <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> {..., 2, 8, 14, 20, ...} &cup; {..., 5, 11, 17, ...}
 </td></tr></table></td></tr></table>
       </div></div></div></div>
-  <a name="5.6"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#5.6">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">5.6.</span> Isomorphisms and the Chinese Remainder Theorem</h3>
+  <a name="5.5"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#5.5">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">5.5.</span> Isomorphisms and the Chinese Remainder Theorem</h3>
 <a name="7eb018ba49d53b9183b62eb01d35b19a"></a><div class="linked block"><div class="link-block">[<a href="#7eb018ba49d53b9183b62eb01d35b19a">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="fact true_required"><span class="block_label">Fact (Chinese remainder theorem isomorphism):</span> 
 Let <i>n</i> and <i>m</i> be coprime positive integers. Let &#8484;/<i>n</i>&#8484; &#215 &#8484;/<i>m</i>&#8484; be the set product of &#8484;/<i>n</i>&#8484; and &#8484;/<i>m</i>&#8484;, and let &oplus; be an operation on &#8484;/<i>n</i>&#8484; &#215 &#8484;/<i>m</i>&#8484; defined as follows:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  (<i>a</i>,<i>b</i>) &oplus; (<i>c</i>,<i>d</i>) <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> (<i>a</i> + <i>c</i>,<i>b</i> + <i>d</i>)
@@ -6259,7 +5635,7 @@ We can check that, indeed, 4 &sdot; 2 + 3 &sdot; 2<sup>2</sup> &equiv; 20 &equiv
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;"> <i>x</i><sup>2</sup> &#8722; 3 &sdot; <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 0 (mod 7)
 </td></tr></table></td></tr></table></span>
       </div></div></div></div>
-  <a name="5.7"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#5.7">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">5.7.</span> Groups, Subgroups, and Direct Products</h3>
+  <a name="5.6"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#5.6">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">5.6.</span> Groups, Subgroups, and Direct Products</h3>
 <a name="8f4618a2960e4d3f908da973915f4514"></a><div class="linked block"><div class="link-block">[<a href="#8f4618a2960e4d3f908da973915f4514">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="definition true_required"><span class="block_label">Definition:</span> 
 We call an algebraic structure (<i>A</i>, &oplus;) a <i>group</i> under &oplus; if:
 <ul>
@@ -6412,144 +5788,8 @@ This, together with the fact that every coefficient <i>a</i><sub><i>i</i></sub> 
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  {0 &sdot; <i>x</i> + 0, &nbsp;&nbsp;&nbsp;&nbsp; 0 &sdot; <i>x</i> + 1, &nbsp;&nbsp;&nbsp;&nbsp; 1 &sdot; <i>x</i> + 0, &nbsp;&nbsp;&nbsp;&nbsp; 1 &sdot; <i>x</i> + 1} <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> {0, 1, <i>x</i>, <i>x</i> + 1}
 </td></tr></table></td></tr></table>
 One notation for this set of polynomials is &#8484;/2&#8484;[<i>x</i>], which can be read as "&#8484;/2&#8484; extended with <i>x</i>" or "polynomials in &#8484;/2/Z". The set {0, 1, <i>x</i>, <i>x</i> + 1} together with addition modulo 2 is an algebraic structure, and it is isomorphic to &#8484;/2&#8484; &#215 &#8484;/2&#8484; where the two ceofficients of the polynomial <i>a</i><sub>1</sub> <i>x</i> + <i>a</i><sub>0</sub> correspond to the two components of an element (<i>a</i><sub>1</sub>, <i>a</i><sub>0</sub>) in &#8484;/2&#8484; &#215 &#8484;/2&#8484;.</span>
-      </div></div></div></div><br/><hr class="work_separator"/><a name="5.8"></a><a name="assignment6"></a><a name="hw6"></a><div class="work assignment"><h3 class="work_header linked"><span class="link-title">[<a href="#5.8">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">5.8.</span> <span class="work_title">Assignment #6: Linear Congruence Theorem, Generalized CRT, and More Isomorphisms</span></h3><div class="instructions">
-        
-<span class="text">In this assignment you will solve several problems using what you know about the generalized Chinese remainder theorem, isomorphisms, and subgroups. You must submit a single file named <code>hw6.py</code> (submitted to the location <code>hw6/hw6.py</code>). Please follow the <a href="#A">gsubmit</a> directions.</span>
-        <div class="paragraph">
-<b style="color:firebrick;">For the programming parts, you may import the following library functions in your module (you may not need all these functions for this assignment depending on how you approach the problems, but they may be used):</b>
-        </div>
-        
-<div class="code"><div class="source"><pre><code class="py">
-from math import floor
-from fractions import gcd
-from random import randint
-        </code></pre></div></div>
-        
-<span class="text"><b style="color:firebrick;">Your file may not import any other modules or employ any external library functions associated with integers and sets unless explicitly permitted to do so in a particular problem.</b></span>
-      </div><ol class="problems"><li class="problem">
-<span class="text">Solve the following equations using step-by-step equational reasoning, and list each step.</span><ol class="parts"><li class="part">
-<span class="text">Solve the following equation for a unique congruence class <i>x</i> if it exists (you must specify both the congruence class and the set of congruence classes of which it is a member); if no solution exists, explain why not:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">   12 &sdot; <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 4 (mod 32)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Solve the following system of equations and find a unique congruence class solution (<b>including the set of congruence classes from which the congruence class is drawn</b>) if it exists; if no solution exists, explain why not:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 2 (mod 15) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-  2 &sdot; <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 12 (mod 25)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Solve the following system of equations and find a unique congruence class solution (<b>including the set of congruence classes from which the congruence class is drawn</b>) if it exists; if no solution exists, explain why not:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 12 (mod 14) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 19 (mod 21)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Solve the following system of equations and find <b>all</b> congruence class solutions if any exist; if no solution exists, explain why not:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i><sup>2</sup> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 4 (mod 35) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-  3 &sdot; <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 15 (mod 21)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">Solve the following system of equations and find a unique congruence class solution if it exists; if no solution exists, explain why not:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 10 (mod 12) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 2 (mod 16)
-</td></tr></table></td></tr></table></span></li><li class="part">
-<span class="text">List all subgroups of the algebraic structure (&#8484;/18&#8484;, +), where + represents addition modulo 18. You only need to specify the set of elements in each subgroup.</span></li><li class="part">
-<span class="text">Suppose that you have a standard 12-hour analog clock. You also have an alarm that rings every 20 hours. At some point in the last three days, the alarm rang at exactly midnight. At this moment, the analog clock reads 5 (you do not know if it is AM or PM), and it has been 1 hour since the alarm last rang. How many hours have passed since the alarm rang at exactly midnight, and what time is it? Set up an appropriate equation or system of equations and use step-by-step equational reasoning to find the solution.</span></li><li class="part">
-<span class="text">Bob needs to reserve virtual machines on a cloud computing service to solve a number of problems before a deadline. He has two options: reserve some number of virtual machines that can each solve 12 problems before the deadline, or reserve some number of virtual machines that can each solve 15 problems before the deadline:
-<ul>
-  <li>with virtual machines that can each solve 12 problems, Bob will end up using all the virtual machines to their full capacity except one, which will have only 3 problems to solve;
-  <li>with virtual machines that can each solve 15 problems, Bob will end up using all the virtual machines to their full capacity except one, which will have only 9 problems to solve.
-</ul>
-Assuming that Bob has at most 60 problems to solve, how many problems does Bob have?</span></li></ol></li><li class="problem">
-<span class="text">Implement the following Python functions for solving systems of equations involving congruence classes.</span><ol class="parts"><li class="part">
-<span class="text">Implement a function <code>solveOne(c, b, a, m)</code> that takes four integers <code>c</code>, <code>b</code>, <code>a</code>, and <code>m</code> &ge; 1. If it exists, the function should return the unique solution <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/(<code>m</code>/gcd(<code>c</code>,<code>m</code>))&#8484; to the following equation:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>c</code> &sdot; <i>x</i> + <code>b</code> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>m</code>)
-</td></tr></table></td></tr></table>
-If no solution exists, the function should return <code>None</code>. The function must work correctly for all possible equations (you should use the <a href="#29831f3f3ebd42bb91d29c5d9b298236">linear congruence theorem</a>).</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> solveOne(1, 0, 2, 3)
-2
->>> solveOne(3, 1, 5, 7)
-6
->>> solveOne(1, 0, 5, 11)
-5
->>> solveOne(2, 0, 3, 8)
-None
->>> solveOne(6, 3, 5, 8)
-3
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a function <code>solveOneSameMod(c, b, a, m)</code> that takes four integers <code>c</code>, <code>b</code>, <code>a</code>, and <code>m</code> &ge; 1. If it exists, the function should return <b>the set of all solutions</b> <i>x</i> <span style="font-size:12px;">&#8712;</span> &#8484;/<code>m</code>&#8484; to the following equation:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>c</code> &sdot; <i>x</i> + <code>b</code> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>m</code>)
-</td></tr></table></td></tr></table>
-If no solution exists, the function should return <code>None</code>. Your solution does not need to be efficient, but it must use <code>solveOne()</code> as a subroutine.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> solveOneSameMod(3, 0, 4, 7)
-{6}
->>> solveOneSameMod(2, 0, 3, 8)
-None
->>> solveOneSameMod(6, 3, 5, 8)
-{3, 7}
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a function <code>solveTwo(e1, e2)</code> that takes two tuples <code>e1</code> and <code>e2</code> as inputs, each of the form <code>(c, b, a, m)</code> (i.e., containing four integer elements). Each tuple <code>(c, b, a, m)</code> corresponds to an equation of the form:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>c</code> &sdot; <i>x</i> + <code>b</code> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>m</code>)
-</td></tr></table></td></tr></table>
-Thus, the two tuples, if we call them <code>(c, b, a, m)</code> and <code>(t, s, r, n)</code>, correspond to a system of equations of the form:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <code>c</code> &sdot; <i>x</i> + <code>b</code> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>a</code> (mod <code>m</code>) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
-  <code>t</code> &sdot; <i>x</i> + <code>s</code> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>r</code> (mod <code>n</code>)
-</td></tr></table></td></tr></table>
-The function <code>solveTwo()</code> should return the unique solution <i>x</i> to the above system of equations. If either equation cannot be solved using <code>solveOne()</code>, the function should return <code>None</code>.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> solveTwo((3, 0, 4, 7), (1, 0, 5, 11))
-27
->>> solveTwo((1, 0, 1, 6), (1, 0, 3, 8))
-19
->>> solveTwo((1, 0, 0, 6), (1, 0, 3, 8))
-None
-              </code></pre></div></div></li><li class="part">
-<span class="text">Implement a function <code>solveAll(es)</code> that takes a list of one or more equations, each of the form <code>(c, b, a, m)</code>. The function should return the unique solution <i>x</i> to the system of equations represented by the list of equations. If the system of equations has no solution, the function should return <code>None</code>.</span>
-<div class="code"><div class="source"><pre><code class="py">
->>> solveAll([(1,0,2,3)])
-2
->>> solveAll([(3,0,4,7), (1,0,5,11)])
-27
->>> solveAll([(5,0,3,7), (3,0,5,11), (11,0,4,13)])
-856
->>> solveAll([(1,0,2,3), (7,0,8,31), (3,0,5,7), (11,0,4,13)])
-7109
->>> solveAll([(3,0,2,4), (7,0,8,9), (2,0,8,25), (4,0,4,7)])
-554
->>> solveAll([(1,0,1,6), (1,0,3,8)])
-19
->>> solveAll([(1,0,0,6), (1,0,3,8)])
-None
-              </code></pre></div></div></li></ol></li><li class="problem">
-<span class="text">In this problem you will implement a reliable addition algorithm for &#8484;/256&#8484; by using an unreliable addition algorithm for &#8484;/256&#8484;. <b>You may not use the addition operator <code>+</code> anywhere in your solutions to this problem</b>. You may assume you are given access to a function <code>plus256unreliable(x, y)</code> that returns an answer that is at most 4 away from the true sum modulo <code>256</code> (assume there is no chance of this error causing the answer to wrap around):
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  | <code>plus256unreliable(x, y)</code> &#8722; (<code>(x + y) % 256</code>) | <td></tr></table></td><td style="text-align:center;"> &lt; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <code>4</code>
-</td></tr></table></td></tr></table>
-You may use the following Python simulation of this unreliable function in order to test your code:</span>
-<div class="code"><div class="source"><pre><code class="py">
-from random import randint
-def plus256unreliable(x, y):
-    r = randint(0,7) - 4
-    return (min(255, max(0, ((x + y)%256) + r)))
-          </code></pre></div></div><ol class="parts"><li class="part">
-<span class="text">Implement a Python function <code>plus16(x, y)</code> that reliably returns <code>(x + y) % 16</code> with 100% accuracy. <b>You may use <code>//</code>, <code>*</code>, <code>plus256unreliable()</code>, and numerical constants, but you may not use anything else in your definition.</b> <span style="color:green; font-weight:bold;"><b>Hint</b>: you can call <code>plus256unreliable()</code> more than once.</span></span></li><li class="part">
-<span class="text">Implement a Python function <code>plus256(x, y)</code> that reliably returns <code>(x + y) % 256</code> with 100% accuracy. <b>Your solution must use <code>solveAll()</code>, and you are allowed to use <code>%</code>, but you may not use the addition or subtraction operators</b>: choose four appropriate prime or mutually coprime moduli, perform the addition operations modulo those moduli, then restore the original result using <code>solveAll()</code>.</b></span></li></ol></li><li class="problem">
-<span class="text">Suppose you are given the following function (which simulates the component of Shor's algorithm that can run efficiently on a quantum computer). Given <code>n</code> <span style="font-size:12px;">&#8712;</span> &#8469; and <code>a</code> <span style="font-size:12px;">&#8712;</span> &#8484;/<i>n</i>&#8484;, it returns the smallest non-zero congruence class <i>r</i> <span style="font-size:12px;">&#8712;</span> &#8484;/&phi;(<i>n</i>)&#8484; such that <code>a</code><sup><i>r</i></sup> &equiv; 1 (mod <code>n</code>). In other words, it returns |closure({<code>a</code>}, &sdot;)| where &sdot; is multiplication modulo <code>n</code>.</span>
-<div class="code"><div class="source"><pre><code class="py">
-def quantum(a, n):
-    return [pow(a,k,n) for k in range(1, n)].index(1) + 1
-          </code></pre></div></div>
-<span class="text">Implement a function <code>factor(n)</code> that returns a non-trivial factor of a composite number input <code>n</code> = <i>p</i> &sdot; <i>q</i> by calling <code>quantum()</code>. <b>Solutions that use exhaustive search will receive no credit.</b></span></li><li class="problem">
-<span class="text"><b>Extra credit:</b> In Problem 4, you implemented an efficient factoring algorithm that used the function <code>quantum()</code>. In this problem, you will implement an efficient version of <code>quantum()</code> using another function. Suppose you are given an efficient function <code>blackbox()</code> that takes three positive integers <code>k1</code>, <code>k2</code>, and <code>n</code> where <code>k1</code> &lt; <code>k2</code>. For each possible exponent <code>k</code> <span style="font-size:12px;">&#8712;</span> {<code>k1</code>, ..., <code>k2</code>}, the function efficiently computes the <b>average</b> of the following set of values:
-<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  {<i>a</i><sup><code>k</code></sup> mod <code>n</code> | <i>a</i> <span style="font-size:12px;">&#8712;</span> {1,...,<code>n</code>-1}}
-</td></tr></table></td></tr></table>
-It then returns the minimum of the averages over all <code>k</code> <span style="font-size:12px;">&#8712;</span> {<code>k1</code>, ..., <code>k2</code>}. An <b>inefficient</b> but equivalent implementation is provided below <b>for testing purposes</b>:</span>
-<div class="code"><div class="source"><pre><code class="py">
-def avg(a):
-    return float(sum(a))/len(a)
-
-def blackbox(k1, k2, n):
-    return min([(avg([pow(a,k,n) for a in range(1,n)])) for k in range(k1, k2)])
-          </code></pre></div></div>
-<span class="text">Implement an efficient (polynomial-time) function <code>quantum(a, n)</code> that takes any composite <code>n</code> that is the product of two distinct primes, and returns the smallest non-zero congruence class <i>r</i> <span style="font-size:12px;">&#8712;</span> &#8484;/&phi;(<i>n</i>)&#8484; such that <i>a</i><sup><i>r</i></sup> &equiv; 1 (mod <i>n</i>). Your implementation of <code>quantum()</code> may make up to log<sub>2</sub>(<code>n</code>) calls to <code>blackbox()</code>, but not more than that.</span></li><li class="problem">
-<span class="text"><b>Extra extra credit:</b> Using an approach similar to the one we saw in <a href="#18231a61b42aaaeddd8347f75c7f4aaa">this example</a>, determine the set of all distinct polynomials that are of the form <i>a</i><sub><i>k</i></sub> <i>x</i><sup><i>k</i></sup> + <i>a</i><sub><i>k</i>-1</sub> <i>x</i><sup><i>k</i>-1</sup> + ... + <i>a</i><sub>2</sub> <i>x</i><sup>2</sup> + <i>a</i><sub>1</sub> <i>x</i><sup>1</sup> + <i>a</i><sub>0</sub> <i>x</i><sup>0</sup> if <i>a</i><sub><i>i</i></sub> are all from &#8484;/3&#8484; and + represents addition modulo 3; in other words, list all elememts of &#8484;/3&#8484;[<i>x</i>]. Furthermore, find at least one other group that is isomorphic to &#8484;/3&#8484;[<i>x</i>], and explicitly write down the bijection for that isomorphism.</span></li></ol>
-</div><hr class="work_separator"/><br/>
-</div><a name="R.2"></a><div class="review"><hr class="last_subsection_was_work"/><h2 class="linked"><span class="link-title">[<a href="#R.2">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">Review #2.</span> Algebraic Structures and their Properties</h2>
+      </div></div></div></div>
+</div><a name="R.2"></a><div class="review"><hr /><h2 class="linked"><span class="link-title">[<a href="#R.2">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">Review 2.</span> Algebraic Structures and their Properties</h2>
 <span class="text top">This section contains a comprehensive collection of review problems going over all the course material. Many of these problems are an accurate representation of the kinds of problems you may see on an exam.</span>
 <a name="cd2b89cad4bd496db3770b8e1d17db97"></a><div class="linked block"><div class="link-block">[<a href="#cd2b89cad4bd496db3770b8e1d17db97">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="exercise task_required"><span class="block_label">Exercise:</span> 
       
@@ -7126,6 +6366,6 @@ def example4(d):
         sum = sum + d[key]
     return sum
               </code></pre></div></div></li></ul></li></ul></div></div>
-</div><div class="footer"><div class="sheaflink">represented and rendered using <a href="http://sheaf.io">sheaf</a></div></div></body>
+</div><div id="footer"><div id="author"><a href="http://lapets.io">Andrei Lapets</a></div><div id="sheaflink"><a href="http://sheaf.io">sheaf</a></div></div></body>
 </html>
 <!--eof-->
