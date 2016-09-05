@@ -2,7 +2,7 @@
 **
 ** Script to render notes as HTML using Sheaf.
 **
-** index.php
+** s.php
 **
 */
 
