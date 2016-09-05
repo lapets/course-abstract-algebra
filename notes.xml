@@ -1,4 +1,8 @@
-<sheaf title="Number Theory and Abstract Algebra for Computer Science Applications" authors="Andrei Lapets">
+<sheaf title="Algebraic Algorithms"
+       subtitle="Introductory Number Theory and Abstract Algebra for Computer Science Applications"
+       author="Andrei Lapets"
+       authorlink="http://lapets.io"
+       >
   <section title="Introduction, Background, and Motivation">
     <subsection title="Overview">
       <text><![CDATA[
@@ -1084,7 +1088,7 @@ A visualization might look as follows:
         ]]></text>
       </example>
     </subsection>
-    <include sheaf="assignment-one.xml"/>
+    <!--include sheaf="assignment-one.xml"/-->
   </section>
   <section title="Modular Arithmetic">
     <text><![CDATA[
@@ -2602,7 +2606,7 @@ We can now summarize all the facts and algorithms we have introduced and how the
 </table>
       ]]></diagram>
     </subsection>
-    <include sheaf="assignment-two.xml"/>
+    <!--include sheaf="assignment-two.xml"/-->
     <subsection title="Multiplicative inverses">
       <text hooks="math"><![CDATA[
 To better understand multiplicative inverses, we first review the definition of an additive inverse.
@@ -3744,7 +3748,7 @@ then (%a \cdot %b) has an inverse (%a^{-1} \cdot %b^{-1}). We can use the commut
 \end{eqnarray}
       ]]></fact>
     </subsection>
-    <include sheaf="assignment-three.xml"/>
+    <!--include sheaf="assignment-three.xml"/-->
   </section>
   <review title="Properties, Algorithms, and Applications of Modular Arithmetic">
     <text><![CDATA[
@@ -5596,7 +5600,7 @@ instance of the problem.
 </div>
 -->
     </subsection>
-    <include sheaf="assignment-four.xml"/>
+    <!--include sheaf="assignment-four.xml"/-->
   </section>
   <section title="Algebraic Structures">
     <text hooks="math"><![CDATA[
@@ -6064,7 +6068,7 @@ This would then imply (by basic set theory):
 \end{eqnarray}
       ]]></fact>
     </subsection>
-    <include sheaf="assignment-five.xml"/>
+    <!--include sheaf="assignment-five.xml"/-->
     <subsection title="Isomorphisms and Linear Equations of Congruence Classes">
       <fact required="true" hooks="math" id="2ea3deb4f4914b3983cec15fae6e1844"><![CDATA[
 Let %n be a positive integer. Then if + represents addition modulo %n, we have:
@@ -6774,7 +6778,7 @@ One notation for this set of polynomials is \Z/2\Z[%x], which can be read as "\Z
         ]]></text>
       </example>
     </subsection>
-    <include sheaf="assignment-six.xml"/>
+    <!--include sheaf="assignment-six.xml"/-->
   </section>
   <review title="Algebraic Structures and their Properties">
     <text><![CDATA[
