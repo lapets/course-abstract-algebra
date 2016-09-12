@@ -89,10 +89,11 @@ As with most human languages that have developed organically over time, mathemat
     <subsection title="Formulas without quantifiers">
       <definition required="true" hooks="math" id="47254608df414ace8d04c630a2b15689">
         <text><![CDATA[
-A <i>logical formula</i> or <i>formula</i> is a string of symbols that follow a certain syntax. If the formula is written using a
-correct syntax, we can ask whether the formula is <i>true</i> or <i>false</i>. The symbols <i>or</i>, <i>and</i>, <i>not</i>, <i>implies</i>, and
-<i>iff</i> are <i>logical operators</i>.
+A <i>logical formula</i> or <i>formula</i> is a string of symbols that follow a certain syntax. If the formula is written using a correct syntax, we can ask about its <i>meaning</i> (i.e., is the formula <i>true</i> or <i>false</i>). The symbols <i>or</i>, <i>and</i>, <i>not</i>, <i>implies</i>, and <i>iff</i> are <i>logical operators</i>.
         ]]></text>
+        <paragraph><![CDATA[
+The basic building blocks (a.k.a., base cases) for formulas are <i>true</i>, <i>false</i>, and <i>predicates</i>. When a formula consists of only one of these (and no operators), it is an <i>atomic formula</i>. Like any formula, each atomic formula has a particular meaning (it is either true or it is false). Atomic formulas can be combined using logical operators to build up larger formulas. The table below provides a way to determine the meaning of a formula by breaking it down into its constituent parts.
+        ]]></paragraph>
         <table><![CDATA[
 <table class="fig_table">
  <tr>
@@ -159,6 +160,9 @@ correct syntax, we can ask whether the formula is <i>true</i> or <i>false</i>. T
  </tr>
 </table>
         ]]></table>
+        <text><![CDATA[
+A predicate can have zero or more arguments. Whether a given atomic formula consisting of a predicate that takes at least one argument is true or false depends on the arguments supplied to it. For example, we see above for the predicate <code>isPrime(?)</code> that takes one argument, the meaning of <code>isPrime(7)</code> should be true but the meaning of <code>isPrime(4)</code> should be false.
+        ]]></text>
       </definition>
       <text hooks="math"><![CDATA[
 The following table may help with gaining a good intuition for the meaning of the <i>implies</i> operator.
@@ -396,9 +400,9 @@ returns a boolean result.
   </td>
  </tr>
  <tr> 
-  <td>%Q(1) and %P(1)</td>
+  <td>%Q(1) and %Q(2)</td>
   <td>false</td>
-  <td><code>Q(1) and Q(1)</code>
+  <td><code>Q(1) and Q(2)</code>
   </td>
  </tr>
 </table>
