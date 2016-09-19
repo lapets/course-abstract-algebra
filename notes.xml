@@ -7484,6 +7484,9 @@ frozenset({1, 2, 3})
 >>> {frozenset({1,2}), frozenset({3,4})}      # Set of frozen sets.
 {frozenset({3, 4}), frozenset({1, 2})}
           ]]></code>
+          <text hooks="math"><![CDATA[
+In Python, values that are members of a <code>set</code> data structure must be <i>hashable</i> so that it is easy to deduplicate elements in an unordered set (e.g., <code>{1,1,2,2} == {1,2}</code> should be <code>True</code>, and this would take %O(%n^2) steps to compute in the worst case because sets are not ordered). However, values of type <code>set</code> are not hashable because they can change (e.g., it is possible to insert an element into a set and also to remove an element from a set), which means their hashes could change, as well. Values of type <code>frozenset</code> <i>cannot</i> be changed; once their hash value is computed at the time of creation, it never changes. Thus, it is okay to include values of type <code>frozenset</code> inside instances of <code>set</code> without worrying about incurring a quadratic running time when deduplicating (or, e.g., computing a set union).
+          ]]></text>
         </item>
         <item>
           <text><![CDATA[<b>Dictionaries</b> are unordered collections of associations between some set of keys and some set of values. Dictionaries are also known as finite maps.]]></text>
