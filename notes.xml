@@ -89,10 +89,11 @@ As with most human languages that have developed organically over time, mathemat
     <subsection title="Formulas without quantifiers">
       <definition required="true" hooks="math" id="47254608df414ace8d04c630a2b15689">
         <text><![CDATA[
-A <i>logical formula</i> or <i>formula</i> is a string of symbols that follow a certain syntax. If the formula is written using a
-correct syntax, we can ask whether the formula is <i>true</i> or <i>false</i>. The symbols <i>or</i>, <i>and</i>, <i>not</i>, <i>implies</i>, and
-<i>iff</i> are <i>logical operators</i>.
+A <i>logical formula</i> or <i>formula</i> is a string of symbols that follow a certain syntax. If the formula is written using a correct syntax, we can ask about its <i>meaning</i> (i.e., is the formula <i>true</i> or <i>false</i>). The symbols <i>or</i>, <i>and</i>, <i>not</i>, <i>implies</i>, and <i>iff</i> are <i>logical operators</i>.
         ]]></text>
+        <paragraph><![CDATA[
+The basic building blocks (a.k.a., base cases) for formulas are <i>true</i>, <i>false</i>, and <i>predicates</i>. When a formula consists of only one of these (and no operators), it is an <i>atomic formula</i>. Like any formula, each atomic formula has a particular meaning (it is either true or it is false). Atomic formulas can be combined using logical operators to build up larger formulas. The table below provides a way to determine the meaning of a formula by breaking it down into its constituent parts.
+        ]]></paragraph>
         <table><![CDATA[
 <table class="fig_table">
  <tr>
@@ -159,6 +160,9 @@ correct syntax, we can ask whether the formula is <i>true</i> or <i>false</i>. T
  </tr>
 </table>
         ]]></table>
+        <text><![CDATA[
+A predicate can have zero or more arguments. Whether a given atomic formula consisting of a predicate that takes at least one argument is true or false depends on the arguments supplied to it. For example, we see above for the predicate <code>isPrime(?)</code> that takes one argument, the meaning of <code>isPrime(7)</code> should be true but the meaning of <code>isPrime(4)</code> should be false.
+        ]]></text>
       </definition>
       <text hooks="math"><![CDATA[
 The following table may help with gaining a good intuition for the meaning of the <i>implies</i> operator.
@@ -396,9 +400,9 @@ returns a boolean result.
   </td>
  </tr>
  <tr> 
-  <td>%Q(1) and %P(1)</td>
+  <td>%Q(1) and %Q(2)</td>
   <td>false</td>
-  <td><code>Q(1) and Q(1)</code>
+  <td><code>Q(1) and Q(2)</code>
   </td>
  </tr>
 </table>
@@ -2022,7 +2026,7 @@ Below is the implementation of a linear congruential generator. Note that it mak
       <li>%s := number in {1,...,%m-1} s.t. %s and %m are coprime</li>
       <li>%k := number in {1,...,%m-1} s.t. %k %- 1 shares all prime factors and factors of 4 with %m</li>
       <li><b>if</b> %i = 0 <b>then</b> <b>return</b> %s</li>
-      <li><b>else</b> <b>return</b> (%k \cdot <b>LCG(</b>%m, %i %- 1<b>)</b> + %s) \mod %m</li>
+      <li><b>else</b> <b>return</b> (%k \cdot <b>LCG(</b>%m, %i %- 1<b>)</b> + %a) \mod %m</li>
     </ol>
   </li>
 </ol>
@@ -3451,14 +3455,32 @@ Notice that %f(1) < %g(1), so if we only wanted to perform %k = 1 operation, we 
 Thus, if %k \geq 200, we want to use the 4-bit processors.
         ]]></solution>
       </example>
-      <example required="true" hooks="math" id="92c09aa50d3646fab41fa61bfd4b12e4"><![CDATA[
+      <example required="true" hooks="math" id="92c09aa50d3646fab41fa61bfd4b12e4">
+        <text hooks="math"><![CDATA[
 Suppose we are using echolocation to measure the distance to a wall that is at most 15 distance units away. We have two devices that emit sounds at two different frequencies. One device emits sound every 3 seconds, while the other device emits a sound every 11 seconds. Suppose we hear the following:
-<ul style="margin-left:-12px;">
+<ul>
   <li>the device that emits a sound every 3 seconds hears a response 2 seconds after each time it emits a sound;</li>
   <li>the device that emits a sound every 11 seconds hears a response 4 seconds after each time it emits a sound.</li>
 </ul>
 If sound travels one distance unit per second, how far away is the wall?
-      ]]></example>
+        ]]></text>
+        <solution hooks="math"><![CDATA[
+The information presented in the problem statement can be translated into the following system of equations:
+\begin{eqnarray}
+  %d & \equiv & 2 (\mod 3) \\
+  %d & \equiv & 4 (\mod 11)
+\end{eqnarray}
+Since the wall is at most 15 distance units away and sound travels one distance unit per second, sound takes at most 30 seconds to travel to the wall and back, so %d \leq 30 < 3 \cdot 11. Thus, the solution %d will be the exact distance traveled to the wall and back. We can solve for %d in the usual way:
+\begin{eqnarray}
+  %d & \equiv & 2 \cdot (11 \cdot 11^{-1}) + 4 \cdot (3 \cdot 3^{-1}) (\mod (3 \cdot 11)) \\
+     & \equiv & 2 \cdot (11 \cdot 2) + 4 \cdot (3 \cdot 4) \\
+     & \equiv & 44 + 48 \\
+     & \equiv & 92 (\mod 33) \\
+     & \equiv & 26 (\mod 33)
+\end{eqnarray}
+Thus, sound is traveling 26 distance units to the wall and back, so the distance to the wall is 26/2 = 13 distance units.
+        ]]></solution>
+      </example>
       <example required="true" id="97cacd0683e94c2db33cc3ccb85011bb">
         <text hooks="math"><![CDATA[
 Suppose Alice, Bob, and Eve are using the Shamir secret sharing protocol to store a combination for a lock; all three participants would need to work together to retrieve the secret lock combination in \Z/60\Z. They are each given the following equations:
@@ -3467,21 +3489,49 @@ Suppose Alice, Bob, and Eve are using the Shamir secret sharing protocol to stor
   <b>Bob:</b> & %~ & %x & \equiv & 3 (\mod 4) \\
   <b>Eve:</b> & %~ & %x & \equiv & 2 (\mod 5)
 \end{eqnarray}
-<ol style="list-style-type:lower-alpha; margin-left:-12px;">
+<ul>
   <li>
 What is the lock combination?
   </li>
   <li>
 The lock only permits anyone to try two incorrect combinations before locking down completely and becoming inaccessible. Suppose Eve has a chance to steal either Bob's secret information or Alice's secret information, but she can only choose one. Whose information should she steal in order to unlock the lock?
   </li>
-</ol>
+</ul>
         ]]></text>
+        <solution hooks="math">
+          <text><![CDATA[
+We can solve for %x by breaking the problem down into smaller systems; we first solve the first two equations:
+\begin{eqnarray}
+  %x & \equiv & 1 (\mod 3) \\
+  %x & \equiv & 3 (\mod 4) \\
+  %x & \equiv & 1 \cdot (4 \cdot 4^{-1}) + 3 \cdot (3 \cdot 3^{-1}) (\mod (3 \cdot 4)) \\
+     & \equiv & 7 (\mod 12)
+\end{eqnarray}
+We can then combine this with the last equation (note that 5 and 12 are coprime):
+\begin{eqnarray}
+  %x & \equiv & 7 (\mod 12) \\
+  %x & \equiv & 2 (\mod 5) \\
+  %x & \equiv & 7 \cdot (5 \cdot 5^{-1}) + 2 \cdot (12 \cdot 12^{-1}) (\mod (12 \cdot 5)) \\
+     & \equiv & 7 \cdot (5 \cdot 5) + 2 \cdot (12 \cdot 3) \\
+     & \equiv & 175 + 72 \\
+     & \equiv & 247 \\
+     & \equiv & 7 (\mod 60)
+\end{eqnarray}
+Thus, the lock combination is 7 \in \Z/60\Z.
+          ]]></text>
+          <paragraph><![CDATA[
+Eve should steal Bob's secret because it provides more information about the overall solution. Suppose Eve steals Alice's information; then she must guess Bob's secret, but there are four possibilities (i.e., 0, 1, 2, or 3 in \Z/4\Z). On the other hand, if she steals Bob's information, Eve can try guessing Alice's secret. There are only three possible guesses to make (0, 1, or 2 in \Z/3\Z). She is certain to guess correctly before she runs out of tries.
+          ]]></paragraph>
+          <paragraph><![CDATA[
+Another way to think about this is to consider the space of possible solutions that remains in \Z/60\Z given only two of the equations. If all we have is Alice's and Eve's equations, then possible solutions to the system are all the elements in 7 + 15\Z that are less than 60: 7, 22, 37, or 52. That is four possibilities. On the other hand, if we have Bob's and Eve's equations, the possibilities are 7 + 20\Z: 7, 27, or 47. There are only three possibilities to try.
+          ]]></paragraph>
+        </solution>
       </example>
       <example required="true" hooks="math" id="e44bcc8621a0449690fc9f708c74ec65">
-        <text hooks="math"><![CDATA[
+        <text><![CDATA[
 Suppose we want to store a number %n between 0 and 500,000 on a collection of 5-bit memory regions. However, we want to make sure that if any one of the memory regions is turned off, we can still recover the number exactly, without any missing information or errors. How many memory regions will we need to use? Note that 32^3 = 32,768 and 32^4 = 1,048,576.
         ]]></text>
-        <solution hooks="math"><![CDATA[
+        <solution><![CDATA[
 We will need five memory regions. Suppose we choose five coprime numbers less than or equal to 2^5 = 32: 25,27,29,31, and 32. Note that any product of four of these numbers is greater than 500,000 because 25 \cdot 27 \cdot 29 \cdot 31 = 606,825. Then with five 5-bit memory regions, we can store each of the following five values in one region:
 \begin{eqnarray}
   %n \mod 25 \\
@@ -3493,19 +3543,34 @@ We will need five memory regions. Suppose we choose five coprime numbers less th
 If any of the above values are lost, it is still possible to recover %n by solving a system with four equations. In the worst case, the product of the moduli would be 606,825 > 500,000.
         ]]></solution>
       </example>
-      <example required="true" hooks="math" id="e8f3975a8a9d47c89471de8815e333b0"><![CDATA[
+      <example required="true" hooks="math" id="e8f3975a8a9d47c89471de8815e333b0">
+        <text><![CDATA[
 Suppose we make the following simplifications: for every %t years,
 <ul>
   <li>when the Earth revolves around the sun, it travels a circumference of 1 unit, at a rate of 1 \cdot %t (once per year);</li>
   <li>when the asteroid Ceres revolves around the sun, it travels a circumference of 5 units;</li>
   <li>when the planet Jupiter revolves around the sun, it travels a circumference of 11 units.</li>
 </ul>
-Suppose that on June 21st, 2000, the Earth, Ceres, and Jupiter all align (i.e., one can draw a straight line through all three).
-Next, suppose that it is June 21st of some year between 2000 and 2055.
-At this time, there is no alignment. However,
-Jupiter aligned with earth on June 21st two years ago, and Ceres
-aligned with Earth on June 21st three year ago. What year is it?
-      ]]></example>
+Suppose that on June 21st, 2000, the Earth, Ceres, and Jupiter all align (i.e., one can draw a straight line through all three). Next, suppose that it is June 21st of some year between 2000 and 2055. At this time, there is no alignment. However, Jupiter aligned with earth on June 21st two years ago, and Ceres aligned with Earth on June 21st three year ago. What year is it?
+        ]]></text>
+        <solution><![CDATA[
+Let %t be the number of years since the year 2000. That all three planets are aligned in the year 2000 can be interpreted to mean that at %t = 0 we have %t \equiv 0 (\mod 5) and %t \equiv 0 (\mod 11). Then, the information presented in the problem statement about the current moment can be represented using the following system of equations:
+\begin{eqnarray}
+  %t & \equiv & 0 (\mod 1) \\
+  %t & \equiv & 2 (\mod 5) \\
+  %t & \equiv & 3 (\mod 11)
+\end{eqnarray}
+Since we know %t < 55, we will certainly find the exact solution for %t. Note that all integers are solutions to the first equation, so all that remains is to solve the latter two equations:
+\begin{eqnarray}
+  %t & \equiv & 2 \cdot (11 \cdot 11^{-1}) + 3 \cdot (5 \cdot 5^{-1}) (\mod (5 \cdot 11)) \\
+     & \equiv & 2 \cdot (11 \cdot 1) + 3 \cdot (5 \cdot 9) \\
+     & \equiv & 22 + 135 \\
+     & \equiv & 157 \\
+     & \equiv & 47 (\mod 55)
+\end{eqnarray}
+Thus, 47 years have passed since the last alignment of all three planets. The current year is 2047.
+        ]]></solution>
+      </example>
     </subsection>
     <subsection title="Euler's totient function, Euler's theorem, and applications">
       <definition required="true" hooks="math" id="363015589b5c4b168afdf08dc2b2e609"><![CDATA[
@@ -4990,14 +5055,14 @@ Thus, we have the solution
       ]]></example>
       <example required="true" hooks="math" id="6126754f428448f98fd3c2bb151b89b3">
         <text><![CDATA[
-The distance travelled by an object that is at rest at time %t = 0 and then immediately begins accelerating at 4 meters/second^2 (i.e., the speed of the object increases by the quantity 4 meters/second every second) can be defined in terms of time in second %t as:
+The distance traveled by an object that is at rest at time %t = 0 and then immediately begins accelerating at 4 meters/second^2 (i.e., the speed of the object increases by the quantity 4 meters/second every second) can be defined in terms of time in second %t as:
 \begin{eqnarray}
   %d & = & 1/2 \cdot 4 \cdot %t^2
 \end{eqnarray}
 We might expect an object to behave this way if it is being pulled by gravity, or if it is using a stable propulsion engine (e.g., a rocket).
         ]]></text>
         <paragraph><![CDATA[
-Suppose we are using a <a href="#df42e88c1fcd11e3831ff55c91aec05A">range ambiguity resolution</a> technique to track the distance the object has travelled. If it a particular moment, we know that the distance from the object is in the congruence class 10 + 11\Z, what can we say about the amount of time %t that has elapsed since the object started moving?
+Suppose we are using a <a href="#df42e88c1fcd11e3831ff55c91aec05A">range ambiguity resolution</a> technique to track the distance the object has traveled. If it a particular moment, we know that the distance from the object is in the congruence class 10 + 11\Z, what can we say about the amount of time %t that has elapsed since the object started moving?
         ]]></paragraph>
         <paragraph><![CDATA[
 Since the distance is in 10 + 11\Z, we can say:
@@ -7480,6 +7545,9 @@ frozenset({1, 2, 3})
 >>> {frozenset({1,2}), frozenset({3,4})}      # Set of frozen sets.
 {frozenset({3, 4}), frozenset({1, 2})}
           ]]></code>
+          <text hooks="math"><![CDATA[
+In Python, values that are members of a <code>set</code> data structure must be <i>hashable</i> so that it is easy to deduplicate elements in an unordered set (e.g., <code>{1,1,2,2} == {1,2}</code> should be <code>True</code>, and this would take %O(%n^2) steps to compute in the worst case because sets are not ordered). However, values of type <code>set</code> are not hashable because they can change (e.g., it is possible to insert an element into a set and also to remove an element from a set), which means their hashes could change, as well. Values of type <code>frozenset</code> <i>cannot</i> be changed; once their hash value is computed at the time of creation, it never changes. Thus, it is okay to include values of type <code>frozenset</code> inside instances of <code>set</code> without worrying about incurring a quadratic running time when deduplicating (or, e.g., computing a set union).
+          ]]></text>
         </item>
         <item>
           <text><![CDATA[<b>Dictionaries</b> are unordered collections of associations between some set of keys and some set of values. Dictionaries are also known as finite maps.]]></text>
