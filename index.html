@@ -115,9 +115,10 @@ In this course we will learn about a variety of mathematical structures and thei
   <a name="2.1"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#2.1">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">2.1.</span> Formulas without quantifiers</h3>
 <a name="47254608df414ace8d04c630a2b15689"></a><div class="linked block"><div class="link-block">[<a href="#47254608df414ace8d04c630a2b15689">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="definition true_required"><span class="block_label">Definition:</span> 
         
-<span class="text">A <i>logical formula</i> or <i>formula</i> is a string of symbols that follow a certain syntax. If the formula is written using a
-correct syntax, we can ask whether the formula is <i>true</i> or <i>false</i>. The symbols <i>or</i>, <i>and</i>, <i>not</i>, <i>implies</i>, and
-<i>iff</i> are <i>logical operators</i>.</span>
+<span class="text">A <i>logical formula</i> or <i>formula</i> is a string of symbols that follow a certain syntax. If the formula is written using a correct syntax, we can ask about its <i>meaning</i> (i.e., is the formula <i>true</i> or <i>false</i>). The symbols <i>or</i>, <i>and</i>, <i>not</i>, <i>implies</i>, and <i>iff</i> are <i>logical operators</i>.</span>
+        <div class="paragraph">
+The basic building blocks (a.k.a., base cases) for formulas are <i>true</i>, <i>false</i>, and <i>predicates</i>. When a formula consists of only one of these (and no operators), it is an <i>atomic formula</i>. Like any formula, each atomic formula has a particular meaning (it is either true or it is false). Atomic formulas can be combined using logical operators to build up larger formulas. The table below provides a way to determine the meaning of a formula by breaking it down into its constituent parts.
+        </div>
         
 <div>
 <table class="fig_table">
@@ -185,6 +186,8 @@ correct syntax, we can ask whether the formula is <i>true</i> or <i>false</i>. T
  </tr>
 </table>
         </div>
+        
+<span class="text">A predicate can have zero or more arguments. Whether a given atomic formula consisting of a predicate that takes at least one argument is true or false depends on the arguments supplied to it. For example, we see above for the predicate <code>isPrime(?)</code> that takes one argument, the meaning of <code>isPrime(7)</code> should be true but the meaning of <code>isPrime(4)</code> should be false.</span>
       </div></div></div>
 <span class="text top">The following table may help with gaining a good intuition for the meaning of the <i>implies</i> operator.</span>
 <a name="5a30890285aa11e5af63feff819cdc9f"></a><div class="linked block"><div class="link-block">[<a href="#5a30890285aa11e5af63feff819cdc9f">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="table other">
@@ -416,9 +419,9 @@ returns a boolean result.</span>
   </td>
  </tr>
  <tr> 
-  <td><i>Q</i>(1) and <i>P</i>(1)</td>
+  <td><i>Q</i>(1) and <i>Q</i>(2)</td>
   <td>false</td>
-  <td><code>Q(1) and Q(1)</code>
+  <td><code>Q(1) and Q(2)</code>
   </td>
  </tr>
 </table>
@@ -1831,7 +1834,7 @@ However, the above algorithm is not ideal, and common random number generators f
       <li><i>s</i> := number in {1,...,<i>m</i>-1} s.t. <i>s</i> and <i>m</i> are coprime</li>
       <li><i>k</i> := number in {1,...,<i>m</i>-1} s.t. <i>k</i> &#8722; 1 shares all prime factors and factors of 4 with <i>m</i></li>
       <li><b>if</b> <i>i</i> = 0 <b>then</b> <b>return</b> <i>s</i></li>
-      <li><b>else</b> <b>return</b> (<i>k</i> &sdot; <b>LCG(</b><i>m</i>, <i>i</i> &#8722; 1<b>)</b> + <i>s</i>) mod <i>m</i></li>
+      <li><b>else</b> <b>return</b> (<i>k</i> &sdot; <b>LCG(</b><i>m</i>, <i>i</i> &#8722; 1<b>)</b> + <i>a</i>) mod <i>m</i></li>
     </ol>
   </li>
 </ol></span>
@@ -3052,12 +3055,28 @@ Thus, if <i>k</i> &ge; 200, we want to use the 4-bit processors.
         </div></div><div class="solution_spacer"></div>
       </div></div></div>
 <a name="92c09aa50d3646fab41fa61bfd4b12e4"></a><div class="linked block"><div class="link-block">[<a href="#92c09aa50d3646fab41fa61bfd4b12e4">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="example task_required"><span class="block_label">Example:</span> 
-Suppose we are using echolocation to measure the distance to a wall that is at most 15 distance units away. We have two devices that emit sounds at two different frequencies. One device emits sound every 3 seconds, while the other device emits a sound every 11 seconds. Suppose we hear the following:
-<ul style="margin-left:-12px;">
+        
+<span class="text">Suppose we are using echolocation to measure the distance to a wall that is at most 15 distance units away. We have two devices that emit sounds at two different frequencies. One device emits sound every 3 seconds, while the other device emits a sound every 11 seconds. Suppose we hear the following:
+<ul>
   <li>the device that emits a sound every 3 seconds hears a response 2 seconds after each time it emits a sound;</li>
   <li>the device that emits a sound every 11 seconds hears a response 4 seconds after each time it emits a sound.</li>
 </ul>
-If sound travels one distance unit per second, how far away is the wall?
+If sound travels one distance unit per second, how far away is the wall?</span>
+        
+<div class="button"><button class="solution_toggle">show solution</button></div><div class="solution_container" style="display:none;"><div class="solution">
+The information presented in the problem statement can be translated into the following system of equations:
+<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>d</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 2 (mod 3) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+  <i>d</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 4 (mod 11)
+</td></tr></table></td></tr></table>
+Since the wall is at most 15 distance units away and sound travels one distance unit per second, sound takes at most 30 seconds to travel to the wall and back, so <i>d</i> &le; 30 < 3 &sdot; 11. Thus, the solution <i>d</i> will be the exact distance traveled to the wall and back. We can solve for <i>d</i> in the usual way:
+<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>d</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 2 &sdot; (11 &sdot; 11<sup>-1</sup>) + 4 &sdot; (3 &sdot; 3<sup>-1</sup>) (mod (3 &sdot; 11)) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+     <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 2 &sdot; (11 &sdot; 2) + 4 &sdot; (3 &sdot; 4) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+     <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 44 + 48 </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+     <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 92 (mod 33) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+     <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 26 (mod 33)
+</td></tr></table></td></tr></table>
+Thus, sound is traveling 26 distance units to the wall and back, so the distance to the wall is 26/2 = 13 distance units.
+        </div></div><div class="solution_spacer"></div>
       </div></div></div>
 <a name="97cacd0683e94c2db33cc3ccb85011bb"></a><div class="linked block"><div class="link-block">[<a href="#97cacd0683e94c2db33cc3ccb85011bb">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="example task_required"><span class="block_label">Example:</span> 
         
@@ -3066,14 +3085,40 @@ If sound travels one distance unit per second, how far away is the wall?
   <b>Bob:</b> <td></tr></table></td><td style="text-align:center;"> &nbsp;&nbsp;&nbsp;&nbsp; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 3 (mod 4) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
   <b>Eve:</b> <td></tr></table></td><td style="text-align:center;"> &nbsp;&nbsp;&nbsp;&nbsp; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 2 (mod 5)
 </td></tr></table></td></tr></table>
-<ol style="list-style-type:lower-alpha; margin-left:-12px;">
+<ul>
   <li>
 What is the lock combination?
   </li>
   <li>
 The lock only permits anyone to try two incorrect combinations before locking down completely and becoming inaccessible. Suppose Eve has a chance to steal either Bob's secret information or Alice's secret information, but she can only choose one. Whose information should she steal in order to unlock the lock?
   </li>
-</ol></span>
+</ul></span>
+        
+<div class="button"><button class="solution_toggle">show solution</button></div><div class="solution_container" style="display:none;"><div class="solution">
+          
+<span class="text">We can solve for <i>x</i> by breaking the problem down into smaller systems; we first solve the first two equations:
+<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 1 (mod 3) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 3 (mod 4) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 1 &sdot; (4 &sdot; 4<sup>-1</sup>) + 3 &sdot; (3 &sdot; 3<sup>-1</sup>) (mod (3 &sdot; 4)) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+     <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 7 (mod 12)
+</td></tr></table></td></tr></table>
+We can then combine this with the last equation (note that 5 and 12 are coprime):
+<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 7 (mod 12) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 2 (mod 5) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+  <i>x</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 7 &sdot; (5 &sdot; 5<sup>-1</sup>) + 2 &sdot; (12 &sdot; 12<sup>-1</sup>) (mod (12 &sdot; 5)) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+     <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 7 &sdot; (5 &sdot; 5) + 2 &sdot; (12 &sdot; 3) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+     <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 175 + 72 </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+     <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 247 </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+     <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 7 (mod 60)
+</td></tr></table></td></tr></table>
+Thus, the lock combination is 7 <span style="font-size:12px;">&#8712;</span> &#8484;/60&#8484;.</span>
+          <div class="paragraph">
+Eve should steal Bob's secret because it provides more information about the overall solution. Suppose Eve steals Alice's information; then she must guess Bob's secret, but there are four possibilities (i.e., 0, 1, 2, or 3 in &#8484;/4&#8484;). On the other hand, if she steals Bob's information, Eve can try guessing Alice's secret. There are only three possible guesses to make (0, 1, or 2 in &#8484;/3&#8484;). She is certain to guess correctly before she runs out of tries.
+          </div>
+          <div class="paragraph">
+Another way to think about this is to consider the space of possible solutions that remains in &#8484;/60&#8484; given only two of the equations. If all we have is Alice's and Eve's equations, then possible solutions to the system are all the elements in 7 + 15&#8484; that are less than 60: 7, 22, 37, or 52. That is four possibilities. On the other hand, if we have Bob's and Eve's equations, the possibilities are 7 + 20&#8484;: 7, 27, or 47. There are only three possibilities to try.
+          </div>
+        </div></div><div class="solution_spacer"></div>
       </div></div></div>
 <a name="e44bcc8621a0449690fc9f708c74ec65"></a><div class="linked block"><div class="link-block">[<a href="#e44bcc8621a0449690fc9f708c74ec65">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="example task_required"><span class="block_label">Example:</span> 
         
@@ -3091,17 +3136,30 @@ If any of the above values are lost, it is still possible to recover <i>n</i> by
         </div></div><div class="solution_spacer"></div>
       </div></div></div>
 <a name="e8f3975a8a9d47c89471de8815e333b0"></a><div class="linked block"><div class="link-block">[<a href="#e8f3975a8a9d47c89471de8815e333b0">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="example task_required"><span class="block_label">Example:</span> 
-Suppose we make the following simplifications: for every <i>t</i> years,
+        
+<span class="text">Suppose we make the following simplifications: for every <i>t</i> years,
 <ul>
   <li>when the Earth revolves around the sun, it travels a circumference of 1 unit, at a rate of 1 &sdot; <i>t</i> (once per year);</li>
   <li>when the asteroid Ceres revolves around the sun, it travels a circumference of 5 units;</li>
   <li>when the planet Jupiter revolves around the sun, it travels a circumference of 11 units.</li>
 </ul>
-Suppose that on June 21st, 2000, the Earth, Ceres, and Jupiter all align (i.e., one can draw a straight line through all three).
-Next, suppose that it is June 21st of some year between 2000 and 2055.
-At this time, there is no alignment. However,
-Jupiter aligned with earth on June 21st two years ago, and Ceres
-aligned with Earth on June 21st three year ago. What year is it?
+Suppose that on June 21st, 2000, the Earth, Ceres, and Jupiter all align (i.e., one can draw a straight line through all three). Next, suppose that it is June 21st of some year between 2000 and 2055. At this time, there is no alignment. However, Jupiter aligned with earth on June 21st two years ago, and Ceres aligned with Earth on June 21st three year ago. What year is it?</span>
+        
+<div class="button"><button class="solution_toggle">show solution</button></div><div class="solution_container" style="display:none;"><div class="solution">
+Let <i>t</i> be the number of years since the year 2000. That all three planets are aligned in the year 2000 can be interpreted to mean that at <i>t</i> = 0 we have <i>t</i> &equiv; 0 (mod 5) and <i>t</i> &equiv; 0 (mod 11). Then, the information presented in the problem statement about the current moment can be represented using the following system of equations:
+<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>t</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 0 (mod 1) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+  <i>t</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 2 (mod 5) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+  <i>t</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 3 (mod 11)
+</td></tr></table></td></tr></table>
+Since we know <i>t</i> < 55, we will certainly find the exact solution for <i>t</i>. Note that all integers are solutions to the first equation, so all that remains is to solve the latter two equations:
+<table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>t</i> <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 2 &sdot; (11 &sdot; 11<sup>-1</sup>) + 3 &sdot; (5 &sdot; 5<sup>-1</sup>) (mod (5 &sdot; 11)) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+     <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 2 &sdot; (11 &sdot; 1) + 3 &sdot; (5 &sdot; 9) </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+     <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 22 + 135 </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+     <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 157 </td></tr></table></td></tr><tr><td style="text-align:right;"><table style="width:100%;"><tr><td style="text-align:right;">
+     <td></tr></table></td><td style="text-align:center;"> &equiv; </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 47 (mod 55)
+</td></tr></table></td></tr></table>
+Thus, 47 years have passed since the last alignment of all three planets. The current year is 2047.
+        </div></div><div class="solution_spacer"></div>
       </div></div></div></div>
   <a name="3.12"></a><div class="subsection"><h3 class="linked"><span class="link-title">[<a href="#3.12">link</a>]&nbsp;&nbsp;</span><span class="header_numeral">3.12.</span> Euler's totient function, Euler's theorem, and applications</h3>
 <a name="363015589b5c4b168afdf08dc2b2e609"></a><div class="linked block"><div class="link-block">[<a href="#363015589b5c4b168afdf08dc2b2e609">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="definition true_required"><span class="block_label">Definition:</span> 
@@ -4247,12 +4305,12 @@ Thus, we have the solution
       </div></div></div>
 <a name="6126754f428448f98fd3c2bb151b89b3"></a><div class="linked block"><div class="link-block">[<a href="#6126754f428448f98fd3c2bb151b89b3">link</a>]&nbsp;&nbsp;</div><div style="width:100%; display:inline-block;"><div style="width:auto;" class="example task_required"><span class="block_label">Example:</span> 
         
-<span class="text">The distance travelled by an object that is at rest at time <i>t</i> = 0 and then immediately begins accelerating at 4 meters/second<sup>2</sup> (i.e., the speed of the object increases by the quantity 4 meters/second every second) can be defined in terms of time in second <i>t</i> as:
+<span class="text">The distance traveled by an object that is at rest at time <i>t</i> = 0 and then immediately begins accelerating at 4 meters/second<sup>2</sup> (i.e., the speed of the object increases by the quantity 4 meters/second every second) can be defined in terms of time in second <i>t</i> as:
 <table style="padding-left:20px; margin:4px 0px 4px 0px;"><tr><td style="text-align:right; white-space:nowrap;"><table style="width:100%;"><tr><td style="text-align:right;">  <i>d</i> <td></tr></table></td><td style="text-align:center;"> = </td><td><table style="white-space:nowrap;"><tr><td style="white-space:nowrap;"> 1/2 &sdot; 4 &sdot; <i>t</i><sup>2</sup>
 </td></tr></table></td></tr></table>
 We might expect an object to behave this way if it is being pulled by gravity, or if it is using a stable propulsion engine (e.g., a rocket).</span>
         <div class="paragraph">
-Suppose we are using a <a href="#df42e88c1fcd11e3831ff55c91aec05A">range ambiguity resolution</a> technique to track the distance the object has travelled. If it a particular moment, we know that the distance from the object is in the congruence class 10 + 11&#8484;, what can we say about the amount of time <i>t</i> that has elapsed since the object started moving?
+Suppose we are using a <a href="#df42e88c1fcd11e3831ff55c91aec05A">range ambiguity resolution</a> technique to track the distance the object has traveled. If it a particular moment, we know that the distance from the object is in the congruence class 10 + 11&#8484;, what can we say about the amount of time <i>t</i> that has elapsed since the object started moving?
         </div>
         <div class="paragraph">
 Since the distance is in 10 + 11&#8484;, we can say:
@@ -6194,7 +6252,8 @@ True
 frozenset({1, 2, 3})
 >>> {frozenset({1,2}), frozenset({3,4})}      # Set of frozen sets.
 {frozenset({3, 4}), frozenset({1, 2})}
-          </code></pre></div></div></li><li>
+          </code></pre></div></div>
+<span class="text">In Python, values that are members of a <code>set</code> data structure must be <i>hashable</i> so that it is easy to deduplicate elements in an unordered set (e.g., <code>{1,1,2,2} == {1,2}</code> should be <code>True</code>, and this would take <i>O</i>(<i>n</i><sup>2</sup>) steps to compute in the worst case because sets are not ordered). However, values of type <code>set</code> are not hashable because they can change (e.g., it is possible to insert an element into a set and also to remove an element from a set), which means their hashes could change, as well. Values of type <code>frozenset</code> <i>cannot</i> be changed; once their hash value is computed at the time of creation, it never changes. Thus, it is okay to include values of type <code>frozenset</code> inside instances of <code>set</code> without worrying about incurring a quadratic running time when deduplicating (or, e.g., computing a set union).</span></li><li>
 <span class="text"><b>Dictionaries</b> are unordered collections of associations between some set of keys and some set of values. Dictionaries are also known as finite maps.</span><ul><li>The empty dictionary is denoted using <code>{}</code>.</li><li>The list of keys that the dictionary associates with values can be obtained using <code>list(d.keys())</code>.</li><li>The list of values that the dictionary contains can be obtained using <code>list(d.values())</code>.</li><li>The function <code>len()</code> returns the number of entries in the dictionary.</li><li>Individual entries in a dictionary can be accessed using the bracketed index notation (e.g., <code>d[key]</code>).</li></ul>
 <div class="code"><div class="source"><pre><code class="py">
 >>> {"A":1, "B":2}                            # A dictionary.
