@@ -4333,7 +4333,7 @@ of the output is O(\max(%k,%l)+1).
       ]]></algorithm>
       <example required="true" id="953ca38da75144f69c1742affe4639da">
         <text hooks="math"><![CDATA[
-The following is an implementation of the bitwise <a href="#953ca38da75144f69c1742affe4639d5">addition algorithm</a> in Python.
+Below is a Python implementation of the bitwise <a href="#953ca38da75144f69c1742affe4639d5">addition algorithm</a>.
         ]]></text>
         <code class="py"><![CDATA[
 from bitlist import bitlist
@@ -4342,7 +4342,7 @@ def add(x, y):
     l = len(y)
     r = bitlist(0)
     c = 0
-    for i in range(0, max(k,l)): # Upper bound not inclusive.
+    for i in range(0, max(k,l)): # Upper bound is not inclusive.
         r[i] = (x[i] ^ y[i]) ^ c
         c = (x[i] & y[i]) | (x[i] & c) | (y[i] & c)
     r[max(k,l)] = c
@@ -4391,6 +4391,22 @@ There exists an algorithm that can compute the product of a %k-bit integer %x an
  </li>
 </ol>
       ]]></algorithm>
+      <example required="true" id="7e765d2f169941da9781157ee7e45e5a">
+        <text hooks="math"><![CDATA[
+Below is a Python implementation of the bitwise <a href="#7e765d2f169941da9781157ee7e45e5c">multiplication algorithm</a>. Note that it relies on the <a href="#953ca38da75144f69c1742affe4639da">bitwise addition algorithm implementation</a>.
+        ]]></text>
+        <code class="py"><![CDATA[
+def mult(x, y):
+    k = len(x)
+    l = len(y)
+    r = bitlist()
+    for i in range(0, k): # Upper bound is not inclusive.
+        if x[i] == 1:
+            r = add(r, y)
+        y = y << 1
+    return r
+        ]]></code>
+      </example>
       <algorithm required="true" hooks="math" id="7f69eb1db05840608ceaa5f756e3512b"><![CDATA[
 There exists an algorithm that can compute the exponentiation %x^{%y} of an %k-bit integer %x and an %l-bit integer %y in time O(%k \cdot 2^{%l}). The size of the output is O(%k \cdot 2^{%l}). Notice that this means that for unbounded integer outputs, the algorithm runs in exponential time because it must build an output the size of which is exponentially large in the size of the input.
 
@@ -4413,7 +4429,23 @@ There exists an algorithm that can compute the exponentiation %x^{%y} of an %k-b
    </ol>
  </li>
 </ol>
-      ]]></algorithm>
+      ]]></algorithm> 
+      <example required="true" id="7f69eb1db05840608ceaa5f756e3512a">
+        <text hooks="math"><![CDATA[
+Below is a Python implementation of the bitwise <a href="#7f69eb1db05840608ceaa5f756e3512b">exponentiation algorithm</a>. Note that it relies on the <a href="#7e765d2f169941da9781157ee7e45e5a">bitwise multiplication algorithm implementation</a>.
+        ]]></text>
+        <code class="py"><![CDATA[
+def exp(x, y):
+    k = len(x)
+    l = len(y)
+    r = bitlist(1)
+    for i in range(0, l): # Upper bound is not inclusive.
+        if y[i] == 1:
+            r = mult(r, x)
+        x = mult(x, x)
+    return r
+        ]]></code>
+      </example>
       <algorithm required="true" hooks="math" id="8956b7ca2c7c49db8ce910ad6e21473c"><![CDATA[
 There exists an algorithm that can compute the integer quotient \lfloor %x / %y \rfloor of an %k-bit integer %x and an %l-bit integer %y in time O((%k \cdot %k) + (%k \cdot (2 \cdot %k))) or O(%k^2).
 
@@ -4451,6 +4483,30 @@ There exists an algorithm that can compute the integer quotient \lfloor %x / %y 
  </li>
 </ol>
       ]]></algorithm>
+      <example required="true" id="8956b7ca2c7c49db8ce910ad6e21473a">
+        <text hooks="math"><![CDATA[
+Below is a Python implementation of the bitwise <a href="#8956b7ca2c7c49db8ce910ad6e21473c">integer division algorithm</a>. Note that it relies on the <a href="#953ca38da75144f69c1742affe4639da">bitwise addition algorithm implementation</a>.
+        ]]></text>
+        <code class="py"><![CDATA[
+def div(x, y):
+    k = len(x)
+    l = len(y)
+    if int(y) > int(x):
+        return bitlist(0)
+    for i in range(0, k):
+        y = y << 1
+    t = bitlist(0)
+    q = bitlist(0)
+    p = bitlist(2**k)
+    for i in range(0, k+1):
+        if int(add(t, y)) <= int(x):
+            t = add(t, y)
+            q = add(q, p)
+        y = y >> 1
+        p = p >> 1
+    return q
+        ]]></code>
+      </example>
       <algorithm required="true" hooks="math" id="057d160b84f04e01a6e3e07a70d6fcfb"><![CDATA[
 There exists an algorithm that can compute %x \mod %y of an %k-bit integer %x and an %l-bit integer %y in time O(%k^2). This is accomplished by first performing integer division, then an integer multiplication, and then a subtraction. This corresponds to the formula for the modulus operation:
 \begin{eqnarray}
