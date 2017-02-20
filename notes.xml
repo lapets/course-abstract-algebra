@@ -4325,12 +4325,30 @@ of the output is O(\max(%k,%l)+1).
          <li>%c := (%x[%i] <b>and</b> %y[%i]) <b>or</b> (%x[%i] <b>and</b> %c) <b>or</b> (%y[%i] <b>and</b> %c)</li>
        </ol>
      </li>
-     <li>%r[\max(%k,%l)+1] := %c</li>
+     <li>%r[\max(%k,%l)] := %c</li>
      <li>return %r</li>
    </ol>
  </li>
 </ol>
       ]]></algorithm>
+      <example required="true" id="953ca38da75144f69c1742affe4639da">
+        <text hooks="math"><![CDATA[
+The following is an implementation of the bitwise <a href="#953ca38da75144f69c1742affe4639d5">addition algorithm</a> in Python.
+        ]]></text>
+        <code class="py"><![CDATA[
+from bitlist import bitlist
+def add(x, y):
+    k = len(x)
+    l = len(y)
+    r = bitlist(0)
+    c = 0
+    for i in range(0, max(k,l)): # Upper bound not inclusive.
+        r[i] = (x[i] ^ y[i]) ^ c
+        c = (x[i] & y[i]) | (x[i] & c) | (y[i] & c)
+    r[max(k,l)] = c
+    return r
+        ]]></code>
+      </example>
       <text hooks="math"><![CDATA[
 How can we use the addition algorithm to implement multiplication? One approach for multiplying two positive integers %x, %y \in \N is to do repeated addition of %y (repeating the addition operations %x times). However, if %x is an %k-bit integer, this would require up to 2^{%k-1} addition operations, which would take exponential time in the representation size of the input %x.
       ]]></text>
