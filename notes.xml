@@ -4317,7 +4317,7 @@ of the output is O(\max(%k,%l)+1).
  <li><b>addition of unbounded positive integers:</b> %k-bit integer %x, %l-bit integer %y</li>
  <li>
    <ol style="list-style-type:none;">
-     <li>%r (a bit vector to store the result)</li>
+     <li>%r := 0 (a bit vector to store the result)</li>
      <li>%c := 0 (the carry bit)</li>
      <li>for %i from 0 to \max(%k,%l) %- 1
        <ol style="list-style-type:none;">
@@ -4375,7 +4375,7 @@ There exists an algorithm that can compute the product of a %k-bit integer %x an
  <li><b>multiplication of unbounded positive integers:</b> %k-bit integer %x, %l-bit integer %y</li>
  <li>
    <ol style="list-style-type:none;">
-     <li>%r (a bit vector to store the result)</li>
+     <li>%r := 0 (a bit vector to store the result)</li>
      <li>for %i from 0 to %k %- 1
        <ol style="list-style-type:none;">
          <li>if %x[%i] is 1
@@ -4399,7 +4399,7 @@ Below is a Python implementation of the bitwise <a href="#7e765d2f169941da978115
 def mult(x, y):
     k = len(x)
     l = len(y)
-    r = bitlist()
+    r = bitlist(0)
     for i in range(0, k): # Upper bound is not inclusive.
         if x[i] == 1:
             r = add(r, y)
@@ -4414,7 +4414,7 @@ There exists an algorithm that can compute the exponentiation %x^{%y} of an %k-b
  <li><b>exponentiation of unbounded positive integers:</b> %k-bit integer %x, %l-bit integer %y</li>
  <li>
    <ol style="list-style-type:none;">
-     <li>%r (a bit vector to store the result)</li>
+     <li>%r := 1 (a bit vector to store the result)</li>
      <li>for %i from 0 to %l %- 1
        <ol style="list-style-type:none;">
          <li>if %y[%i] is 1
@@ -4463,15 +4463,15 @@ There exists an algorithm that can compute the integer quotient \lfloor %x / %y 
          <li>shift %y left by one bit</li>
        </ol>
      </li>
-     <li>%r (a bit vector to store \lfloor %x / %y \rfloor \cdot %y)</li>
+     <li>%t (a bit vector to store \lfloor %x / %y \rfloor \cdot %y)</li>
      <li>%q (a bit vector to store the integer quotient)</li>
-     <li>%p := 2^{%k-1} (to keep track of the current power of 2)</li>
-     <li>for %i from 0 to %k %- 1
+     <li>%p := 2^{%k} (to keep track of the current power of 2)</li>
+     <li>for %i from 0 to %k
        <ol style="list-style-type:none;">
-         <li>if %r+%y < %x
+         <li>if %t + %y \leq %x
            <ol style="list-style-type:none;">
-             <li>%r := %r+%y (using unbounded integer addition)</li>
-             <li>%q := %q+%p (using unbounded integer addition)</li>
+             <li>%t := %t + %y (using unbounded integer addition)</li>
+             <li>%q := %q + %p (using unbounded integer addition)</li>
            </ol>
          </li>
          <li>shift %y right by one bit</li>
@@ -4491,15 +4491,15 @@ Below is a Python implementation of the bitwise <a href="#8956b7ca2c7c49db8ce910
 def div(x, y):
     k = len(x)
     l = len(y)
-    if int(y) > int(x):
+    if y > x:
         return bitlist(0)
-    for i in range(0, k):
+    for i in range(0, k): # Upper bound is not inclusive.
         y = y << 1
     t = bitlist(0)
     q = bitlist(0)
     p = bitlist(2**k)
-    for i in range(0, k+1):
-        if int(add(t, y)) <= int(x):
+    for i in range(0, k+1): # Upper bound is not inclusive.
+        if add(t, y) <= x:
             t = add(t, y)
             q = add(q, p)
         y = y >> 1
