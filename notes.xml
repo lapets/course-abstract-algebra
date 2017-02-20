@@ -4463,8 +4463,8 @@ There exists an algorithm that can compute the integer quotient \lfloor %x / %y 
          <li>shift %y left by one bit</li>
        </ol>
      </li>
-     <li>%t (a bit vector to store \lfloor %x / %y \rfloor \cdot %y)</li>
-     <li>%q (a bit vector to store the integer quotient)</li>
+     <li>%t := 0 (a bit vector to store \lfloor %x / %y \rfloor \cdot %y)</li>
+     <li>%q := 0 (a bit vector to store the integer quotient)</li>
      <li>%p := 2^{%k} (to keep track of the current power of 2)</li>
      <li>for %i from 0 to %k
        <ol style="list-style-type:none;">
